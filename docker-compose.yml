@@ -1,0 +1,62 @@
+version: '2'
+services:
+   # app:
+   #    container_name: oostaoo-smart-scrapper-app
+   #    build:
+   #       context: .
+   #       dockerfile: Dockerfile
+   #    environment:
+   #       PORT: 3000
+   #       PGHOST: db
+   #       PGUSER: $PGUSER
+   #       PGPASSWORD: $PGPASSWORD
+   #       PGDATABASE: $PGDATABASE
+   #       PGPORT: 5432
+   #       REDIS_HOST: cache
+   #       REDIS_PORT: 6379
+   #       RABBITMQ_HOST: mq
+   #       RABBITMQ_PORT: 5672
+   #       RABBITMQ_USER: $RABBITMQ_DEFAULT_USER
+   #       RABBITMQ_PASSWORD: $RABBITMQ_DEFAULT_PASS
+   #    ports:
+   #       - '3000:3000'
+   #    # restart: always
+   #    depends_on:
+   #       - 'db'
+   #       - 'cache'
+   #       - 'mq'
+
+   db:
+      container_name: oostaoo-smart-scrapper-db
+      image: postgres:alpine
+      environment:
+         POSTGRES_USER: $PGUSER
+         POSTGRES_PASSWORD: $PGPASSWORD
+         POSTGRES_DB: $PGDATABASE
+      ports:
+         - '5432:5432'
+      volumes:
+         - ./data/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+      restart: always
+
+   cache:
+      container_name: oostaoo-smart-scrapper-cache
+      image: redis:alpine
+      ports:
+         - '6379:6379'
+      restart: always
+
+   mq:
+      container_name: oostaoo-smart-scrapper-mq
+      image: rabbitmq:alpine
+      environment:
+         RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+         RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+         RABBITMQ_DEFAULT_VHOST: $RABBITMQ_DEFAULT_VHOST
+      ports:
+         - '5672:5672'
+         - '15672:15672'
+      volumes:
+         - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+         - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      restart: always
