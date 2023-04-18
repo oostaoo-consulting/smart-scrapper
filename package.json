@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_ENV=development next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production next start",
     "lint": "next lint",
-    "test": "jest --watchAll",
+    "test": "NODE_ENV=development jest --watchAll",
     "prepare": "husky install",
-    "coverage": "jest --coverage"
+    "coverage": "NODE_ENV=development jest --coverage"
   },
   "dependencies": {
     "@apollo/client": "^3.7.11",
