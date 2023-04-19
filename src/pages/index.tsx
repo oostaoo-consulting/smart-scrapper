@@ -1,16 +1,22 @@
 import React from 'react';
 import Head from 'next/head';
+import Sidebar from '../components/3organisms/Sidebar/Sidebar';
 
 export default function Home() {
   return (
     <>
-      <Head> {/* !!! toChange x2 !!! */}
+      <Head>
+        {' '}
+        {/* !!! toChange x2 !!! */}
         <title>!!! Title to change !!!</title>
         <meta name="description" content="!!! Description to change !!!" />
       </Head>
 
-      <main className=" h-screen flex justify-center items-center bg-zinc-300">
-        {/* !!! Page template (keep main tag) !!! */} Hello
+      <main className="flex flex-row md:flex-col h-screen justify-center items-center bg-zinc-300">
+        <aside>
+          <Sidebar />
+        </aside>
+        <section />
       </main>
     </>
   );
