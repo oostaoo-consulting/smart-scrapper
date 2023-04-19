@@ -1,11 +1,9 @@
 import React from 'react';
 
 interface ParagraphType {
-  text: string
+  text: string;
 }
 
 export default function Paragraph({ text }: ParagraphType) {
-  return (
-    <p data-testid="paragraphtest">{text}</p>
-  );
+  return <p data-testid="paragraphtest">{text}</p>;
 }
