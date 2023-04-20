@@ -2,7 +2,11 @@ version: '2.4'
 services:
    app:
       container_name: oostaoo-smart-scrapper-app
-      image: node:18-alpine
+      image: node:18.16.0-alpine3.17
+      working_dir: /app
+      # build:
+      #    context: .
+      #    dockerfile: ./Dockerfile      
       environment:
          PORT: 3000
          PGHOST: db
@@ -25,11 +29,11 @@ services:
          - 'db'
          - 'cache'
          - 'mq'
-      command: yarn install && yarn dev
+      command: sh -c "yarn install && yarn dev"
 
    db:
       container_name: oostaoo-smart-scrapper-db
-      image: postgres:alpine
+      image: postgres:15.2-alpine3.17
       environment:
          POSTGRES_USER: $PGUSER
          POSTGRES_PASSWORD: $PGPASSWORD
@@ -42,14 +46,14 @@ services:
 
    cache:
       container_name: oostaoo-smart-scrapper-cache
-      image: redis:alpine
+      image: redis:7.0-alpine3.17
       ports:
          - '6379:6379'
       restart: always
 
    mq:
       container_name: oostaoo-smart-scrapper-mq
-      image: rabbitmq:alpine
+      image: rabbitmq:3.12-rc-management-alpine
       environment:
          RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
          RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER

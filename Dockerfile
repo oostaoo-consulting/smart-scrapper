@@ -1,16 +1,16 @@
-FROM node:18-alpine AS oostaoo-smart-scrapper-app
+FROM node:18.16.0-alpine3.17 AS oostaoo-smart-scrapper-app
 
 # working directory
 WORKDIR /app
 
 # Copy the local app package and package-lock.json file to the container
-COPY ./package*.json ./
+COPY ./app/package*.json /app
 
-RUN npm install
+RUN yarn install
 
 # Copy all files from the project directory into the app folder container
-COPY . .
+COPY ./app /app
 
 EXPOSE 3000
 
-ENTRYPOINT [ "yarn", "run", "dev" ]
+ENTRYPOINT [ "yarn", "dev" ]
