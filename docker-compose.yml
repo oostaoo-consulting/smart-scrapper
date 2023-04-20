@@ -1,30 +1,31 @@
-version: '2'
+version: '2.4'
 services:
-   # app:
-   #    container_name: oostaoo-smart-scrapper-app
-   #    build:
-   #       context: .
-   #       dockerfile: Dockerfile
-   #    environment:
-   #       PORT: 3000
-   #       PGHOST: db
-   #       PGUSER: $PGUSER
-   #       PGPASSWORD: $PGPASSWORD
-   #       PGDATABASE: $PGDATABASE
-   #       PGPORT: 5432
-   #       REDIS_HOST: cache
-   #       REDIS_PORT: 6379
-   #       RABBITMQ_HOST: mq
-   #       RABBITMQ_PORT: 5672
-   #       RABBITMQ_USER: $RABBITMQ_DEFAULT_USER
-   #       RABBITMQ_PASSWORD: $RABBITMQ_DEFAULT_PASS
-   #    ports:
-   #       - '3000:3000'
-   #    # restart: always
-   #    depends_on:
-   #       - 'db'
-   #       - 'cache'
-   #       - 'mq'
+   app:
+      container_name: oostaoo-smart-scrapper-app
+      image: node:18-alpine
+      environment:
+         PORT: 3000
+         PGHOST: db
+         PGUSER: $PGUSER
+         PGPASSWORD: $PGPASSWORD
+         PGDATABASE: $PGDATABASE
+         PGPORT: 5432
+         REDIS_HOST: cache
+         REDIS_PORT: 6379
+         RABBITMQ_HOST: mq
+         RABBITMQ_PORT: 5672
+         RABBITMQ_USER: $RABBITMQ_DEFAULT_USER
+         RABBITMQ_PASSWORD: $RABBITMQ_DEFAULT_PASS
+      ports:
+         - '3000:3000'
+      volumes:
+         - ./app:/app
+      restart: always
+      depends_on:
+         - 'db'
+         - 'cache'
+         - 'mq'
+      command: yarn install && yarn dev
 
    db:
       container_name: oostaoo-smart-scrapper-db
