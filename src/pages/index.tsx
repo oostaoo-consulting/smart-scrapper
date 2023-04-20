@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import Sidebar from '../components/3organisms/Sidebar/Sidebar';
 import Cards from '../components/3organisms/Cards/Cards';
 
 export default function Home() {
@@ -12,8 +13,10 @@ export default function Home() {
         <meta name="description' content='!!! Description to change !!!" />
       </Head>
 
-      <main className="h-screen flex justify-center items-center">
-        Hello
+      <main className="flex flex-row md:flex-col h-screen justify-center items-center bg-zinc-300">
+        <aside>
+          <Sidebar />
+        </aside>
         <Cards />
       </main>
     </>
