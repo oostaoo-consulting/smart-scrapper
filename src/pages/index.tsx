@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import Cards from '../components/3organisms/Cards/Cards';
 
 export default function Home() {
   return (
@@ -11,8 +12,9 @@ export default function Home() {
         <meta name="description' content='!!! Description to change !!!" />
       </Head>
 
-      <main className="h-screen flex justify-center items-center bg-zinc-300">
-        {/* !!! Page template (keep main tag) !!! */} Hello
+      <main className="h-screen flex justify-center items-center">
+        Hello
+        <Cards />
       </main>
     </>
   );
