@@ -9,7 +9,7 @@ export default function Home() {
         {' '}
         {/* !!! toChange x2 !!! */}
         <title>!!! Title to change !!!</title>
-        <meta name="description" content="!!! Description to change !!!" />
+        <meta name="description' content='!!! Description to change !!!" />
       </Head>
 
       <main className="h-screen flex justify-center items-center">
