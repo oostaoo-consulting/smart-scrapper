@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import Title from '../../1atoms/Title';
+import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
 
 export default function Card() {
   return (
-    <article className="border border-slate-400 border-2 p-3 pb-10">
+    <article className="border-slate-400 border p-3 pb-10">
       <Title level={3} text="Programme" />
       <Title level={2} text="Nom du poste" />
       <Image

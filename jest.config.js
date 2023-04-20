@@ -19,7 +19,7 @@ const customJestConfig = {
       statements: 80,
     },
   },
-  coveragePathIgnorePatterns: ['<rootDir>/src'],
+  // coveragePathIgnorePatterns: ['<rootDir>/src'],
 };
 
 // createJestConfig is exported this way to ensure that next/jest

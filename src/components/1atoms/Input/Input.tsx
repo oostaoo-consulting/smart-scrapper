@@ -6,7 +6,7 @@ export default function Input() {
       type="text"
       placeholder="Recherche"
       name="inputSearch"
-      className="p-3"
+      className="px-3 py-1 bg-gray-100 grow"
     />
   );
 }
