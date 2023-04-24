@@ -3,10 +3,7 @@ services:
    app:
       container_name: oostaoo-smart-scrapper-app
       image: node:18.16.0-alpine3.17
-      working_dir: /app
-      # build:
-      #    context: .
-      #    dockerfile: ./Dockerfile      
+      working_dir: /app     
       environment:
          PORT: 3000
          PGHOST: db

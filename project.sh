@@ -4,7 +4,7 @@
 
 PROJECT_URL="http://localhost:3000"
 
-START_COMMAND="docker-compose up -d"
+START_COMMAND="docker-compose up app"
 STOP_COMMAND="docker-compose stop"
 PURGE_COMMAND="docker-compose down"
 
