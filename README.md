@@ -1,6 +1,6 @@
 # Getting Started
 
-First, run the project script:
+Install Docker from https://www.docker.com, then run the project script:
 
 ```sh
 sh project.sh

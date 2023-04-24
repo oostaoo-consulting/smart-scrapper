@@ -2,6 +2,7 @@ import React from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import Container from '../components/Container/Container';
 
 export const client = new ApolloClient({
   uri: process.env.URI,
@@ -11,7 +12,9 @@ export const client = new ApolloClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <Container>
+        <Component {...pageProps} />
+      </Container>
     </ApolloProvider>
   );
 }
