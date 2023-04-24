@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 type TitleProps = {
   level: number;
-  text: string;
+  children: ReactNode;
 };
 
-export default function Title({ level, text }: TitleProps) {
+export default function Title({ level, children }: TitleProps) {
   const TitleTag = `h${level}` as keyof JSX.IntrinsicElements;
 
   let style;
   switch (level) {
     case 1:
-      style = 'text-3xl uppercase';
+      style = 'sm:text-3xl text-lg text-right uppercase';
       break;
     case 2:
       style = 'text-xl';
@@ -23,5 +23,5 @@ export default function Title({ level, text }: TitleProps) {
     default:
       break;
   }
-  return <TitleTag className={style}>{text}</TitleTag>;
+  return <TitleTag className={style}>{children}</TitleTag>;
 }
