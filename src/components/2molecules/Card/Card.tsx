@@ -6,7 +6,7 @@ import Paragraph from '../../1atoms/Paragraph/Paragraph';
 export default function Card() {
   return (
     <article className="border-slate-400 border p-3 pb-10">
-      <Title level={3}>Programmenveifavbpnjreafbvfrb</Title>
+      <Title level={3}>Programme</Title>
       <Title level={2}>Nom du poste</Title>
       <Image
         src="/img/imagePlaceholder.png"
