@@ -35,7 +35,7 @@ services:
          - './.eslintrc.json:/app/.eslintrc.json'
          - './jest.config.js:/app/jest.config.js'
          - './jest.setup.js:/app/jest.setup.js'
-         - './prettierrc.json:/app/prettierrc.json'
+         - './.prettierrc.json:/app/.prettierrc.json'
       restart: always
       depends_on:
          - 'db'
