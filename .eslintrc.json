@@ -11,6 +11,6 @@
     "react/jsx-one-expression-per-line": "off"
   },
   "parserOptions": {
-    "project": true // find the closest "./tsconfig.json" file - can cause some perf regressions
+    "project": "./tsconfig.json" // find the closest "./tsconfig.json" file - can cause some perf regressions
   }
 }

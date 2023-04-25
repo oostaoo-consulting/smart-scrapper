@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watchAll",
-    "prepare": "cd .. && husky install app/.husky",
+    "prepare": "husky install .husky",
     "coverage": "jest --coverage"
   },
   "dependencies": {

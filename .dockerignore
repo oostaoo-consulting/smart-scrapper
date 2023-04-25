@@ -1,6 +1,11 @@
-node_modules
-.next
-.git
-.env
-.next
 .docker-conf
+.husky
+.next
+coverage
+node_modules
+.env
+.git
+docker-compose.yml
+project.sh
+Dockerfile
+data
