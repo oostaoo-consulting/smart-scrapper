@@ -18,9 +18,6 @@ MENU=(
 function up(){
     echo "****** 🔄 Starting all containers ***********"
     $START_COMMAND
-    echo
-    echo "****** ✅ Project started at $PROJECT_URL ***"
-    echo
 }
 
 function stop(){

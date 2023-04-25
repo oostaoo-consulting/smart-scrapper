@@ -1,79 +1,55 @@
-version: '2.4'
+version: '3.9'
 services:
-   app:
-      container_name: oostaoo-smart-scrapper-app
-      image: node:18.16.0-alpine3.17
-      working_dir: /app     
-      environment:
-         PORT: 3000
-         PGHOST: db
-         PGUSER: $PGUSER
-         PGPASSWORD: $PGPASSWORD
-         PGDATABASE: $PGDATABASE
-         PGPORT: 5432
-         REDIS_HOST: cache
-         REDIS_PORT: 6379
-         RABBITMQ_HOST: mq
-         RABBITMQ_PORT: 5672
-         RABBITMQ_USER: $RABBITMQ_DEFAULT_USER
-         RABBITMQ_PASSWORD: $RABBITMQ_DEFAULT_PASS
-         # Necessary for hot refresh to work properly in docker
-         WATCHPACK_POLLING: true
-      ports:
-         - '3000:3000'
-      volumes:
-         - './package.json:/app/package.json'
-         - './yarn.lock:/app/yarn.lock'
-         - './src:/app/src'
-         - './public:/app/public'
-         - './___tests___:/app/___tests___'
-         - './next-env.d.ts:/app/next-env.d.ts'
-         - './postcss.config.js:/app/postcss.config.js'
-         - './next.config.js:/app/next.config.js'
-         - './tailwind.config.js:/app/tailwind.config.js'
-         - './tsconfig.json:/app/tsconfig.json'
-         - './.eslintrc.json:/app/.eslintrc.json'
-         - './jest.config.js:/app/jest.config.js'
-         - './jest.setup.js:/app/jest.setup.js'
-         - './.prettierrc.json:/app/.prettierrc.json'
-      restart: always
-      depends_on:
-         - 'db'
-         - 'cache'
-         - 'mq'
-      command: sh -c "yarn install --frozen-lockfile && yarn dev"
+  app:
+    image: node:16.13.0-alpine3.17
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oostaoo-smart-scrapper-app
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
+    depends_on:
+      - 'db'
+      - 'cache'
+      - 'mq'
+    volumes:
+      - './public:/app/public'
+      - './src:/app/src'
+      - './___tests___:/app/___tests___'
 
-   db:
-      container_name: oostaoo-smart-scrapper-db
-      image: postgres:15.2-alpine3.17
-      environment:
-         POSTGRES_USER: $PGUSER
-         POSTGRES_PASSWORD: $PGPASSWORD
-         POSTGRES_DB: $PGDATABASE
-      ports:
-         - '5432:5432'
-      volumes:
-         - ./data/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
-      restart: always
+  db:
+    container_name: oostaoo-smart-scrapper-db
+    image: postgres:15.2-alpine3.17
+    environment:
+      POSTGRES_USER: $PGUSER
+      POSTGRES_PASSWORD: $PGPASSWORD
+      POSTGRES_DB: $PGDATABASE
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+    restart: always
 
-   cache:
-      container_name: oostaoo-smart-scrapper-cache
-      image: redis:7.0-alpine3.17
-      ports:
-         - '6379:6379'
-      restart: always
+  cache:
+    container_name: oostaoo-smart-scrapper-cache
+    image: redis:7.0-alpine3.17
+    ports:
+      - '6379:6379'
+    restart: always
 
-   mq:
-      container_name: oostaoo-smart-scrapper-mq
-      image: rabbitmq:3.12-rc-management-alpine
-      environment:
-         RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
-         RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-         RABBITMQ_DEFAULT_VHOST: $RABBITMQ_DEFAULT_VHOST
-      ports:
-         - '5672:5672'
-         - '15672:15672'
-      volumes:
-         - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-         - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-      restart: always
+  mq:
+    container_name: oostaoo-smart-scrapper-mq
+    image: rabbitmq:3.12-rc-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_VHOST: $RABBITMQ_DEFAULT_VHOST
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    restart: always
