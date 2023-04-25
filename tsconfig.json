@@ -27,9 +27,11 @@
   "include": [
     "next.config.js",
     "next-env.d.ts",
+    "postcss.config.js",
+    "jest.config.js",
+    "jest.setup.js",
     "**/*.ts",
-    "**/*.tsx",
-    "jest.config.js"
+    "**/*.tsx"
   ],
   "exclude": [
     "node_modules"
