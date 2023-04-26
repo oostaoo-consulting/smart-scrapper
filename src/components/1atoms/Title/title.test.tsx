@@ -31,23 +31,33 @@ describe('Title', () => {
     expect(screen.getByRole('heading', { level: 3 })).toBeInTheDocument();
   });
 
+  it('should render a h4 title', () => {
+    renderComponent(4);
+    expect(screen.getByRole('heading', { level: 4 })).toBeInTheDocument();
+  });
+
   it('should render a h1 title with class "text-lg"', () => {
     renderComponent(1);
     expect(screen.getByRole('heading')).toHaveClass('text-lg');
   });
 
-  it('should render a h2 title with class "text-xl"', () => {
+  it('should render a h2 title with class "text-2xl"', () => {
     renderComponent(2);
+    expect(screen.getByRole('heading')).toHaveClass('text-2xl');
+  });
+
+  it('should render a h3 title with class "text-xl"', () => {
+    renderComponent(3);
     expect(screen.getByRole('heading')).toHaveClass('text-xl');
   });
 
-  it('should render a h3 title with class "text-sm"', () => {
-    renderComponent(3);
+  it('should render a h4 title with class "text-sm"', () => {
+    renderComponent(4);
     expect(screen.getByRole('heading')).toHaveClass('text-sm');
   });
 
-  it('should render a h4 title with no class', () => {
-    renderComponent(4);
+  it('should render a h5 title with no class', () => {
+    renderComponent(5);
     expect(screen.getByRole('heading')).not.toHaveClass();
   });
 });

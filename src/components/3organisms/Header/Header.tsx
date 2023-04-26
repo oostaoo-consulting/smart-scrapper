@@ -11,7 +11,7 @@ export default function Header() {
         alt="Card's image"
         width={318}
         height={235}
-        className="w-1/4 sm:w-fit"
+        className="w-1/4 sm:w-fit sm:h-full"
       />
       <Title level={1}>Oostaoo Consulting <br /> Smart Scrapper</Title>
     </header>

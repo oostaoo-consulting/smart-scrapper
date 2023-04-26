@@ -1,5 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
+
 import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
 
@@ -9,7 +11,7 @@ interface CardProps {
 
 export default function Card({ isFavorite }: CardProps) {
   return (
-    <article className="border-slate-400 border p-3 flex flex-col gap-3">
+    <article className="border-slate-400 border p-3 flex flex-col gap-3 relative">
       <div className="flex">
         <Image
           src="/img/imagePlaceholder.png"
@@ -19,8 +21,8 @@ export default function Card({ isFavorite }: CardProps) {
           className="rounded mr-4"
         />
         <div>
-          <Title level={3}>Programme</Title>
-          <Title level={2}>Nom du post</Title>
+          <Title level={4}>Programme</Title>
+          <Title level={3}>Nom du post</Title>
         </div>
       </div>
       {!isFavorite && (
@@ -29,6 +31,8 @@ export default function Card({ isFavorite }: CardProps) {
       Amet eveniet temporibus accusantium? Nam et eum sequi."
         />
       )}
+      <button type="button" className="absolute top-3 right-3">{isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}</button>
+
     </article>
   );
 }
