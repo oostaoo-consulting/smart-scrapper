@@ -22,3 +22,5 @@ yarn-error.log*
 
 #docker conf
 .docker-conf
+
+.next
