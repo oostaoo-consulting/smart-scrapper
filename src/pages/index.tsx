@@ -3,6 +3,7 @@ import Head from 'next/head';
 import CardsSide from '../components/3organisms/CardsSide/CardsSide';
 import Search from '../components/3organisms/Search/Search';
 import Favorites from '../components/3organisms/Favorites/Favorites';
+import Title from '../components/1atoms/Title/Title';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
             <Search />
           </section>
           <section className="hidden xl:flex xl:flex-col xl:gap-4 xl:overflow-y-scroll xl:sm:h-[calc(100vh-(9rem+7rem)-2rem)]">
+            <Title level={2}>FAVORIS</Title>
             <Favorites />
           </section>
         </section>

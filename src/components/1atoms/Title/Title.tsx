@@ -14,12 +14,14 @@ export default function Title({ level, children }: TitleProps) {
       style = 'sm:text-3xl text-lg text-right uppercase';
       break;
     case 2:
-      style = 'text-xl';
+      style = 'text-2xl';
       break;
     case 3:
+      style = 'text-xl';
+      break;
+    case 4:
       style = 'text-sm';
       break;
-
     default:
       break;
   }
