@@ -1,12 +1,13 @@
 import React from 'react';
+import { RxMagnifyingGlass } from 'react-icons/rx';
 import Input from '../../1atoms/Input/Input';
-import SearchButton from '../../1atoms/SearchButton/SearchButton';
+import Button from '../../1atoms/Button/Button';
 
 export default function SearchBar() {
   return (
     <form className="w-full flex">
       <Input />
-      <SearchButton />
+      <Button className="p-2"><RxMagnifyingGlass /></Button>
     </form>
   );
 }
