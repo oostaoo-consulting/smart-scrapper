@@ -1,0 +1,13 @@
+{
+  "extends": ["next/core-web-vitals", "airbnb", "airbnb-typescript"],
+  "rules": {
+    "semi": "warn",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "linebreak-style": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json" // find the closest "./tsconfig.json" file - can cause some perf regressions
+  }
+}
