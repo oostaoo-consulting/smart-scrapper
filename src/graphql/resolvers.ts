@@ -43,14 +43,3 @@ const resolvers = {
 };
 
 export default resolvers;
-
-// id: ID!
-// name: String!
-// login: String!
-// location: String!
-// email: String!
-// url: String!
-// websiteUrl: String!
-// avatarUrl: String!
-// bio: String!
-// socialAccounts: [githubUserSocialAccounts]
