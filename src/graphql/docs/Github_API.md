@@ -1,7 +1,5 @@
 # The graphQL request to get github users by location and search query
 
-token to test : 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
-
 ```graphql
 {
   search(query: "location:france react", type: USER, first: 2, after: null) {
