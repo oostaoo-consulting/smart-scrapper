@@ -13,13 +13,22 @@ const resolvers = {
       return { id: 1, name: 'John Smith', status: 'cached' };
     },
 
-    async githubUsers(_: unknown, args: GithubSearchUsersArgs, { dataSources }: ContextValue) {
+    async githubUsers(
+      _: unknown,
+      args: GithubSearchUsersArgs,
+      { dataSources }: ContextValue,
+    ): Promise<Person[]> {
       const { data } = await dataSources.githubAPI.findUsers(args);
+      const profiles = data.search.edges;
 
-      return data.search.edges.filter((edge: any) => edge.node.id).map((edge: any) => ({
-        cursor: edge.cursor,
-        ...edge.node,
-        socialAccounts: edge.node.socialAccounts.edges.map((socialAccount: any) => ({
+      if (profiles.length === 0) return [];
+
+      const filteredProfiles = profiles.filter((person) => 'id' in person.node);
+
+      return filteredProfiles.map((person) => ({
+        cursor: person.cursor,
+        ...person.node,
+        socialAccounts: person.node.socialAccounts.edges.map((socialAccount) => ({
           ...socialAccount.node,
         })),
       }));
@@ -29,12 +38,12 @@ const resolvers = {
       _: unknown,
       { login }: { login: string },
       { dataSources }: ContextValue,
-    ) {
+    ): Promise<Person> {
       const { data } = await dataSources.githubAPI.findUserByLogin(login);
 
       return {
         ...data.user,
-        socialAccounts: data.user.socialAccounts.edges.map((socialAccount: any) => ({
+        socialAccounts: data.user.socialAccounts.edges.map((socialAccount) => ({
           ...socialAccount.node,
         })),
       };

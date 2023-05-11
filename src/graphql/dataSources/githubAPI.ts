@@ -7,10 +7,10 @@ const findUsersQuery = ({
   searchTerms,
   quantity,
   cursorAfter,
-}: GithubSearchUsersArgs) => `query { 
+}: GithubSearchUsersArgs): string => `query { 
     search(
       type: USER, 
-      query: "location:${location || 'Paris, France'} ${searchTerms || ''}", 
+      query: "location:${location || 'Paris'} ${searchTerms || ''}", 
       first: ${quantity || 10}, 
       after: ${cursorAfter || null}
     ) {
@@ -32,11 +32,11 @@ const findUsersQuery = ({
             websiteUrl
             avatarUrl(size: 512)
             bio
-            socialAccounts(first: 5) {
+            socialAccounts(first: 4) {
               edges {
                 node {
-                  displayName
                   provider
+                  displayName
                   url
                 }
               }
@@ -47,7 +47,7 @@ const findUsersQuery = ({
     }
   }`;
 
-const findUserQuery = (login: string) => `query {
+const findUserQuery = (login: string): string => `query {
  user(login: "${login}") {
     id
     name
@@ -80,7 +80,7 @@ export default class GithubAPI extends RESTDataSource {
     this.token = options.token;
   }
 
-  async findUsers(args: GithubSearchUsersArgs) {
+  async findUsers(args: GithubSearchUsersArgs): Promise<GithubAPIReturnedSearch> {
     return this.post('graphql', {
       headers: {
         Authorization: `bearer ${this.token}`,
@@ -92,7 +92,7 @@ export default class GithubAPI extends RESTDataSource {
     });
   }
 
-  async findUserByLogin(login: string) {
+  async findUserByLogin(login: string): Promise<GithubAPIReturnedProfile> {
     return this.post('graphql', {
       headers: {
         Authorization: `bearer ${this.token}`,
