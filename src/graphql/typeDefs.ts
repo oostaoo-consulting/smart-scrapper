@@ -1,14 +1,34 @@
 import { gql } from '@apollo/client';
 
 const typeDefs = gql`
-  type User {
+  type Person {
     id: ID!
-    name: String!
-    status: String!
+    name: String
+    login: String!
+    location: String
+    email: String
+    url: String
+    websiteUrl: String
+    avatarUrl: String
+    bio: String
+    socialAccounts: [PersonSocialAccounts]
   }
 
-  type Query {
-    viewer: User
+  type PersonSocialAccounts {
+    displayName: String
+    provider: String
+    url: String
+  }
+
+  type Query {    
+    githubProfiles(
+      location: String,
+      searchTerms: String,
+      quantity: Int,
+      page: Int
+    ): [Person]
+
+    githubProfile(login: String): Person
   }
 `;
 
