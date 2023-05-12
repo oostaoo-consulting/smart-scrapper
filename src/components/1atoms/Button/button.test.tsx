@@ -8,8 +8,20 @@ describe('Testing Input Component', () => {
     cleanup();
   });
 
-  const theRender = () => {
-    render(<Button className=""><RxMagnifyingGlass /></Button>);
+  const theRender = (
+    type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'],
+  ) => {
+    render(
+      type ? (
+        <Button type={type} className="">
+          <RxMagnifyingGlass />
+        </Button>
+      ) : (
+        <Button className="">
+          <RxMagnifyingGlass />
+        </Button>
+      ),
+    );
   };
 
   test('input is displayed', () => {
@@ -18,5 +30,13 @@ describe('Testing Input Component', () => {
 
     expect(element).toBeDefined();
     expect(element).toBeTruthy();
+    expect(element).toHaveAttribute('type', 'button');
+  });
+
+  test('input is with type = submit', () => {
+    theRender('submit');
+    const element = screen.getByRole('button');
+
+    expect(element).toHaveAttribute('type', 'submit');
   });
 });

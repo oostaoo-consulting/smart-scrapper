@@ -7,7 +7,7 @@ export default function SearchBar() {
   return (
     <form className="w-full flex">
       <Input />
-      <Button className="p-2"><RxMagnifyingGlass /></Button>
+      <Button type="submit" className="p-2"><RxMagnifyingGlass /></Button>
     </form>
   );
 }
