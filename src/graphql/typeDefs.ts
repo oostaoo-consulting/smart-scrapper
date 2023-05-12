@@ -11,7 +11,7 @@ const typeDefs = gql`
     websiteUrl: String
     avatarUrl: String
     bio: String
-    socialAccounts: [githubUserSocialAccounts]
+    socialAccounts: [PersonSocialAccounts]
   }
 
   type PersonSocialAccounts {
