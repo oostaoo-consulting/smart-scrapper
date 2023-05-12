@@ -1,24 +1,20 @@
 import type { ContextValue } from '../pages/api/graphql';
 
-export interface GithubSearchUsersArgs {
+export interface GithubSearchProfilesArgs {
   location: string;
   searchTerms: string;
-  quantity: number;
-  cursorAfter: string;
+  quantity?: number;
+  cursorAfter?: string;
 }
 
 const resolvers = {
   Query: {
-    viewer() {
-      return { id: 1, name: 'John Smith', status: 'cached' };
-    },
-
-    async githubUsers(
+    async githubProfiles(
       _: unknown,
-      args: GithubSearchUsersArgs,
+      args: GithubSearchProfilesArgs,
       { dataSources }: ContextValue,
     ): Promise<Person[]> {
-      const { data } = await dataSources.githubAPI.findUsers(args);
+      const { data } = await dataSources.githubAPI.findProfiles(args);
       const profiles = data.search.edges;
 
       if (profiles.length === 0) return [];
@@ -34,12 +30,12 @@ const resolvers = {
       }));
     },
 
-    async githubUser(
+    async githubProfile(
       _: unknown,
       { login }: { login: string },
       { dataSources }: ContextValue,
     ): Promise<Person> {
-      const { data } = await dataSources.githubAPI.findUserByLogin(login);
+      const { data } = await dataSources.githubAPI.findProfileByLogin(login);
 
       return {
         ...data.user,

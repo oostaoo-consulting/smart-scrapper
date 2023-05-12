@@ -1,17 +1,17 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache';
-import type { GithubSearchUsersArgs } from '../resolvers';
+import type { GithubSearchProfilesArgs } from '../resolvers';
 
 const findUsersQuery = ({
   location,
   searchTerms,
   quantity,
   cursorAfter,
-}: GithubSearchUsersArgs): string => `query { 
+}: GithubSearchProfilesArgs): string => `query { 
     search(
       type: USER, 
       query: "location:${location || 'Paris'} ${searchTerms || ''}", 
-      first: ${quantity || 10}, 
+      first: ${quantity || 100}, 
       after: ${cursorAfter || null}
     ) {
       userCount
@@ -80,7 +80,7 @@ export default class GithubAPI extends RESTDataSource {
     this.token = options.token;
   }
 
-  async findUsers(args: GithubSearchUsersArgs): Promise<GithubAPIReturnedSearch> {
+  async findProfiles(args: GithubSearchProfilesArgs): Promise<GithubAPIReturnedSearchProfiles> {
     return this.post('graphql', {
       headers: {
         Authorization: `bearer ${this.token}`,
@@ -92,7 +92,7 @@ export default class GithubAPI extends RESTDataSource {
     });
   }
 
-  async findUserByLogin(login: string): Promise<GithubAPIReturnedProfile> {
+  async findProfileByLogin(login: string): Promise<GithubAPIReturnedProfile> {
     return this.post('graphql', {
       headers: {
         Authorization: `bearer ${this.token}`,

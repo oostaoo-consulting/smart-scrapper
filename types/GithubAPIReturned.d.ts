@@ -1,4 +1,4 @@
-interface GithubAPISocialAccount {
+interface GithubAPIProfileSocialAccount {
   provider: string;
   displayName: string;
   url: string;
@@ -21,14 +21,14 @@ interface GithubAPIReturnedProfile {
     user: GithubAPIProfile & {
       socialAccounts: {
         edges: {
-          node: GithubAPISocialAccount;
+          node: GithubAPIProfileSocialAccount;
         }[] | [];
       };
     };
   };
 }
 
-interface GithubAPIReturnedSearch {
+interface GithubAPIReturnedSearchProfiles {
   data: {
     search: {
       userCount: number;
@@ -41,7 +41,7 @@ interface GithubAPIReturnedSearch {
         node: GithubAPIProfile & {
           socialAccounts: {
             edges: {
-              node: GithubAPISocialAccount;
+              node: GithubAPIProfileSocialAccount;
             }[] | [];
           };
         };

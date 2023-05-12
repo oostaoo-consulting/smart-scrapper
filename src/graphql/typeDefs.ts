@@ -1,13 +1,7 @@
 import { gql } from '@apollo/client';
 
 const typeDefs = gql`
-  type User {
-    id: ID!
-    name: String!
-    status: String!
-  }
-
-  type githubUser {
+  type Person {
     id: ID!
     name: String
     login: String!
@@ -20,23 +14,21 @@ const typeDefs = gql`
     socialAccounts: [githubUserSocialAccounts]
   }
 
-  type githubUserSocialAccounts {
+  type PersonSocialAccounts {
     displayName: String
     provider: String
     url: String
   }
 
-  type Query {
-    viewer: User
-    
-    githubUsers(
+  type Query {    
+    githubProfiles(
       location: String,
       searchTerms: String,
       quantity: Int,
       page: Int
-    ): [githubUser]
+    ): [Person]
 
-    githubUser(login: String): githubUser
+    githubProfile(login: String): Person
   }
 `;
 
