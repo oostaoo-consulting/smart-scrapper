@@ -17,8 +17,6 @@ const resolvers = {
       const { data } = await dataSources.githubAPI.findProfiles(args);
       const profiles = data.search.edges;
 
-      if (profiles.length === 0) return [];
-
       const filteredProfiles = profiles.filter((person) => 'id' in person.node);
 
       return filteredProfiles.map((person) => ({
