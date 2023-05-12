@@ -4,6 +4,7 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
 import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
+import Button from '../../1atoms/Button/Button';
 
 interface CardProps {
   isFavorite: boolean;
@@ -11,7 +12,7 @@ interface CardProps {
 
 export default function Card({ isFavorite }: CardProps) {
   return (
-    <article className="border-slate-400 border p-3 flex flex-col gap-3 relative">
+    <article className="border-slate-400 border p-3 flex flex-col gap-3 relative" data-testid="card">
       <div className="flex">
         <Image
           src="/img/imagePlaceholder.png"
@@ -31,7 +32,7 @@ export default function Card({ isFavorite }: CardProps) {
       Amet eveniet temporibus accusantium? Nam et eum sequi."
         />
       )}
-      <button type="button" className="absolute top-3 right-3">{isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}</button>
+      <Button className="absolute top-3 right-3">{isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}</Button>
 
     </article>
   );

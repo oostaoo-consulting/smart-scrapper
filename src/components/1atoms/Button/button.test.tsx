@@ -1,6 +1,7 @@
 import React from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
-import SearchButton from './SearchButton';
+import { RxMagnifyingGlass } from 'react-icons/rx';
+import Button from './Button';
 
 describe('Testing Input Component', () => {
   afterEach(() => {
@@ -8,7 +9,7 @@ describe('Testing Input Component', () => {
   });
 
   const theRender = () => {
-    render(<SearchButton />);
+    render(<Button className=""><RxMagnifyingGlass /></Button>);
   };
 
   test('input is displayed', () => {

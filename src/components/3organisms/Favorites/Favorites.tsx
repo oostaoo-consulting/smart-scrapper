@@ -12,6 +12,11 @@ export default function Favorites() {
       <Card isFavorite />
       <Card isFavorite />
       <Card isFavorite />
+      <Card isFavorite />
+      <Card isFavorite />
+      <Card isFavorite />
+      <Card isFavorite />
+      <Card isFavorite />
     </>
   );
 }
