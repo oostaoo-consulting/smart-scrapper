@@ -7,9 +7,15 @@ import Favorites from '../components/3organisms/Favorites/Favorites';
 import NavBar from '../components/2molecules/NavBar/NavBar';
 import Button from '../components/1atoms/Button/Button';
 import SearchesSaved from '../components/3organisms/SearchesSaved/SearchesSaved';
+import Pagination from '../components/2molecules/Pagination/Pagination';
 
 export default function Home() {
   const [tabs, setTabs] = useState(0);
+
+  const [post] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(5);
+  const allPosts = Array.from({ length: post });
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
@@ -32,19 +38,31 @@ export default function Home() {
       }
     }
   };
+
+  const indexOfLast = currentPage * postPerPage;
+  const indexOfFirst = indexOfLast - postPerPage;
+
+  const paginate = (pageNumber: any) => setCurrentPage(pageNumber);
+
   return (
     <>
       <Head>
         <title>Smart Scrapper</title>
-        <meta name="description" content="Site de scrapping signé Oostaoo pour les recherches de profils à recruter" />
+        <meta
+          name="description"
+          content="Site de scrapping signé Oostaoo pour les recherches de profils à recruter"
+        />
       </Head>
 
-      <main className="xl:flex relative">
+      <main className="relative xl:flex">
         <section className=" xl:w-1/2 xl:pr-2">
-          <section className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}>
+          <section
+            className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}
+          >
             <Search />
           </section>
-          <aside className={`
+          <aside
+            className={`
             ${tabs !== 0 && 'hidden'} 
             flex
             flex-col
@@ -60,19 +78,51 @@ export default function Home() {
             
             xl:relative 
             xl:overflow-y-scroll
-            xl:sm:h-[calc(100vh-(9rem+7rem)-2rem)]
             `}
           >
-            <CardsSide />
+            <CardsSide
+              post={allPosts}
+              indexOfFirst={indexOfFirst}
+              indexOfLast={indexOfLast}
+            />
           </aside>
+          <section>
+            <Pagination
+              paginate={paginate}
+              totalPost={post}
+              postPerPage={postPerPage}
+            />
+          </section>
         </section>
 
         <section className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem)] ">
-          <nav className=" hidden xl:flex xl:justify-around xl:absolute xl:-top-36 w-full xl:pl-2">
-            <Button className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''}`} onClick={() => handleTabs('favorite')}>FAVORIS</Button>
-            <Button className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''}`} onClick={() => handleTabs('search')}>RECHERCHES</Button>
+          <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
+            <Button
+              className={`text-2xl border border-slate-400 grow ${
+                tabs === 1 ? 'border-b-0 border-r-0' : ''
+              }`}
+              onClick={() => handleTabs('favorite')}
+            >
+              FAVORIS
+            </Button>
+            <Button
+              className={`text-2xl border border-slate-400 grow ${
+                tabs === 2 ? 'border-b-0 border-l-0' : ''
+              }`}
+              onClick={() => handleTabs('search')}
+            >
+              RECHERCHES
+            </Button>
           </nav>
-          <Button className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''}`} data-testid="close-button" onClick={() => handleTabs('noTab')}><MdClose size={36} /></Button>
+          <Button
+            className={`absolute top-0 right-0 xl:hidden ${
+              tabs === 0 ? ' hidden' : ''
+            }`}
+            data-testid="close-button"
+            onClick={() => handleTabs('noTab')}
+          >
+            <MdClose size={36} />
+          </Button>
           <main
             data-testid="toggle-section"
             className={`
@@ -102,7 +152,10 @@ export default function Home() {
             {tabs === 2 && <SearchesSaved />}
           </main>
         </section>
-        <NavBar handleTabs={handleTabs} className=" bg-white border-t border-slate-400 h-16 w-full fixed bottom-0 left-0 flex justify-evenly xl:hidden" />
+        <NavBar
+          handleTabs={handleTabs}
+          className="fixed bottom-0 left-0 flex w-full h-16 bg-white border-t border-slate-400 justify-evenly xl:hidden"
+        />
       </main>
     </>
   );
