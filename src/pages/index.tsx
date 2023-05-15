@@ -72,7 +72,7 @@ export default function Home() {
             <Button className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''}`} onClick={() => handleTabs('favorite')}>FAVORIS</Button>
             <Button className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''}`} onClick={() => handleTabs('search')}>RECHERCHES</Button>
           </nav>
-          <Button className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''}`} data-testid="close-button" onClick={() => handleTabs('noTab')}><MdClose size={36} /></Button>
+          <Button className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''}`} onClick={() => handleTabs('noTab')}><MdClose size={36} aria-label="close button" /></Button>
           <main
             data-testid="toggle-section"
             className={`
@@ -86,7 +86,7 @@ export default function Home() {
             mt-9
             h-[calc(100vh-(6rem)-2rem-4rem-2.25rem)] 
             sm:h-[calc(100vh-(9rem)-2rem-4rem-2.25rem)] 
-            overflow-scroll 
+            overflow-y-scroll 
             
             xl:absolute
             xl:right-0

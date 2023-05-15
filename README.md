@@ -46,6 +46,14 @@ The project will run in a container so visual updates on your navigator will be 
 
 ---
 
+## API
+
+| Routes       | Method | Payload             | Response                                  | Description                                      |
+| ------------ | ------ | ------------------- | ----------------------------------------- | ------------------------------------------------ |
+| /api/openapi | POST   | { message: string } | message: { role: string, content: string} | Send a prompt to ChatGPT and then get its answer |
+
+---
+
 ## Tech
 
 - Next.js
@@ -58,6 +66,7 @@ The project will run in a container so visual updates on your navigator will be 
 - Redis
 - RabbitMQ
 - Husky
+- OpenAI
 - Awesome developers
 
 ---
