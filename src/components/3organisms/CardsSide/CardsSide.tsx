@@ -5,7 +5,7 @@ import Card from '../../2molecules/Card/Card';
 function CardsSide({ post, indexOfFirst, indexOfLast }: any) {
   return post
     .slice(indexOfFirst, indexOfLast)
-    .map((index) => <Card key={index} isFavorite={false} />);
+    .map((id) => <Card key={id} isFavorite={false} />);
 }
 
 export default CardsSide;
