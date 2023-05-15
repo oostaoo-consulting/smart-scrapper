@@ -33,19 +33,25 @@ const handler = async (
     },
   ];
 
-  const completion = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
-    messages: messagesRequest,
-  });
-  const chatResponse: ChatCompletionResponseMessage | undefined =
-    completion?.data?.choices[0]?.message;
-
-  if (!chatResponse) {
-    res.status(500).json({
-      error: 'Une erreur est survenue avec ChatGPT, veuillez réessayer !',
+  try {
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: messagesRequest,
     });
-  } else {
-    res.status(200).json(chatResponse);
+    const chatResponse: ChatCompletionResponseMessage | undefined =
+      completion?.data?.choices[0]?.message;
+
+    if (!chatResponse) {
+      res.status(500).json({
+        error: 'Une erreur est survenue avec ChatGPT, veuillez réessayer !',
+      });
+    } else {
+      res.status(200).json(chatResponse);
+    }
+  } catch (error: any) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    throw new Error(error);
   }
 };
 
