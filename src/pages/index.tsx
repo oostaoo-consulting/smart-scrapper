@@ -141,7 +141,7 @@ export default function Home() {
             mt-9
             h-[calc(100vh-(6rem)-2rem-4rem-2.25rem)] 
             sm:h-[calc(100vh-(9rem)-2rem-4rem-2.25rem)] 
-            overflow-scroll 
+            overflow-y-scroll 
             
             xl:absolute
             xl:right-0
