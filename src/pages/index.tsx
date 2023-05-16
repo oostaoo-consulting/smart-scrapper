@@ -100,6 +100,7 @@ export default function Home() {
         <section className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem)] ">
           <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
             <Button
+              disabled={false}
               className={`text-2xl border border-slate-400 grow ${
                 tabs === 1 ? 'border-b-0 border-r-0' : ''
               }`}
@@ -108,6 +109,7 @@ export default function Home() {
               FAVORIS
             </Button>
             <Button
+              disabled={false}
               className={`text-2xl border border-slate-400 grow ${
                 tabs === 2 ? 'border-b-0 border-l-0' : ''
               }`}
@@ -117,6 +119,7 @@ export default function Home() {
             </Button>
           </nav>
           <Button
+            disabled={false}
             className={`absolute top-0 right-0 xl:hidden ${
               tabs === 0 ? ' hidden' : ''
             }`}
@@ -156,7 +159,7 @@ export default function Home() {
         </section>
         <NavBar
           handleTabs={handleTabs}
-          className="bottom-0 left-0 flex w-full h-16 bg-white border-t  border-slate-400 justify-evenly xl:hidden"
+          className="bottom-0 left-0 flex w-full h-16 bg-white border-t border-slate-400 justify-evenly xl:hidden"
         />
       </main>
     </>

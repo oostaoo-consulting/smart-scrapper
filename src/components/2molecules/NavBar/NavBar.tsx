@@ -4,14 +4,26 @@ import Button from '../../1atoms/Button/Button';
 
 interface NavBarProps {
   className: string;
-  handleTabs: Function
+  handleTabs: Function;
 }
 
 export default function NavBar({ className, handleTabs }: NavBarProps) {
   return (
     <nav className={className}>
-      <Button className="" onClick={() => handleTabs('favorite')}><MdFavorite size={36} /></Button>
-      <Button className="" onClick={() => handleTabs('search')}><MdSave size={36} /></Button>
+      <Button
+        disabled={false}
+        className=""
+        onClick={() => handleTabs('favorite')}
+      >
+        <MdFavorite size={36} />
+      </Button>
+      <Button
+        disabled={false}
+        className=""
+        onClick={() => handleTabs('search')}
+      >
+        <MdSave size={36} />
+      </Button>
     </nav>
   );
 }

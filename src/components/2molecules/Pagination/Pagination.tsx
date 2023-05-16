@@ -38,6 +38,7 @@ function Pagination({
       </div>
       {pagesArray.map((page: number) => (
         <Button
+          disabled={false}
           key={uuidv4()}
           onClick={() => paginate(page)}
           className="flex justify-center w-10 hover:text-black"
