@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchSaved from '../../2molecules/SearchSaved/SearchSaved';
 
-export default function SearchesSaved() {
+export default function SearchesSaved(): JSX.Element {
   return (
     <>
       <SearchSaved />
@@ -19,7 +19,6 @@ export default function SearchesSaved() {
       <SearchSaved />
       <SearchSaved />
       <SearchSaved />
-
     </>
   );
 }

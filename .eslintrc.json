@@ -6,7 +6,17 @@
     "react/jsx-props-no-spreading": "off",
     "react/jsx-one-expression-per-line": "off",
     "linebreak-style": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "implicit-arrow-linebreak": "off",
+    "object-curly-newline": "off",
+    "react/button-has-type": "off",
+    "react/require-default-props": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/explicit-function-return-type": "error", // Obligation de typer les retours de fonction
+    "@typescript-eslint/naming-convention": [
+      "error",
+      { "selector": "typeLike", "format": ["PascalCase"] }
+    ] // Types et interfaces en PascalCase
   },
   "parserOptions": {
     "project": "./tsconfig.json" // find the closest "./tsconfig.json" file - can cause some perf regressions

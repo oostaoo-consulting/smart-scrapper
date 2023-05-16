@@ -7,7 +7,7 @@ describe('Testing Input Component', () => {
     cleanup();
   });
 
-  const theRender = () => {
+  const theRender = (): void => {
     render(<Input />);
   };
 

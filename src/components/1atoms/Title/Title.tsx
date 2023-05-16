@@ -5,7 +5,7 @@ type TitleProps = {
   children: ReactNode;
 };
 
-export default function Title({ level, children }: TitleProps) {
+export default function Title({ level, children }: TitleProps): JSX.Element {
   const TitleTag = `h${level}` as keyof JSX.IntrinsicElements;
 
   let style;

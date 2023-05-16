@@ -23,13 +23,15 @@ const returnedFakeGithubProfiles: GithubAPIReturnedSearchProfiles = {
             avatarUrl: 'https://avatars.githubusercontent.com/u/1?v=4',
             bio: '  ',
             socialAccounts: {
-              edges: [{
-                node: {
-                  provider: 'TWITTER',
-                  displayName: 'John Doe',
-                  url: 'https://twitter.com/johndoe',
+              edges: [
+                {
+                  node: {
+                    provider: 'TWITTER',
+                    displayName: 'John Doe',
+                    url: 'https://twitter.com/johndoe',
+                  },
                 },
-              }],
+              ],
             },
           },
         },
@@ -68,13 +70,15 @@ const returnedFakeGithubProfile: GithubAPIReturnedProfile = {
       avatarUrl: 'https://avatars.githubusercontent.com/u/1?v=4',
       bio: '  ',
       socialAccounts: {
-        edges: [{
-          node: {
-            provider: 'TWITTER',
-            displayName: 'John Doe',
-            url: 'https://twitter.com/johndoe',
+        edges: [
+          {
+            node: {
+              provider: 'TWITTER',
+              displayName: 'John Doe',
+              url: 'https://twitter.com/johndoe',
+            },
           },
-        }],
+        ],
       },
     },
   },
@@ -116,8 +120,10 @@ const returnedFakeFormattedProfiles: Person[] = [
 ];
 
 const MockGithubAPI = jest.fn().mockImplementation(() => ({
-  findProfiles: async () => returnedFakeGithubProfiles,
-  findProfileByLogin: async () => returnedFakeGithubProfile,
+  findProfiles: async (): Promise<GithubAPIReturnedSearchProfiles> =>
+    returnedFakeGithubProfiles,
+  findProfileByLogin: async (): Promise<GithubAPIReturnedProfile> =>
+    returnedFakeGithubProfile,
 }));
 
 describe('githubProfiles resolver', () => {
@@ -144,7 +150,9 @@ describe('githubProfiles resolver', () => {
       mockContext,
     );
 
-    expect(JSON.stringify(results)).toEqual(JSON.stringify(returnedFakeFormattedProfiles));
+    expect(JSON.stringify(results)).toEqual(
+      JSON.stringify(returnedFakeFormattedProfiles),
+    );
   });
 
   it('should return the fake Github profile of John Doe', async () => {

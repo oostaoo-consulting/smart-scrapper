@@ -8,8 +8,12 @@ describe('Testing Input Component', () => {
     cleanup();
   });
 
-  const theRender = () => {
-    render(<Button className=""><RxMagnifyingGlass /></Button>);
+  const theRender = (): void => {
+    render(
+      <Button className="">
+        <RxMagnifyingGlass />
+      </Button>,
+    );
   };
 
   test('input is displayed', () => {

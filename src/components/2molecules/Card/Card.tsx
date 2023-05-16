@@ -10,9 +10,12 @@ interface CardProps {
   isFavorite: boolean;
 }
 
-export default function Card({ isFavorite }: CardProps) {
+export default function Card({ isFavorite }: CardProps): JSX.Element {
   return (
-    <article className="border-slate-400 border p-3 flex flex-col gap-3 relative" data-testid="card">
+    <article
+      className="border-slate-400 border p-3 flex flex-col gap-3 relative"
+      data-testid="card"
+    >
       <div className="flex">
         <Image
           src="/img/imagePlaceholder.png"
@@ -32,8 +35,9 @@ export default function Card({ isFavorite }: CardProps) {
       Amet eveniet temporibus accusantium? Nam et eum sequi."
         />
       )}
-      <Button className="absolute top-3 right-3">{isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}</Button>
-
+      <Button className="absolute top-3 right-3">
+        {isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}
+      </Button>
     </article>
   );
 }
