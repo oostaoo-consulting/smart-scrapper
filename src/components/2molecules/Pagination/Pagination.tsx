@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { SetStateAction, Dispatch } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/Ai';
 import Button from '../../1atoms/Button/Button';
 
 interface PaginationProps {
-  paginate: any;
-  totalPost: any;
-  postPerPage: any;
+  paginate: (value: number) => void;
+  totalPost: number;
+  postPerPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  currentPage: number;
 }
 
-function Pagination({ paginate, totalPost, postPerPage }: PaginationProps) {
-  // const pageNumber: Array<number> = [];
+function Pagination({
+  paginate,
+  totalPost,
+  postPerPage,
+  setCurrentPage,
+  currentPage,
+}: PaginationProps) {
   const pagesArray = Array.from(
     { length: Math.ceil(totalPost / postPerPage) },
     (_, i) => i + 1,
@@ -17,12 +25,18 @@ function Pagination({ paginate, totalPost, postPerPage }: PaginationProps) {
 
   return (
     <div className="flex flex-row justify-center my-4">
-      <div className="mx-4">
-        <Button className="hover:text-black hover:" onClick={() => {}}>
-          <p>Arrow A</p>
+      <div className="flex items-center mx-4">
+        <Button
+          disabled={currentPage === 1}
+          className={`hover:text-black ${
+            currentPage === 1 ? 'text-neutral-300' : 'text-neutral-500'
+          }`}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          <AiOutlineArrowLeft />
         </Button>
       </div>
-      {pagesArray.map((page) => (
+      {pagesArray.map((page: number) => (
         <Button
           key={uuidv4()}
           onClick={() => paginate(page)}
@@ -31,9 +45,17 @@ function Pagination({ paginate, totalPost, postPerPage }: PaginationProps) {
           {page}
         </Button>
       ))}
-      <div className="mx-4">
-        <Button className="hover:text-black hover:" onClick={() => {}}>
-          <p>Arrow B</p>
+      <div className="flex items-center mx-4">
+        <Button
+          disabled={currentPage === pagesArray.length}
+          className={`hover:text-black ${
+            currentPage === pagesArray.length
+              ? 'text-neutral-300'
+              : 'text-neutral-500'
+          }`}
+          onClick={() => setCurrentPage((prev: number) => prev + 1)}
+        >
+          <AiOutlineArrowRight />
         </Button>
       </div>
     </div>

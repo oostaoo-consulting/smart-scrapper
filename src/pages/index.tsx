@@ -12,9 +12,9 @@ import Pagination from '../components/2molecules/Pagination/Pagination';
 export default function Home() {
   const [tabs, setTabs] = useState(0);
 
-  const [post] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage] = useState(5);
+  const [post] = useState<number>(7);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [postPerPage] = useState<number>(5);
   const allPosts = Array.from({ length: post });
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
@@ -42,7 +42,7 @@ export default function Home() {
   const indexOfLast = currentPage * postPerPage;
   const indexOfFirst = indexOfLast - postPerPage;
 
-  const paginate = (pageNumber: any) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -91,6 +91,8 @@ export default function Home() {
               paginate={paginate}
               totalPost={post}
               postPerPage={postPerPage}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
             />
           </section>
         </section>
@@ -154,7 +156,7 @@ export default function Home() {
         </section>
         <NavBar
           handleTabs={handleTabs}
-          className="fixed bottom-0 left-0 flex w-full h-16 bg-white border-t border-slate-400 justify-evenly xl:hidden"
+          className="bottom-0 left-0 flex w-full h-16 bg-white border-t  border-slate-400 justify-evenly xl:hidden"
         />
       </main>
     </>

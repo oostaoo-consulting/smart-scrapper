@@ -25,6 +25,5 @@ body {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  color: #7F7F7F;
-  overflow-y: hidden;
+  color: #7f7f7f;
 }
