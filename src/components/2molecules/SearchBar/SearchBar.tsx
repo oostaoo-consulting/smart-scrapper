@@ -1,19 +1,23 @@
 import React from 'react';
 import { RxMagnifyingGlass } from 'react-icons/rx';
+import { useProfilesContext } from '../../../contexts/profilesContext';
 import Input from '../../1atoms/Input/Input';
 import Button from '../../1atoms/Button/Button';
 
 export default function SearchBar() {
+  const { loadData } = useProfilesContext();
   const [inputLocationValue, setInputLocationValue] = React.useState<string>('Paris');
   const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
 
-  const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = (
+    event,
+  ) => {
     event.preventDefault();
-    console.log({
-      location: inputLocationValue,
-      searchTerms: inputSearchValue,
-      quantity: 100,
-      cursorAfter: '',
+    loadData({
+      variables: {
+        location: inputLocationValue,
+        searchTerms: inputSearchValue,
+      },
     });
   };
 
@@ -33,6 +37,7 @@ export default function SearchBar() {
         onChange={(event) => setInputSearchValue(event.target.value)}
         placeholder="Filtre par technologies"
       />
+
       <Button type="submit" className="p-2">
         <RxMagnifyingGlass />
       </Button>
