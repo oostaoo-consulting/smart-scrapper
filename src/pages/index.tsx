@@ -7,6 +7,9 @@ import Favorites from '../components/3organisms/Favorites/Favorites';
 import NavBar from '../components/2molecules/NavBar/NavBar';
 import Button from '../components/1atoms/Button/Button';
 import SearchesSaved from '../components/3organisms/SearchesSaved/SearchesSaved';
+import CardDetails from '../components/2molecules/CardDetails/CardDetails';
+
+import jsonMock from '../components/2molecules/CardDetails/mock.json';
 
 export default function Home() {
   const [tabs, setTabs] = useState(0);
@@ -103,6 +106,7 @@ export default function Home() {
           </main>
         </section>
         <NavBar handleTabs={handleTabs} className=" bg-white border-t border-slate-400 h-16 w-full fixed bottom-0 left-0 flex justify-evenly xl:hidden" />
+        <CardDetails person={jsonMock} isFavorite={false} />
       </main>
     </>
   );
