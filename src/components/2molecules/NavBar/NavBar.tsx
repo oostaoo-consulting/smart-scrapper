@@ -4,7 +4,7 @@ import Button from '../../1atoms/Button/Button';
 
 interface NavBarProps {
   className: string;
-  handleTabs: Function;
+  handleTabs:(tab: string) => void;
 }
 
 export default function NavBar({ className, handleTabs }: NavBarProps) {

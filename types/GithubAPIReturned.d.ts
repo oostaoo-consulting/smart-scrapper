@@ -1,3 +1,10 @@
+interface GithubSearchProfilesArgs {
+  location: string;
+  searchTerms: string;
+  quantity?: number;
+  cursorAfter?: string;
+}
+
 interface GithubAPIProfileSocialAccount {
   provider: string;
   displayName: string;

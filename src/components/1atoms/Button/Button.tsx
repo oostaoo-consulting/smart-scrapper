@@ -1,24 +1,36 @@
 import React from 'react';
 
 interface ButtonProps {
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
   children: React.ReactNode;
   className: string;
-  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled: boolean;
 }
 
 export default function Button({
+  type = 'button',
   children,
   className,
-  onClick,
   disabled,
+  onClick,
 }: ButtonProps) {
-  return (
+  const buttonType = type || 'button';
+  return onClick ? (
     <button
+      type={buttonType}
       disabled={disabled}
-      type="button"
       className={className}
       onClick={onClick}
+      data-testid="buttonComponent"
+    >
+      {children}
+    </button>
+  ) : (
+    <button
+      type={buttonType}
+      disabled={disabled}
+      className={className}
       data-testid="buttonComponent"
     >
       {children}
