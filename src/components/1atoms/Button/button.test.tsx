@@ -1,7 +1,11 @@
 import React from 'react';
-import { cleanup, render, screen } from '@testing-library/react';
+import {
+  cleanup, fireEvent, render, screen,
+} from '@testing-library/react';
 import { RxMagnifyingGlass } from 'react-icons/rx';
 import Button from './Button';
+
+const mockOnClick = jest.fn();
 
 describe('Testing Input Component', () => {
   afterEach(() => {
@@ -13,11 +17,11 @@ describe('Testing Input Component', () => {
   ) => {
     render(
       type ? (
-        <Button type={type} className="">
+        <Button type={type} className="" onClick={mockOnClick}>
           <RxMagnifyingGlass />
         </Button>
       ) : (
-        <Button className="">
+        <Button className="" onClick={mockOnClick}>
           <RxMagnifyingGlass />
         </Button>
       ),
@@ -38,5 +42,14 @@ describe('Testing Input Component', () => {
     const element = screen.getByRole('button');
 
     expect(element).toHaveAttribute('type', 'submit');
+  });
+
+  test('input is clicked', () => {
+    theRender('submit');
+
+    const element = screen.getByRole('button');
+    fireEvent.click(element);
+
+    expect(mockOnClick).toHaveBeenCalled();
   });
 });

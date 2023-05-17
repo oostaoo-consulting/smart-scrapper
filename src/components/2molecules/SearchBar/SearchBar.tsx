@@ -22,7 +22,7 @@ export default function SearchBar() {
   };
 
   return (
-    <form className="w-full flex" onSubmit={formSubmitHandler}>
+    <form name="Recherche" className="w-full flex" onSubmit={formSubmitHandler}>
       <Input
         name="inputLocation"
         title="Filtrer les résultats de recherche par ville"
