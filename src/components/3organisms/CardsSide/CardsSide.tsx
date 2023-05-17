@@ -1,24 +1,15 @@
 import React from 'react';
-import { useProfilesContext } from '../../../contexts/profilesContext';
+// import { useProfilesContext } from '../../../contexts/profilesContext';
 import Card from '../../2molecules/Card/Card';
 
-export default function CardsSide() {
-  const { profiles, loading, error } = useProfilesContext();
+function CardsSide({ post, indexOfFirst, indexOfLast }: any) {
+  // TODO: use profilesContext hooks to get profiles, loading and error
+  // const { profiles, loading, error } = useProfilesContext();
+  // if (profiles) return (profiles.map(({ login, location }) => `${login} : ${location}`));
 
-  return (
-    <>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error</p>}
-      {profiles && <p>{profiles.map(({ login, location }) => `${login} : ${location}`)}</p>}
-
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-    </>
-  );
+  return post
+    .slice(indexOfFirst, indexOfLast)
+    .map((id: number) => <Card key={id} isFavorite={false} />);
 }
+
+export default CardsSide;

@@ -7,7 +7,8 @@
     "react/jsx-one-expression-per-line": "off",
     "linebreak-style": "off",
     "react/button-has-type": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "operator-linebreak": "off"
   },
   "parserOptions": {
     "project": "./tsconfig.json" // find the closest "./tsconfig.json" file - can cause some perf regressions
