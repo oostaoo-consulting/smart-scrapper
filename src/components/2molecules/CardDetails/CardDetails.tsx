@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
+import { MdFavorite, MdFavoriteBorder, MdClose } from 'react-icons/md';
 
 import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
@@ -9,12 +9,16 @@ import Button from '../../1atoms/Button/Button';
 interface CardDetailsprops {
   person: Person,
   isFavorite: boolean
+  handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-export default function CardDetails({ person, isFavorite }: CardDetailsprops) {
+export default function CardDetails({ person, isFavorite, handleOpeningCard }: CardDetailsprops) {
   return (
     <>
-      <div className="w-screen h-screen fixed left-0 top-0 bg-black opacity-80" />
+      <Button className="cursor-default w-screen h-screen fixed left-0 top-0 bg-black opacity-80" onClick={handleOpeningCard}>
+        l
+      </Button>
+
       <dialog open className="bg-white w-11/12 max-h-full overflow-y-auto border-slate-400 border p-3 flex flex-col gap-3 absolute top-0" data-testid="card">
         <section className="flex">
           <Image
@@ -64,7 +68,8 @@ export default function CardDetails({ person, isFavorite }: CardDetailsprops) {
           ))
         }
 
-        <Button className="absolute top-3 right-3">{isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}</Button>
+        <Button className="absolute top-3 right-3" onClick={handleOpeningCard}><MdClose size={36} aria-label="close button" /></Button>
+        <Button onClick={() => { }} className="absolute top-12 right-3">{isFavorite ? <MdFavorite size={34} /> : <MdFavoriteBorder size={34} />}</Button>
 
       </dialog>
     </>

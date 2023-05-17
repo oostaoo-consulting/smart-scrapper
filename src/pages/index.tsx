@@ -13,6 +13,7 @@ import jsonMock from '../components/2molecules/CardDetails/mock.json';
 
 export default function Home() {
   const [tabs, setTabs] = useState(0);
+  const [openCard, setOpenCard] = useState(false);
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
@@ -35,6 +36,11 @@ export default function Home() {
       }
     }
   };
+
+  const handleOpeningCard = () => {
+    setOpenCard(!openCard);
+  };
+
   return (
     <>
       <Head>
@@ -66,7 +72,7 @@ export default function Home() {
             xl:sm:h-[calc(100vh-(9rem+7rem)-2rem)]
             `}
           >
-            <CardsSide />
+            <CardsSide handleOpeningCard={handleOpeningCard} />
           </aside>
         </section>
 
@@ -106,7 +112,13 @@ export default function Home() {
           </main>
         </section>
         <NavBar handleTabs={handleTabs} className=" bg-white border-t border-slate-400 h-16 w-full fixed bottom-0 left-0 flex justify-evenly xl:hidden" />
-        <CardDetails person={jsonMock} isFavorite={false} />
+        {openCard && (
+          <CardDetails
+            person={jsonMock}
+            isFavorite={false}
+            handleOpeningCard={handleOpeningCard}
+          />
+        )}
       </main>
     </>
   );

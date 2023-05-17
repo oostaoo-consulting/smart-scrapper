@@ -1,17 +1,21 @@
 import React from 'react';
 import Card from '../../2molecules/Card/Card';
 
-export default function CardsSide() {
+interface CardsSideProps {
+  handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void
+}
+
+export default function CardsSide({ handleOpeningCard }: CardsSideProps) {
   return (
     <>
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
-      <Card isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card handleOpeningCard={handleOpeningCard} isFavorite={false} />
     </>
   );
 }
