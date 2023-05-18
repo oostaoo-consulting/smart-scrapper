@@ -7,13 +7,19 @@ import Favorites from '../components/3organisms/Favorites/Favorites';
 import NavBar from '../components/2molecules/NavBar/NavBar';
 import Button from '../components/1atoms/Button/Button';
 import SearchesSaved from '../components/3organisms/SearchesSaved/SearchesSaved';
+import Pagination from '../components/2molecules/Pagination/Pagination';
 import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 
 import jsonMock from '../components/2molecules/CardDetails/mock.json';
 
 export default function Home() {
-  const [tabs, setTabs] = useState(0);
-  const [openCard, setOpenCard] = useState(false);
+  const [tabs, setTabs] = useState<number>(0);
+  const [openCard, setOpenCard] = useState<boolean>(false);
+
+  const [post] = useState<number>(7);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [postPerPage] = useState<number>(5);
+  const allPosts = Array.from({ length: post });
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
@@ -37,6 +43,11 @@ export default function Home() {
     }
   };
 
+  const indexOfLast = currentPage * postPerPage;
+  const indexOfFirst = indexOfLast - postPerPage;
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   const handleOpeningCard = () => {
     setOpenCard(!openCard);
   };
@@ -45,43 +56,63 @@ export default function Home() {
     <>
       <Head>
         <title>Smart Scrapper</title>
-        <meta name="description" content="Site de scrapping signé Oostaoo pour les recherches de profils à recruter" />
+        <meta
+          name="description"
+          content="Site de scrapping signé Oostaoo pour les recherches de profils à recruter"
+        />
       </Head>
 
-      <main className="xl:flex relative">
+      <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
         <section className=" xl:w-1/2 xl:pr-2">
-          <section className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}>
+          <section
+            className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}
+          >
             <Search />
           </section>
-          <aside className={`
+          <aside
+            className={`
             ${tabs !== 0 && 'hidden'} 
             flex
             flex-col
             gap-4
             overflow-y-scroll
-            h-[calc(100vh-(6rem+7rem)-2rem-4rem)]
-            sm:h-[calc(100vh-(9rem+7rem)-2rem-4rem)]
+            h-[calc(100vh-(6rem+7rem)-1rem-4rem-3.5rem)]
+            sm:h-[calc(100vh-(9rem+7rem)-1rem-4rem-3.5rem)]
     
-            {/* calc : 100vh - (Header + Search) - 2 * Padding Body - NavBar */}
+            //calc : 100vh - (Header + Search) - 2 * Padding Body - NavBar
     
             
             xl:flex
-            
+            xl:h-[calc(100vh-(6rem+7rem)-1rem-4rem-3.5rem)]
             xl:relative 
             xl:overflow-y-scroll
-            xl:sm:h-[calc(100vh-(9rem+7rem)-2rem)]
             `}
           >
-            <CardsSide handleOpeningCard={handleOpeningCard} />
+            <CardsSide
+              post={allPosts}
+              indexOfFirst={indexOfFirst}
+              indexOfLast={indexOfLast}
+              handleOpeningCard={handleOpeningCard}
+            />
           </aside>
+          <section>
+            <Pagination
+              tabs={tabs}
+              paginate={paginate}
+              totalPost={post}
+              postPerPage={postPerPage}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          </section>
         </section>
 
-        <section className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem)] ">
+        <section className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem-5rem)] ">
           <nav className=" hidden xl:flex xl:justify-around xl:absolute xl:-top-36 w-full xl:pl-2">
-            <Button className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''}`} onClick={() => handleTabs('favorite')}>FAVORIS</Button>
-            <Button className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''}`} onClick={() => handleTabs('search')}>RECHERCHES</Button>
+            <Button className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''}`} onClick={() => handleTabs('favorite')} disabled={false}>FAVORIS</Button>
+            <Button className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''}`} onClick={() => handleTabs('search')} disabled={false}>RECHERCHES</Button>
           </nav>
-          <Button className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''}`} onClick={() => handleTabs('noTab')}><MdClose size={36} aria-label="close button" /></Button>
+          <Button className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''}`} onClick={() => handleTabs('noTab')} disabled={false}><MdClose size={36} aria-label="close button" /></Button>
           <main
             data-testid="toggle-section"
             className={`
@@ -111,7 +142,10 @@ export default function Home() {
             {tabs === 2 && <SearchesSaved />}
           </main>
         </section>
-        <NavBar handleTabs={handleTabs} className=" bg-white border-t border-slate-400 h-16 w-full fixed bottom-0 left-0 flex justify-evenly xl:hidden" />
+        <NavBar
+          handleTabs={handleTabs}
+          className="fixed bottom-0 left-0 w-full h-16 bg-white border-t border-slate-400 flex justify-evenly xl:hidden"
+        />
         {openCard && (
           <CardDetails
             person={jsonMock}

@@ -1,12 +1,5 @@
 import type { ContextValue } from '../pages/api/graphql';
 
-export interface GithubSearchProfilesArgs {
-  location: string;
-  searchTerms: string;
-  quantity?: number;
-  cursorAfter?: string;
-}
-
 const resolvers = {
   Query: {
     async githubProfiles(
