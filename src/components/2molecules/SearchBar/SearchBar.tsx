@@ -22,7 +22,7 @@ export default function SearchBar() {
   };
 
   return (
-    <form name="Recherche" className="w-full flex" onSubmit={formSubmitHandler}>
+    <form name="Recherche" className="w-full flex gap-1" onSubmit={formSubmitHandler}>
       <Input
         name="inputLocation"
         title="Filtrer les résultats de recherche par ville"
@@ -38,7 +38,7 @@ export default function SearchBar() {
         placeholder="Filtre par technologies"
       />
 
-      <Button type="submit" className="p-2">
+      <Button disabled={false} type="submit" className="p-2">
         <RxMagnifyingGlass />
       </Button>
     </form>

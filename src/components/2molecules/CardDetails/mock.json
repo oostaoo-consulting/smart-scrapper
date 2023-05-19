@@ -1,0 +1,29 @@
+{
+  "cursor": "cursorString",
+  "socialAccounts": [
+    {
+      "provider": "Twitter",
+      "displayName": "Csscade",
+      "url": "https://www.twitter.com"
+    },
+    {
+      "provider": "Facebook",
+      "displayName": "CsscadeFb",
+      "url": "https://www.facebook.com"
+    },
+    {
+      "provider": "LinkedIn",
+      "displayName": "CsscadIn",
+      "url": "https://www.linkedin.com"
+    }
+  ],
+  "id": "id45gT67BrdE9",
+  "name": "La PrinCSS",
+  "login": "princss",
+  "location": "France",
+  "email": "princss-int@yopmail.com",
+  "url": "https://github.com/princss",
+  "websiteUrl": "https://princss.com/",
+  "avatarUrl": "https://avatars.githubusercontent.com/u/26469967?v=4",
+  "bio": "Princss 💻 Fullstack Developper, DevOps & Database Administrator PostgreSQL"
+}

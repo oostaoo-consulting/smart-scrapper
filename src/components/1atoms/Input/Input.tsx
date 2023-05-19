@@ -20,7 +20,7 @@ export default function Input({
       type="text"
       name={name}
       title={title}
-      className="px-3 py-1 bg-gray-100 grow"
+      className="px-3 py-1 bg-gray-100 w-[calc(50%-2rem/2)]"
       placeholder={placeholder || 'Recherche'}
       value={value || ''}
       onChange={onChange}
