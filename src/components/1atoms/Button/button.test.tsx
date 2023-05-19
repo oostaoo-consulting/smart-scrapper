@@ -17,11 +17,11 @@ describe('Testing Input Component', () => {
   ) => {
     render(
       type ? (
-        <Button type={type} className="" onClick={mockOnClick}>
+        <Button type={type} disabled={false} className="" onClick={mockOnClick}>
           <RxMagnifyingGlass />
         </Button>
       ) : (
-        <Button className="" onClick={mockOnClick}>
+        <Button disabled={false} className="" onClick={mockOnClick}>
           <RxMagnifyingGlass />
         </Button>
       ),
@@ -42,6 +42,13 @@ describe('Testing Input Component', () => {
     const element = screen.getByRole('button');
 
     expect(element).toHaveAttribute('type', 'submit');
+  });
+
+  test('input is with type = reset', () => {
+    theRender('reset');
+    const element = screen.getByRole('button');
+
+    expect(element).toHaveAttribute('type', 'reset');
   });
 
   test('input is clicked', () => {
