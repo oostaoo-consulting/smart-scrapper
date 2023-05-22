@@ -16,7 +16,11 @@
     "@typescript-eslint/naming-convention": [
       "error",
       { "selector": "typeLike", "format": ["PascalCase"] }
-    ] // Types et interfaces en PascalCase
+    ], // Types et interfaces en PascalCase
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"], // Utilisation exclusive des interfaces, types interdits
+    "@typescript-eslint/no-duplicate-type-constituents": "error", // Interdiction de déclarer plusieurs fois le même type dans les unions/intersections
+    "@typescript-eslint/no-empty-interface": "error", // Interdiction de déclarer des interfaces vides
+    "@typescript-eslint/no-inferrable-types": "error" // Interdiction de déclarer des types inférables
   },
   "parserOptions": {
     "project": "./tsconfig.json" // find the closest "./tsconfig.json" file - can cause some perf regressions

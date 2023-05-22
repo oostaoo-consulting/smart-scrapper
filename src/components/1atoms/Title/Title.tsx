@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 
-type TitleProps = {
+interface TitleProps {
   level: number;
   children: ReactNode;
-};
+}
 
 export default function Title({ level, children }: TitleProps): JSX.Element {
   const TitleTag = `h${level}` as keyof JSX.IntrinsicElements;
