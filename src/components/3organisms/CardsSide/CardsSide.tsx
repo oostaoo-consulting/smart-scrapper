@@ -17,14 +17,26 @@ function CardsSide({
 }: CardsSideProps) {
   // TODO: use profilesContext hooks to get profiles, loading and error
   const { profiles } = useProfilesContext();
-  if (profiles) {
-    return profiles.map(({ login, location }) => `${login} : ${location}`);
+
+  console.log('coucou: ', profiles);
+
+  // if (profiles.length === undefined || null || 0) {
+  //   return profiles.map(({ login, location }) => `${login} : ${location}`);
+  // }
+
+  if (profiles?.length === undefined || null || 0) {
+    return <p>pas de cartes</p>;
   }
 
   return post
     .slice(indexOfFirst, indexOfLast)
     .map((id: number) => (
-      <Card key={id} handleOpeningCard={handleOpeningCard} isFavorite={false} />
+      <Card
+        key={id}
+        handleOpeningCard={handleOpeningCard}
+        isFavorite={false}
+        profiles={profiles}
+      />
     ));
 }
 
