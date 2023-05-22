@@ -1,4 +1,4 @@
-interface PersonSocialAccount extends GithubAPISocialAccount {}
+interface PersonSocialAccount extends GithubAPIProfileSocialAccount { }
 
 interface Person extends GithubAPIProfile {
   cursor?: string;

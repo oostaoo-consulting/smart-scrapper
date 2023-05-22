@@ -1,11 +1,13 @@
 import React from 'react';
 import {
+  cleanup,
   fireEvent, render, screen, within,
 } from '@testing-library/react';
 import Home from '../pages';
 
 describe('Home Page', () => {
   beforeEach(() => {
+    cleanup();
     render(<Home />);
   });
 
@@ -19,6 +21,9 @@ describe('Home Page', () => {
 
     fireEvent.click(favoriteButton);
     expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(false);
+
+    fireEvent.click(favoriteButton);
+    expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(true);
   });
 
   it('should handle search tabs correctly', () => {
@@ -26,12 +31,8 @@ describe('Home Page', () => {
 
     fireEvent.click(searchButton);
     expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(false);
+
+    fireEvent.click(searchButton);
+    expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(true);
   });
-
-  // it('should handle close tabs correctly', () => {
-  //   const noTabButton = screen.getByTestId('close-button');
-
-  //   fireEvent.click(noTabButton);
-  //   expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(true);
-  // });
 });
