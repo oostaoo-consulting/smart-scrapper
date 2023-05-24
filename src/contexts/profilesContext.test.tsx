@@ -1,26 +1,28 @@
 import React from 'react';
 import {
+  Queries,
+  RenderResult,
   render, renderHook, screen,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProfilesProvider, {
   ProfilesContext,
-  useProfilesContext,
+  useProfilesContext, ContextProps,
 } from './profilesContext';
 
 jest.mock('@apollo/client', () => ({
-  gql: () => {},
-  useLazyQuery: () => [
+  gql: (): void => { },
+  useLazyQuery: (): [jest.Mock, { data: { profiles: [] }, loading: boolean, error?: Error }] => [
     jest.fn(),
     { data: { profiles: [] }, loading: false, error: undefined },
   ],
 }));
 
-const initialContextValue = {
+const initialContextValue: ContextProps<undefined> = {
   profiles: undefined,
   loading: false,
   error: undefined,
-  loadData: () => new Promise(() => {}),
+  loadData: () => new Promise(() => { }),
 };
 
 afterEach(() => {
@@ -32,7 +34,7 @@ describe('ProfilesProvider', () => {
     render(
       <ProfilesProvider>
         <ProfilesContext.Consumer>
-          {(value) => <div data-testid="value">{JSON.stringify(value)}</div>}
+          {(value): JSX.Element => <div data-testid="value">{JSON.stringify(value)}</div>}
         </ProfilesContext.Consumer>
       </ProfilesProvider>,
     );
@@ -54,7 +56,7 @@ describe('ProfilesContext', () => {
     const customRender = (
       ui: React.ReactNode,
       { providerProps, ...renderOptions }: { providerProps: any },
-    ) => render(
+    ): RenderResult<Queries, HTMLElement, HTMLElement> => render(
       <ProfilesContext.Provider value={providerProps}>
         {ui}
       </ProfilesContext.Provider>,
@@ -63,7 +65,7 @@ describe('ProfilesContext', () => {
 
     customRender(
       <ProfilesContext.Consumer>
-        {(value) => <div data-testid="child">{JSON.stringify(value)}</div>}
+        {(value): JSX.Element => <div data-testid="child">{JSON.stringify(value)}</div>}
       </ProfilesContext.Consumer>,
       { providerProps: { value: modifiedContextValue } },
     );

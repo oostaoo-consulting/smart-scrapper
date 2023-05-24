@@ -11,7 +11,7 @@ interface Profiles {
   githubProfiles: Person[];
 }
 
-interface ContextProps<TData> {
+export interface ContextProps<TData> {
   profiles?: TData;
   loading: boolean;
   error?: ApolloQueryResult<TData>['error'];
@@ -57,7 +57,7 @@ export const ProfilesContext = React.createContext<ContextProps<Person[]>>({
   profiles: [],
   loading: false,
   error: undefined,
-  loadData: () => new Promise(() => {}),
+  loadData: () => new Promise(() => { }),
 });
 
 export const useProfilesContext = (): ContextProps<Person[]> => {
