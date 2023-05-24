@@ -41,7 +41,7 @@ export default function Card({
           />
         )}
       </Button>
-      <Button onClick={(): void => {}} className="absolute top-3 right-3">
+      <Button onClick={(): void => { }} className="absolute top-3 right-3">
         {isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}
       </Button>
     </article>

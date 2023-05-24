@@ -70,7 +70,7 @@ export default function CardDetails({
         <Button className="absolute top-3 right-3" onClick={handleOpeningCard}>
           <MdClose size={36} aria-label="close button" />
         </Button>
-        <Button onClick={(): void => {}} className="absolute top-12 right-3">
+        <Button onClick={(): void => { }} className="absolute top-12 right-3">
           {isFavorite ? (
             <MdFavorite size={34} />
           ) : (

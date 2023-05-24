@@ -63,7 +63,7 @@ export default function Home(): JSX.Element {
       </Head>
 
       <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
-        <section className=" xl:w-1/2 xl:pr-2">
+        <section data-testid="cardSideSection" className=" xl:w-1/2 xl:pr-2">
           <section
             className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}
           >
@@ -107,21 +107,19 @@ export default function Home(): JSX.Element {
           </section>
         </section>
 
-        <section className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem-5rem)] ">
+        <section data-testid="favoriteAndSearchSection" className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem-5rem)] ">
           <nav className=" hidden xl:flex xl:justify-around xl:absolute xl:-top-36 w-full xl:pl-2">
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 1 ? 'border-b-0 border-r-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''
+                }`}
               onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
               FAVORIS
             </Button>
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 2 ? 'border-b-0 border-l-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''
+                }`}
               onClick={(): void => handleTabs('search')}
               disabled={false}
             >
@@ -129,11 +127,9 @@ export default function Home(): JSX.Element {
             </Button>
           </nav>
           <Button
-            className={`absolute top-0 right-0 xl:hidden ${
-              tabs === 0 ? ' hidden' : ''
-            }`}
+            className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? 'hidden' : ''
+              }`}
             onClick={(): void => handleTabs('noTab')}
-            disabled={false}
           >
             <MdClose size={36} aria-label="close button" />
           </Button>

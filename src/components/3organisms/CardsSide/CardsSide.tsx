@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 // import { useProfilesContext } from '../../../contexts/profilesContext';
 import Card from '../../2molecules/Card/Card';
 
@@ -21,8 +22,8 @@ function CardsSide({
 
   return post
     .slice(indexOfFirst, indexOfLast)
-    .map((id: number) => (
-      <Card key={id} handleOpeningCard={handleOpeningCard} isFavorite={false} />
+    .map(() => (
+      <Card key={uuidv4()} handleOpeningCard={handleOpeningCard} isFavorite={false} />
     ));
 }
 
