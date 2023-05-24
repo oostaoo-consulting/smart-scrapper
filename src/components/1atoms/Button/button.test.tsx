@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  cleanup, fireEvent, render, screen,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { RxMagnifyingGlass } from 'react-icons/rx';
 import Button from './Button';
 
@@ -14,7 +12,7 @@ describe('Testing Input Component', () => {
 
   const theRender = (
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'],
-  ) => {
+  ): void => {
     render(
       type ? (
         <Button type={type} className="" onClick={mockOnClick}>

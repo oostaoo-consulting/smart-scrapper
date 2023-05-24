@@ -7,7 +7,7 @@ describe('Testing Paragraph Component', () => {
     cleanup();
   });
 
-  const theRender = () => {
+  const theRender = (): void => {
     render(<Paragraph text="This is some text for the paragraph" />);
   };
 
