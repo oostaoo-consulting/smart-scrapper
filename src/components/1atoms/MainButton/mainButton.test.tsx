@@ -7,7 +7,7 @@ describe('Testing MainButton Component', () => {
     cleanup();
   });
 
-  const theRender = () => {
+  const theRender = (): void => {
     render(<MainButton text="the beautiful button" />);
   };
 

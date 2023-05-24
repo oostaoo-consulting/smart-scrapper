@@ -1,11 +1,15 @@
 import {
-  gql, useLazyQuery, ApolloQueryResult, LazyQueryExecFunction, OperationVariables,
+  gql,
+  useLazyQuery,
+  ApolloQueryResult,
+  LazyQueryExecFunction,
+  OperationVariables,
 } from '@apollo/client';
 import React from 'react';
 
-type Profiles = {
+interface Profiles {
   githubProfiles: Person[];
-};
+}
 
 interface ContextProps<TData> {
   profiles?: TData;
@@ -56,7 +60,7 @@ export const ProfilesContext = React.createContext<ContextProps<Person[]>>({
   loadData: () => new Promise(() => {}),
 });
 
-export const useProfilesContext = () => {
+export const useProfilesContext = (): ContextProps<Person[]> => {
   const value = React.useContext(ProfilesContext);
 
   if (value === null) {
@@ -66,11 +70,8 @@ export const useProfilesContext = () => {
   return { ...value };
 };
 
-function ProfilesProvider({ children }: ProviderProps) {
-  const [
-    loadData,
-    { data, loading, error },
-  ] = useLazyQuery<Profiles>(query);
+function ProfilesProvider({ children }: ProviderProps): JSX.Element {
+  const [loadData, { data, loading, error }] = useLazyQuery<Profiles>(query);
 
   const value = React.useMemo(
     () => ({

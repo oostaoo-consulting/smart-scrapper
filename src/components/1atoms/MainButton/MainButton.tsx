@@ -4,7 +4,7 @@ interface MainButtonProps {
   text: string;
 }
 
-function MainButton({ text }: MainButtonProps) {
+function MainButton({ text }: MainButtonProps): JSX.Element {
   return (
     <button
       type="button"
