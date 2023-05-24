@@ -12,7 +12,7 @@ import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 
 import jsonMock from '../components/2molecules/CardDetails/mock.json';
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const [tabs, setTabs] = useState<number>(0);
   const [openCard, setOpenCard] = useState<boolean>(false);
 
@@ -46,9 +46,9 @@ export default function Home() {
   const indexOfLast = currentPage * postPerPage;
   const indexOfFirst = indexOfLast - postPerPage;
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
 
-  const handleOpeningCard = () => {
+  const handleOpeningCard = (): void => {
     setOpenCard(!openCard);
   };
 
@@ -109,10 +109,30 @@ export default function Home() {
 
         <section data-testid="favoriteAndSearchSection" className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem-5rem)] ">
           <nav className=" hidden xl:flex xl:justify-around xl:absolute xl:-top-36 w-full xl:pl-2">
-            <Button className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''}`} onClick={() => handleTabs('favorite')} disabled={false}>FAVORIS</Button>
-            <Button className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''}`} onClick={() => handleTabs('search')} disabled={false}>RECHERCHES</Button>
+            <Button
+              className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''
+                }`}
+              onClick={(): void => handleTabs('favorite')}
+              disabled={false}
+            >
+              FAVORIS
+            </Button>
+            <Button
+              className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''
+                }`}
+              onClick={(): void => handleTabs('search')}
+              disabled={false}
+            >
+              RECHERCHES
+            </Button>
           </nav>
-          <Button className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? 'hidden' : ''}`} onClick={() => handleTabs('noTab')} disabled={false}><MdClose size={36} aria-label="close button" /></Button>
+          <Button
+            className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? 'hidden' : ''
+              }`}
+            onClick={(): void => handleTabs('noTab')}
+          >
+            <MdClose size={36} aria-label="close button" />
+          </Button>
           <main
             data-testid="toggle-section"
             className={`

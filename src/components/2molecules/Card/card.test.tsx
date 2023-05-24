@@ -8,7 +8,7 @@ import Card from './Card';
 describe('Card not favorite', () => {
   beforeEach(() => {
     render(<Card
-      handleOpeningCard={() => { }}
+      handleOpeningCard={(): void => { }}
       isFavorite={false}
     />);
   });
@@ -40,7 +40,7 @@ describe('Card not favorite', () => {
 describe('Card favorite', () => {
   beforeEach(() => {
     render(<Card
-      handleOpeningCard={() => { }}
+      handleOpeningCard={(): void => { }}
       isFavorite
     />);
   });

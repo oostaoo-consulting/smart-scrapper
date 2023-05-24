@@ -2,7 +2,7 @@ import React from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import Title from './Title';
 
-const renderComponent = (level: number) => {
+const renderComponent = (level: number): void => {
   render(<Title level={level}>Hello title !</Title>);
 };
 

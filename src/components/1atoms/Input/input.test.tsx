@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  cleanup, fireEvent, render, screen,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import Input from './Input';
 
 let rerender: ReturnType<typeof render>['rerender'];
@@ -42,11 +40,7 @@ describe('Testing Input Component', () => {
   test('should display with default placeholder and value attributes', () => {
     const element = screen.getByRole('textbox');
     rerender(
-      <Input
-        name="input name"
-        title="input title"
-        onChange={mockOnChange}
-      />,
+      <Input name="input name" title="input title" onChange={mockOnChange} />,
     );
 
     expect(element).toHaveAttribute('placeholder', 'Recherche');

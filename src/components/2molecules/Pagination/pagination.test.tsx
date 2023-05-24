@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import {
+  RenderResult,
   cleanup, fireEvent, render, screen,
 } from '@testing-library/react';
 
@@ -9,7 +10,7 @@ const theRender = (
   currentPage: number,
   setCurrentPageMock: Dispatch<SetStateAction<number>>,
   paginateMock: (value: number) => void,
-) => {
+): RenderResult => {
   const rtlResult = render(<Pagination
     tabs={1}
     paginate={paginateMock}

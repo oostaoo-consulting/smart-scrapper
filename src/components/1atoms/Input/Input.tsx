@@ -14,7 +14,7 @@ export default function Input({
   value,
   placeholder,
   onChange,
-}: InputProps) {
+}: InputProps): JSX.Element {
   return (
     <input
       type="text"

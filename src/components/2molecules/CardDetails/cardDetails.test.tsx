@@ -6,7 +6,11 @@ import jsonMock from './mock.json';
 
 describe('CardDetails not favorite', () => {
   beforeEach(() => {
-    render(<CardDetails person={jsonMock} handleOpeningCard={() => { }} isFavorite={false} />);
+    render(<CardDetails
+      person={jsonMock}
+      handleOpeningCard={(): void => { }}
+      isFavorite={false}
+    />);
   });
 
   it('should contain a level 3 title', () => {
@@ -35,7 +39,7 @@ describe('CardDetails not favorite', () => {
 
 describe('CardDetails favorite', () => {
   beforeEach(() => {
-    render(<CardDetails person={jsonMock} handleOpeningCard={() => { }} isFavorite />);
+    render(<CardDetails person={jsonMock} handleOpeningCard={(): void => { }} isFavorite />);
   });
 
   it('should contain a level 3 title', () => {
