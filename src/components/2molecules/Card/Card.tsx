@@ -14,7 +14,7 @@ interface CardProps {
 export default function Card({ isFavorite, handleOpeningCard }: CardProps) {
   return (
     <article className="relative flex flex-col" data-testid="card">
-      <Button className="border-slate-400 border p-3 flex flex-col gap-3 text-left hover:border-white" onClick={handleOpeningCard}>
+      <Button className="border-slate-400 border p-3 flex flex-col gap-3 text-left hover:border-white" disabled={false} onClick={handleOpeningCard}>
         <div className="flex">
           <Image
             src="/img/imagePlaceholder.png"
@@ -35,7 +35,7 @@ export default function Card({ isFavorite, handleOpeningCard }: CardProps) {
           />
         )}
       </Button>
-      <Button onClick={() => { }} className="absolute top-3 right-3">{isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}</Button>
+      <Button onClick={() => { }} disabled={false} className="absolute top-3 right-3">{isFavorite ? <MdFavorite size={25} /> : <MdFavoriteBorder size={25} />}</Button>
 
     </article>
   );

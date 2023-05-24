@@ -15,8 +15,8 @@ interface CardDetailsprops {
 export default function CardDetails({ person, isFavorite, handleOpeningCard }: CardDetailsprops) {
   return (
     <>
-      <Button className="cursor-default w-screen h-screen fixed left-0 top-0 bg-black opacity-80" onClick={handleOpeningCard}>
-        l
+      <Button disabled={false} className="cursor-default w-screen h-screen fixed left-0 top-0 bg-black opacity-80" onClick={handleOpeningCard}>
+        .
       </Button>
 
       <dialog open className="bg-white w-11/12 max-h-full overflow-y-auto border-slate-400 border p-3 flex flex-col gap-3 absolute top-0" data-testid="card">
@@ -68,8 +68,8 @@ export default function CardDetails({ person, isFavorite, handleOpeningCard }: C
           ))
         }
 
-        <Button className="absolute top-3 right-3" onClick={handleOpeningCard}><MdClose size={36} aria-label="close button" /></Button>
-        <Button onClick={() => { }} className="absolute top-12 right-3">{isFavorite ? <MdFavorite size={34} /> : <MdFavoriteBorder size={34} />}</Button>
+        <Button className="absolute top-3 right-3" onClick={handleOpeningCard} disabled={false}><MdClose size={36} aria-label="close button" /></Button>
+        <Button onClick={() => { }} className="absolute top-12 right-3" disabled={false}>{isFavorite ? <MdFavorite size={34} /> : <MdFavoriteBorder size={34} />}</Button>
 
       </dialog>
     </>

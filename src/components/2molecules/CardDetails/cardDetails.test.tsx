@@ -1,14 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import CardDetails from './CardDetails';
 import jsonMock from './mock.json';
 
-const onClickMock = jest.fn();
-
 describe('CardDetails not favorite', () => {
   beforeEach(() => {
-    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isFavorite={false} />);
+    render(<CardDetails person={jsonMock} handleOpeningCard={() => { }} isFavorite={false} />);
   });
 
   it('should contain a level 3 title', () => {
@@ -37,7 +35,7 @@ describe('CardDetails not favorite', () => {
 
 describe('CardDetails favorite', () => {
   beforeEach(() => {
-    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isFavorite />);
+    render(<CardDetails person={jsonMock} handleOpeningCard={() => { }} isFavorite />);
   });
 
   it('should contain a level 3 title', () => {
@@ -57,5 +55,27 @@ describe('CardDetails favorite', () => {
     const expectedPathData = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
 
     expect(path).toHaveAttribute('d', expectedPathData);
+  });
+});
+
+describe('Card', () => {
+  it('should close the details with grey background', () => {
+    const onClickMock = jest.fn();
+    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isFavorite />);
+
+    const buttonOpenCard = screen.getAllByRole('button');
+
+    fireEvent.click(buttonOpenCard[0]);
+    expect(onClickMock).toBeCalled();
+  });
+
+  it('should close the details with cross button', () => {
+    const onClickMock = jest.fn();
+    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isFavorite />);
+
+    const buttonOpenCard = screen.getAllByRole('button');
+
+    fireEvent.click(buttonOpenCard[1]);
+    expect(onClickMock).toBeCalled();
   });
 });
