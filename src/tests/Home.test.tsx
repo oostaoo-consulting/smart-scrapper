@@ -19,15 +19,19 @@ describe('Home Page', () => {
     expect(main).toBeDefined();
   });
 
-  // it('should handle fav tabs correctly', () => {
-  //   const favoriteButton = screen.getByText('FAVORIS');
+  it('should handle fav tabs correctly', () => {
+    const favoriteButton = screen.getByText('FAVORIS');
 
-  //   fireEvent.click(favoriteButton);
-  //   expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(false);
+    fireEvent.click(favoriteButton);
+    expect(
+      screen.getByTestId('toggle-section').className.includes('hidden'),
+    ).toBe(false);
 
-  //   fireEvent.click(favoriteButton);
-  //   expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(true);
-  // });
+    fireEvent.click(favoriteButton);
+    expect(
+      screen.getByTestId('toggle-section').className.includes('hidden'),
+    ).toBe(true);
+  });
 
   it('should handle search tabs correctly', () => {
     const searchButton = screen.getByText('RECHERCHES');
