@@ -21,6 +21,26 @@ export default function Home(): JSX.Element {
   const [postPerPage] = useState<number>(5);
   const allPosts = Array.from({ length: post });
 
+  // Searchbar' states
+  const [inputLocationValue, setInputLocationValue] = React.useState<string>('Paris');
+  const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
+  const handleSaveSearchClick = (): void => {
+    const savedSearchItem = localStorage.getItem('savedSearch');
+
+    const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
+
+    const newSearch = {
+      [`${inputLocationValue}+${inputSearchValue}`]: {
+        location: inputLocationValue,
+        search: inputSearchValue,
+      },
+    };
+
+    savedSearch.push(newSearch);
+
+    localStorage.setItem('savedSearch', JSON.stringify(savedSearch));
+  };
+
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
       setTabs(0);
@@ -67,7 +87,13 @@ export default function Home(): JSX.Element {
           <section
             className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}
           >
-            <Search />
+            <Search
+              handleSaveSearchClick={handleSaveSearchClick}
+              inputLocationValue={inputLocationValue}
+              setInputLocationValue={setInputLocationValue}
+              inputSearchValue={inputSearchValue}
+              setInputSearchValue={setInputSearchValue}
+            />
           </section>
           <aside
             className={`

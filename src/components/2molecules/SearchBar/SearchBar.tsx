@@ -4,11 +4,20 @@ import { useProfilesContext } from '../../../contexts/profilesContext';
 import Input from '../../1atoms/Input/Input';
 import Button from '../../1atoms/Button/Button';
 
-export default function SearchBar(): JSX.Element {
+interface SearchpropsType {
+  inputLocationValue: string,
+  setInputLocationValue: (value: string) => void,
+  inputSearchValue: string,
+  setInputSearchValue: (value: string) => void
+}
+
+export default function SearchBar(
+  { inputLocationValue,
+    setInputLocationValue,
+    inputSearchValue,
+    setInputSearchValue }: SearchpropsType,
+): JSX.Element {
   const { loadData } = useProfilesContext();
-  const [inputLocationValue, setInputLocationValue] =
-    React.useState<string>('Paris');
-  const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
 
   const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = (
     event,
