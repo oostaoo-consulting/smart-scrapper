@@ -19,10 +19,9 @@ export default function Home() {
   const [tabs, setTabs] = useState<number>(0);
   const [openCard, setOpenCard] = useState<boolean>(false);
 
-  const [post, setPost] = useState<number>(1);
+  const [post, setPost] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
-  const allPosts = Array.from({ length: post });
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
@@ -96,21 +95,23 @@ export default function Home() {
             `}
           >
             <CardsSide
-              post={allPosts}
               indexOfFirst={indexOfFirst}
               indexOfLast={indexOfLast}
               handleOpeningCard={handleOpeningCard}
             />
           </aside>
+
           <section>
-            <Pagination
-              tabs={tabs}
-              paginate={paginate}
-              totalPost={post}
-              postPerPage={postPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
+            {(profiles?.length !== undefined || null) && (
+              <Pagination
+                tabs={tabs}
+                paginate={paginate}
+                totalPost={post}
+                postPerPage={postPerPage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
+            )}
           </section>
         </section>
 

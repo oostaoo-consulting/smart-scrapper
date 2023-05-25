@@ -4,40 +4,42 @@ import Card from '../../2molecules/Card/Card';
 
 interface CardsSideProps {
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
-  post: any;
-  indexOfFirst: any;
-  indexOfLast: any;
+  indexOfFirst: number;
+  indexOfLast: number;
 }
 
 function CardsSide({
-  post,
   indexOfFirst,
   indexOfLast,
   handleOpeningCard,
 }: CardsSideProps) {
-  // TODO: use profilesContext hooks to get profiles, loading and error
   const { profiles } = useProfilesContext();
 
-  console.log('coucou: ', profiles);
-
-  // if (profiles.length === undefined || null || 0) {
-  //   return profiles.map(({ login, location }) => `${login} : ${location}`);
-  // }
-
   if (profiles?.length === undefined || null || 0) {
-    return <p>pas de cartes</p>;
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <div>Pas de cartes disponibles, tape un truc dans les inputs !!</div>
+      </div>
+    );
   }
 
-  return post
-    .slice(indexOfFirst, indexOfLast)
-    .map((id: number) => (
-      <Card
-        key={id}
-        handleOpeningCard={handleOpeningCard}
-        isFavorite={false}
-        profiles={profiles}
-      />
-    ));
+  // eslint-disable-next-line arrow-body-style
+  const firstProfiles = profiles.filter((_profil, index: number) => {
+    return index >= indexOfFirst && index <= indexOfLast;
+  });
+
+  return (
+    <>
+      {firstProfiles.map((profil) => (
+        <Card
+          key={profil.id}
+          handleOpeningCard={handleOpeningCard}
+          isFavorite={false}
+          profil={profil}
+        />
+      ))}
+    </>
+  );
 }
 
 export default CardsSide;

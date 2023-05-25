@@ -9,7 +9,7 @@ interface PaginationProps {
   postPerPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   currentPage: number;
-  tabs: number
+  tabs: number;
 }
 
 function Pagination({
@@ -26,11 +26,19 @@ function Pagination({
   );
 
   return (
-    <div className={`${tabs !== 0 && 'hidden'} xl:flex flex flex-row justify-center h-14`}>
+    <div
+      className={`${
+        tabs !== 0 && 'hidden'
+      } xl:flex flex flex-row justify-center h-14`}
+    >
       <div className="flex items-center mx-4">
         <Button
           disabled={currentPage === 1}
-          className={` ${currentPage === 1 ? 'text-neutral-300' : 'text-neutral-500 hover:text-black'}`}
+          className={` ${
+            currentPage === 1
+              ? 'text-neutral-300'
+              : 'text-neutral-500 hover:text-black'
+          }`}
           onClick={() => setCurrentPage((prev) => prev - 1)}
         >
           <AiOutlineArrowLeft />
@@ -41,7 +49,9 @@ function Pagination({
           disabled={false}
           key={uuidv4()}
           onClick={() => paginate(page)}
-          className="flex justify-center items-center w-10 hover:text-black"
+          className={`${
+            currentPage === page && 'text-red-600'
+          } flex items-center justify-center w-10 hover:text-neutral-500`}
         >
           {page}
         </Button>
@@ -49,9 +59,11 @@ function Pagination({
       <div className="flex items-center mx-4">
         <Button
           disabled={currentPage === pagesArray.length}
-          className={` ${currentPage === pagesArray.length
-            ? 'text-neutral-300'
-            : 'text-neutral-500 hover:text-black'}`}
+          className={` ${
+            currentPage === pagesArray.length
+              ? 'text-neutral-300'
+              : 'text-neutral-500 hover:text-black'
+          }`}
           onClick={() => setCurrentPage((prev: number) => prev + 1)}
         >
           <AiOutlineArrowRight />

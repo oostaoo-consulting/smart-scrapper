@@ -6,7 +6,8 @@ import Button from '../../1atoms/Button/Button';
 
 export default function SearchBar() {
   const { loadData } = useProfilesContext();
-  const [inputLocationValue, setInputLocationValue] = React.useState<string>('Paris');
+  const [inputLocationValue, setInputLocationValue] =
+    React.useState<string>('Paris');
   const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
 
   const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = (
@@ -22,7 +23,11 @@ export default function SearchBar() {
   };
 
   return (
-    <form name="Recherche" className="w-full flex gap-1" onSubmit={formSubmitHandler}>
+    <form
+      name="Recherche"
+      className="flex w-full gap-1"
+      onSubmit={formSubmitHandler}
+    >
       <Input
         name="inputLocation"
         title="Filtrer les résultats de recherche par ville"
@@ -39,7 +44,7 @@ export default function SearchBar() {
       />
 
       <Button disabled={false} type="submit" className="p-2">
-        <RxMagnifyingGlass />
+        <RxMagnifyingGlass className="hover:text-neutral-950" size={24} />
       </Button>
     </form>
   );
