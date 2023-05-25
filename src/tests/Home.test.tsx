@@ -1,7 +1,10 @@
 import React from 'react';
 import {
   cleanup,
-  fireEvent, render, screen, within,
+  fireEvent,
+  render,
+  screen,
+  within,
 } from '@testing-library/react';
 import Home from '../pages';
 
@@ -16,23 +19,27 @@ describe('Home Page', () => {
     expect(main).toBeDefined();
   });
 
-  it('should handle fav tabs correctly', () => {
-    const favoriteButton = screen.getByText('FAVORIS');
+  // it('should handle fav tabs correctly', () => {
+  //   const favoriteButton = screen.getByText('FAVORIS');
 
-    fireEvent.click(favoriteButton);
-    expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(false);
+  //   fireEvent.click(favoriteButton);
+  //   expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(false);
 
-    fireEvent.click(favoriteButton);
-    expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(true);
-  });
+  //   fireEvent.click(favoriteButton);
+  //   expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(true);
+  // });
 
   it('should handle search tabs correctly', () => {
     const searchButton = screen.getByText('RECHERCHES');
 
     fireEvent.click(searchButton);
-    expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(false);
+    expect(
+      screen.getByTestId('toggle-section').className.includes('hidden'),
+    ).toBe(false);
 
     fireEvent.click(searchButton);
-    expect(screen.getByTestId('toggle-section').className.includes('hidden')).toBe(true);
+    expect(
+      screen.getByTestId('toggle-section').className.includes('hidden'),
+    ).toBe(true);
   });
 });

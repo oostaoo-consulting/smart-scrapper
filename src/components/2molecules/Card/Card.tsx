@@ -35,45 +35,40 @@ export default function Card({
               className="mr-4 rounded"
             />
             <div>
-              {profil.login && <Title level={4}>{profil.login}</Title>}
+              <Title level={4}>{profil.login}</Title>
               <div className="flex items-center justify-start gap-4">
-                {profil.name && <Title level={3}>{profil.name}</Title>}
-                {profil.email && (
-                  <a
-                    href={`mailto:${profil.email as string}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <GrMailOption
-                      size={18}
-                      className="text-neutral-400 hover:cursor-pointer"
-                    />
-                  </a>
-                )}
+                <Title level={3}>{profil.name}</Title>
+
+                <a
+                  href={`mailto:${profil.email as string}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <GrMailOption
+                    size={18}
+                    className="text-neutral-400 hover:cursor-pointer"
+                  />
+                </a>
               </div>
               <div className="flex flex-col">
-                {profil.websiteUrl && (
-                  <a
-                    href={profil.websiteUrl as string}
-                    target="_blank"
-                    className="text-red-600"
-                    rel="noreferrer"
-                  >
-                    <span className="text-neutral-600">Site:</span>{' '}
-                    {profil.websiteUrl}
-                  </a>
-                )}
-                {profil.url && (
-                  <a
-                    href={profil.websiteUrl as string}
-                    target="_blank"
-                    className="text-red-600"
-                    rel="noreferrer"
-                  >
-                    <span className="text-neutral-600">Github:</span>{' '}
-                    {profil.url}
-                  </a>
-                )}
+                <a
+                  href={profil.websiteUrl as string}
+                  target="_blank"
+                  className="text-red-600"
+                  rel="noreferrer"
+                >
+                  <span className="text-neutral-600">Site:</span>{' '}
+                  {profil.websiteUrl}
+                </a>
+
+                <a
+                  href={profil.websiteUrl as string}
+                  target="_blank"
+                  className="text-red-600"
+                  rel="noreferrer"
+                >
+                  <span className="text-neutral-600">Github:</span> {profil.url}
+                </a>
               </div>
             </div>
           </div>
