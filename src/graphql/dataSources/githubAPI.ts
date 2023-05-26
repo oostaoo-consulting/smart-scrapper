@@ -1,6 +1,5 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache';
-import type { GithubSearchProfilesArgs } from '../resolvers';
 
 const findUsersQuery = ({
   location,

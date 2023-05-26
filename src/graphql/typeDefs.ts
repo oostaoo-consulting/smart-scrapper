@@ -29,6 +29,8 @@ const typeDefs = gql`
     ): [Person]
 
     githubProfile(login: String): Person
+
+    hello: String
   }
 `;
 
