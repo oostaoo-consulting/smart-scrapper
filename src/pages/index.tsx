@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { MdClose } from 'react-icons/md';
 import CardsSide from '../components/3organisms/CardsSide/CardsSide';
@@ -13,6 +13,7 @@ import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 import jsonMock from '../components/2molecules/CardDetails/mock.json';
 
 export default function Home(): JSX.Element {
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   const [tabs, setTabs] = useState<number>(0);
   const [openCard, setOpenCard] = useState<boolean>(false);
 
@@ -20,6 +21,19 @@ export default function Home(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(5);
   const allPosts = Array.from({ length: post });
+
+  const desktopMode = 1280;
+
+  useEffect(() => {
+    // Set the window width when the component mounts
+    setWindowWidth(window.innerWidth);
+  }, [windowWidth]);
+
+  useEffect(() => {
+    if (windowWidth >= desktopMode) {
+      setTabs(1);
+    }
+  }, [windowWidth]);
 
   // Searchbar' states
   const [inputLocationValue, setInputLocationValue] = React.useState<string>('Paris');
@@ -49,6 +63,9 @@ export default function Home(): JSX.Element {
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
+      if (windowWidth >= desktopMode) {
+        return;
+      }
       setTabs(0);
     }
     if (tab === 'favorite') {
@@ -56,6 +73,9 @@ export default function Home(): JSX.Element {
         setTabs(1);
       }
       if (tabs === 1) {
+        if (windowWidth >= desktopMode) {
+          return;
+        }
         setTabs(0);
       }
     }
@@ -64,6 +84,9 @@ export default function Home(): JSX.Element {
         setTabs(2);
       }
       if (tabs === 2) {
+        if (windowWidth >= desktopMode) {
+          return;
+        }
         setTabs(0);
       }
     }
