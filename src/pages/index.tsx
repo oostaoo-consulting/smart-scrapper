@@ -24,15 +24,21 @@ export default function Home(): JSX.Element {
   // Searchbar' states
   const [inputLocationValue, setInputLocationValue] = React.useState<string>('Paris');
   const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
+
   const handleSaveSearchClick = (): void => {
+    const date = new Date().toLocaleString('fr-FR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    });
     const savedSearchItem = localStorage.getItem('savedSearch');
 
     const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
 
     const newSearch = {
-      [`${inputLocationValue}+${inputSearchValue}`]: {
-        location: inputLocationValue,
-        search: inputSearchValue,
+      [`${date} : ${inputLocationValue}\n"${inputSearchValue}"`]: {
+        location: inputLocationValue.toLowerCase(),
+        search: inputSearchValue.toLowerCase(),
       },
     };
 
@@ -185,7 +191,13 @@ export default function Home(): JSX.Element {
             `}
           >
             {tabs === 1 && <Favorites />}
-            {tabs === 2 && <SearchesSaved />}
+            {tabs === 2 && (
+              <SearchesSaved
+                handleTabs={handleTabs}
+                setInputLocationValue={setInputLocationValue}
+                setInputSearchValue={setInputSearchValue}
+              />
+            )}
           </main>
         </section>
         <NavBar
