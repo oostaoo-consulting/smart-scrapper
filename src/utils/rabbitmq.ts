@@ -2,66 +2,69 @@
 import { connect } from 'amqplib';
 import type { Channel } from 'amqplib';
 
-// type QueueNameType = 'github_api_queue';
+type QueueNameType = 'github_api_queue';
 
 const URL = process.env.RABBITMQ_URL || 'amqp://localhost';
 
-const connectToRabbitMQ = async (): Promise<Channel> => {
+export const connectToRabbitMQ = async (): Promise<Channel> => {
   const connection = await connect(URL);
+  if (!connection) throw new Error('No RabbitMQ connection');
+
   const channel = await connection.createChannel();
+  if (!channel) throw new Error('No RabbitMQ channel');
+
   return channel;
 };
 
-// const rabbitMQChannel = await connectToRabbitMQ();
+export const disconnectToRabbitMQ = async (channel: Channel): Promise<void> => {
+  await channel.connection.close();
+};
 
-export default connectToRabbitMQ;
+export const sendToRabbitMQ = async (
+  queue: QueueNameType,
+  message: string,
+): Promise<void | Error> => {
+  try {
+    const channel = await connectToRabbitMQ();
 
-// export const send = async (queue: QueueNameType, message: string): Promise<void> => {
-//   let connection: Connection | null = null;
-//   try {
-//     connection = await connect(URL);
+    await channel.assertQueue(queue, {
+      durable: true,
+    });
+    channel.sendToQueue(
+      queue,
+      Buffer.from(message),
+      { persistent: true },
+    );
 
-//     if (!connection) console.log('oups');
+    disconnectToRabbitMQ(channel);
+  } catch (error) {
+    if (error instanceof Error) return error;
+    return new Error('Internal Server Error');
+  }
+};
 
-//     const channel = await connection.createChannel();
+export const ReceiveFromRabbitMQ = async (
+  queue: QueueNameType,
+): Promise<void | Error> => {
+  try {
+    const channel = await connectToRabbitMQ();
 
-//     await channel.assertQueue(queue, { durable: false });
+    await channel.assertQueue(queue, {
+      durable: true,
+    });
+    channel.prefetch(1);
 
-//     // NB: `sentToQueue` and `publish` both return a boolean
-//     // indicating whether it's OK to send again straight away, or
-//     // (when `false`) that you should wait for the event `'drain'`
-//     // to fire before writing again. We're just doing the one write,
-//     // so we'll ignore it.
-//     channel.sendToQueue(queue, Buffer.from(message));
-//     console.log(" [x] Sent '%s'", message);
-//     await channel.close();
-//   } catch (error) {
-//     console.warn(error);
-//   } finally {
-//     if (connection) await connection.close();
-//   }
-// };
-
-// export const receive = async (queue: QueueNameType): Promise<void | string> => {
-//   try {
-//     const connection = await connect(URL);
-//     const channel = await connection.createChannel();
-
-//     process.once('SIGINT', async () => {
-//       await channel.close();
-//       await connection.close();
-//     });
-
-//     await channel.assertQueue(queue, { durable: false });
-//     await channel.consume(queue, (message) => {
-//       if (message) {
-//         console.log(" [x] Received '%s'", message.content.toString());
-//         return message.content.toString();
-//       }
-
-//       console.log(' [*] Waiting for messages.');
-//     }, { noAck: true });
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// };
+    await channel.consume(
+      queue,
+      (message) => {
+        if (message) {
+          console.log(message.content.toString());
+          channel.ack(message);
+        }
+      },
+    );
+  } catch (error) {
+    if (error instanceof Error) return error;
+    return new Error('Internal Server Error');
+  }
+};
