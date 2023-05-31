@@ -1,7 +1,21 @@
+import { sendToRabbitMQ, ReceiveFromRabbitMQ } from '../utils/rabbitmq';
 import type { ContextValue } from '../pages/api/graphql';
+
+// type QueueNameType = 'github_api_queue';
 
 const resolvers = {
   Query: {
+    hello: async () => {
+      const queue = 'github_api_queue';
+      const message = 'Hello from RabbitMQ!';
+
+      // Sender
+      await sendToRabbitMQ(queue, message);
+
+      // Receiver
+      return ReceiveFromRabbitMQ(queue);
+    },
+
     async githubProfiles(
       _: unknown,
       args: GithubSearchProfilesArgs,
