@@ -49,7 +49,9 @@ function Pagination({
           disabled={false}
           key={uuidv4()}
           onClick={(): void => paginate(page)}
-          className="flex justify-center items-center w-10 hover:text-black"
+          className={`${
+            currentPage === page && 'text-red-600'
+          } flex items-center justify-center w-10 hover:text-neutral-500`}
         >
           {page}
         </Button>
