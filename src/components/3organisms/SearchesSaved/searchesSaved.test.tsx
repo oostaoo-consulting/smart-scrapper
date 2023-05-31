@@ -12,13 +12,9 @@ describe('SearchSaved', () => {
     />);
   });
 
-  it('should call the good function', () => {
-    expect(screen).toBeInTheDocument();
-  });
-
   // TODOO
 
-  // it('should call the good function', () => {
-  //   expect(screen.getAllByTestId('buttonComponent')[0]).toBeInTheDocument();
-  // });
+  it('should call the good function', () => {
+    expect(screen.getAllByTestId('buttonComponent')[0]).toBeInTheDocument();
+  });
 });
