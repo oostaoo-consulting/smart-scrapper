@@ -1,11 +1,18 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
+import jsonMock from '../CardDetails/mock.json';
 
 import Card from './Card';
 
 describe('Card not favorite', () => {
   beforeEach(() => {
-    render(<Card handleOpeningCard={(): void => {}} isFavorite={false} />);
+    render(
+      <Card
+        handleOpeningCard={(): void => {}}
+        isFavorite={false}
+        profil={jsonMock}
+      />,
+    );
   });
 
   it('should contain a level 3 title', () => {
@@ -37,7 +44,9 @@ describe('Card not favorite', () => {
 
 describe('Card favorite', () => {
   beforeEach(() => {
-    render(<Card handleOpeningCard={(): void => {}} isFavorite />);
+    render(
+      <Card handleOpeningCard={(): void => {}} isFavorite profil={jsonMock} />,
+    );
   });
 
   it('should contain a level 3 title', () => {
@@ -66,7 +75,13 @@ describe('Card favorite', () => {
 describe('Card', () => {
   it('should open the details', () => {
     const onClickMock = jest.fn();
-    render(<Card handleOpeningCard={onClickMock} isFavorite />);
+    render(
+      <Card
+        handleOpeningCard={onClickMock}
+        isFavorite={false}
+        profil={jsonMock}
+      />,
+    );
 
     const buttonOpenCard = screen.getAllByRole('button');
 
