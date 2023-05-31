@@ -1,30 +1,45 @@
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
-// import { useProfilesContext } from '../../../contexts/profilesContext';
+import { useProfilesContext } from '../../../contexts/profilesContext';
 import Card from '../../2molecules/Card/Card';
 
 interface CardsSideProps {
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
-  post: any;
-  indexOfFirst: any;
-  indexOfLast: any;
+  indexOfFirst: number;
+  indexOfLast: number;
 }
 
 function CardsSide({
-  post,
   indexOfFirst,
   indexOfLast,
   handleOpeningCard,
 }: CardsSideProps): JSX.Element {
-  // TODO: use profilesContext hooks to get profiles, loading and error
-  // const { profiles, loading, error } = useProfilesContext();
-  // if (profiles) return (profiles.map(({ login, location }) => `${login} : ${location}`));
+  const { profiles } = useProfilesContext();
 
-  return post
-    .slice(indexOfFirst, indexOfLast)
-    .map(() => (
-      <Card key={uuidv4()} handleOpeningCard={handleOpeningCard} isFavorite={false} />
-    ));
+  if (profiles?.length === undefined || null || 0) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <div>Pas de cartes disponibles, tape un truc dans les inputs !!</div>
+      </div>
+    );
+  }
+
+  // eslint-disable-next-line arrow-body-style
+  const firstProfiles = profiles.filter((_profil, index: number) => {
+    return index >= indexOfFirst && index <= indexOfLast;
+  });
+
+  return (
+    <>
+      {firstProfiles.map((profil) => (
+        <Card
+          key={profil.id}
+          handleOpeningCard={handleOpeningCard}
+          isFavorite={false}
+          profil={profil}
+        />
+      ))}
+    </>
+  );
 }
 
 export default CardsSide;

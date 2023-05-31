@@ -20,15 +20,16 @@ export default function CardDetails({
   return (
     <>
       <Button
-        className="cursor-default w-screen h-screen fixed left-0 top-0 bg-black opacity-80"
+        className="fixed top-0 left-0 w-screen h-screen bg-black cursor-default opacity-80"
         onClick={handleOpeningCard}
+        disabled={false}
       >
         l
       </Button>
 
       <dialog
         open
-        className="bg-white w-11/12 max-h-full overflow-y-auto border-slate-400 border p-3 flex flex-col gap-3 absolute top-0"
+        className="absolute top-0 flex flex-col w-11/12 max-h-full gap-3 p-3 overflow-y-auto bg-white border border-slate-400"
         data-testid="card"
       >
         <section className="flex">
@@ -37,7 +38,7 @@ export default function CardDetails({
             alt="Card's image"
             width={60}
             height={60}
-            className="rounded mr-4"
+            className="mr-4 rounded"
           />
           <div>
             <Title level={4}>{person.login}</Title>
@@ -45,15 +46,15 @@ export default function CardDetails({
           </div>
         </section>
 
-        <Paragraph text={`Localisation : ${person.location}`} />
+        <Paragraph text={`Localisation : ${person?.location}`} />
 
-        <Paragraph text={`e-Mail : ${person.email}`} />
+        <Paragraph text={`e-Mail : ${person?.email}`} />
 
-        <Paragraph text={`gitHub : ${person.url}`} />
-        <Paragraph text={`Site Personnel : ${person.websiteUrl}`} />
+        <Paragraph text={`gitHub : ${person?.url}`} />
+        <Paragraph text={`Site Personnel : ${person?.websiteUrl}`} />
 
         <Title level={3}>Bio :</Title>
-        <Paragraph text={person.bio} />
+        <Paragraph text={person?.bio} />
 
         <Title level={3}>Réseaux Sociaux :</Title>
 
@@ -70,7 +71,7 @@ export default function CardDetails({
         <Button className="absolute top-3 right-3" onClick={handleOpeningCard}>
           <MdClose size={36} aria-label="close button" />
         </Button>
-        <Button onClick={(): void => { }} className="absolute top-12 right-3">
+        <Button onClick={(): void => {}} className="absolute top-12 right-3">
           {isFavorite ? (
             <MdFavorite size={34} />
           ) : (

@@ -34,7 +34,7 @@ export default function SearchBar(
   return (
     <form
       name="Recherche"
-      className="w-full flex gap-1"
+      className="flex w-full gap-1"
       onSubmit={formSubmitHandler}
     >
       <Input
@@ -53,7 +53,7 @@ export default function SearchBar(
       />
 
       <Button disabled={false} type="submit" className="p-2">
-        <RxMagnifyingGlass />
+        <RxMagnifyingGlass className="hover:text-neutral-950" size={24} />
       </Button>
     </form>
   );
