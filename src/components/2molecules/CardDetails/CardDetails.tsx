@@ -16,7 +16,7 @@ export default function CardDetails({
   person,
   isFavorite,
   handleOpeningCard,
-}: CardDetailsprops) {
+}: CardDetailsprops): JSX.Element {
   return (
     <>
       <Button
@@ -46,15 +46,15 @@ export default function CardDetails({
           </div>
         </section>
 
-        <Paragraph text={`Localisation : ${person.location}`} />
+        <Paragraph text={`Localisation : ${person?.location}`} />
 
-        <Paragraph text={`e-Mail : ${person.email}`} />
+        <Paragraph text={`e-Mail : ${person?.email}`} />
 
-        <Paragraph text={`gitHub : ${person.url}`} />
-        <Paragraph text={`Site Personnel : ${person.websiteUrl}`} />
+        <Paragraph text={`gitHub : ${person?.url}`} />
+        <Paragraph text={`Site Personnel : ${person?.websiteUrl}`} />
 
         <Title level={3}>Bio :</Title>
-        <Paragraph text={person.bio} />
+        <Paragraph text={person?.bio} />
 
         <Title level={3}>Réseaux Sociaux :</Title>
 
@@ -71,7 +71,7 @@ export default function CardDetails({
         <Button className="absolute top-3 right-3" onClick={handleOpeningCard}>
           <MdClose size={36} aria-label="close button" />
         </Button>
-        <Button onClick={() => {}} className="absolute top-12 right-3">
+        <Button onClick={(): void => {}} className="absolute top-12 right-3">
           {isFavorite ? (
             <MdFavorite size={34} />
           ) : (

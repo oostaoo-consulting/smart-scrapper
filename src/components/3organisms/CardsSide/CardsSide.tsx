@@ -12,7 +12,7 @@ function CardsSide({
   indexOfFirst,
   indexOfLast,
   handleOpeningCard,
-}: CardsSideProps) {
+}: CardsSideProps): JSX.Element {
   const { profiles } = useProfilesContext();
 
   if (profiles?.length === undefined || null || 0) {

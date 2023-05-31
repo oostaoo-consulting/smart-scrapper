@@ -17,7 +17,7 @@ export default function Card({
   isFavorite,
   handleOpeningCard,
   profil,
-}: CardProps) {
+}: CardProps): JSX.Element {
   return (
     <article className="relative flex flex-col" data-testid="card">
       <div key={profil?.id}>
@@ -76,7 +76,7 @@ export default function Card({
           {!isFavorite && <Paragraph text={profil?.bio} />}
         </Button>
         <Button
-          onClick={() => {}}
+          onClick={(): void => {}}
           className="absolute top-3 right-3"
           disabled={false}
         >

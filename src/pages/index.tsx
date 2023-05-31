@@ -13,7 +13,7 @@ import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 import jsonMock from '../components/2molecules/CardDetails/mock.json';
 import { useProfilesContext } from '../contexts/profilesContext';
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const { profiles } = useProfilesContext();
 
   const [tabs, setTabs] = useState<number>(0);
@@ -48,9 +48,9 @@ export default function Home() {
   const indexOfLast = currentPage * postPerPage;
   const indexOfFirst = indexOfLast - postPerPage;
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
 
-  const handleOpeningCard = () => {
+  const handleOpeningCard = (): void => {
     setOpenCard(!openCard);
   };
 
@@ -69,7 +69,7 @@ export default function Home() {
       </Head>
 
       <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
-        <section className=" xl:w-1/2 xl:pr-2">
+        <section data-testid="cardSideSection" className=" xl:w-1/2 xl:pr-2">
           <section
             className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}
           >
@@ -115,13 +115,16 @@ export default function Home() {
           </section>
         </section>
 
-        <section className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem-5rem)] ">
+        <section
+          data-testid="favoriteAndSearchSection"
+          className="xl:flex xl:flex-col xl:relative xl:gap-4 xl:w-1/2 xl:h-[calc(100vh-2rem-4rem-5rem)] "
+        >
           <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
             <Button
               className={`text-2xl border border-slate-400 grow ${
                 tabs === 1 ? 'border-b-0 border-r-0' : ''
               }`}
-              onClick={() => handleTabs('favorite')}
+              onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
               FAVORIS
@@ -130,7 +133,7 @@ export default function Home() {
               className={`text-2xl border border-slate-400 grow ${
                 tabs === 2 ? 'border-b-0 border-l-0' : ''
               }`}
-              onClick={() => handleTabs('search')}
+              onClick={(): void => handleTabs('search')}
               disabled={false}
             >
               RECHERCHES
@@ -140,7 +143,7 @@ export default function Home() {
             className={`absolute top-0 right-0 xl:hidden ${
               tabs === 0 ? ' hidden' : ''
             }`}
-            onClick={() => handleTabs('noTab')}
+            onClick={(): void => handleTabs('noTab')}
             disabled={false}
           >
             <MdClose size={36} aria-label="close button" />

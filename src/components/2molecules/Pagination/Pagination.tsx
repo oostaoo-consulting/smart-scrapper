@@ -19,7 +19,7 @@ function Pagination({
   postPerPage,
   setCurrentPage,
   currentPage,
-}: PaginationProps) {
+}: PaginationProps): JSX.Element {
   const pagesArray = Array.from(
     { length: Math.ceil(totalPost / postPerPage) },
     (_, i) => i + 1,
@@ -39,7 +39,7 @@ function Pagination({
               ? 'text-neutral-300'
               : 'text-neutral-500 hover:text-black'
           }`}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
+          onClick={(): void => setCurrentPage((prev) => prev - 1)}
         >
           <AiOutlineArrowLeft />
         </Button>
@@ -48,7 +48,7 @@ function Pagination({
         <Button
           disabled={false}
           key={uuidv4()}
-          onClick={() => paginate(page)}
+          onClick={(): void => paginate(page)}
           className={`${
             currentPage === page && 'text-red-600'
           } flex items-center justify-center w-10 hover:text-neutral-500`}
@@ -64,7 +64,7 @@ function Pagination({
               ? 'text-neutral-300'
               : 'text-neutral-500 hover:text-black'
           }`}
-          onClick={() => setCurrentPage((prev: number) => prev + 1)}
+          onClick={(): void => setCurrentPage((prev: number) => prev + 1)}
         >
           <AiOutlineArrowRight />
         </Button>

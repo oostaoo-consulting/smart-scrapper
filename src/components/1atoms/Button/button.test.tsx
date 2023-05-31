@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  cleanup, fireEvent, render, screen,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { RxMagnifyingGlass } from 'react-icons/rx';
 import Button from './Button';
 
@@ -14,14 +12,14 @@ describe('Testing Input Component', () => {
 
   const theRender = (
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'],
-  ) => {
+  ): void => {
     render(
       type ? (
-        <Button type={type} className="" onClick={mockOnClick}>
+        <Button type={type} disabled={false} className="" onClick={mockOnClick}>
           <RxMagnifyingGlass />
         </Button>
       ) : (
-        <Button className="" onClick={mockOnClick}>
+        <Button disabled={false} className="" onClick={mockOnClick}>
           <RxMagnifyingGlass />
         </Button>
       ),
@@ -42,6 +40,13 @@ describe('Testing Input Component', () => {
     const element = screen.getByRole('button');
 
     expect(element).toHaveAttribute('type', 'submit');
+  });
+
+  test('input is with type = reset', () => {
+    theRender('reset');
+    const element = screen.getByRole('button');
+
+    expect(element).toHaveAttribute('type', 'reset');
   });
 
   test('input is clicked', () => {
