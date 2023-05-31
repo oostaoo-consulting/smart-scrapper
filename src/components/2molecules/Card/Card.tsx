@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
-import { GrMailOption } from 'react-icons/Gr';
+import { GrMailOption } from 'react-icons/gr';
 import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
 import Button from '../../1atoms/Button/Button';
@@ -76,7 +76,7 @@ export default function Card({
           {!isFavorite && <Paragraph text={profil?.bio} />}
         </Button>
         <Button
-          onClick={(): void => {}}
+          onClick={(): void => { }}
           className="absolute top-3 right-3"
           disabled={false}
         >

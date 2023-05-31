@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { MdClose } from 'react-icons/md';
 import CardsSide from '../components/3organisms/CardsSide/CardsSide';
@@ -14,6 +14,7 @@ import jsonMock from '../components/2molecules/CardDetails/mock.json';
 import { useProfilesContext } from '../contexts/profilesContext';
 
 export default function Home(): JSX.Element {
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   const { profiles } = useProfilesContext();
 
   const [tabs, setTabs] = useState<number>(0);
@@ -23,8 +24,50 @@ export default function Home(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
 
+  const desktopMode = 1280;
+
+  useEffect(() => {
+    // Set the window width when the component mounts
+    setWindowWidth(window.innerWidth);
+  }, [windowWidth]);
+
+  useEffect(() => {
+    if (windowWidth >= desktopMode) {
+      setTabs(1);
+    }
+  }, [windowWidth]);
+
+  // Searchbar' states
+  const [inputLocationValue, setInputLocationValue] = React.useState<string>('Paris');
+  const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
+
+  const handleSaveSearchClick = (): void => {
+    const date = new Date().toLocaleString('fr-FR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    });
+    const savedSearchItem = localStorage.getItem('savedSearch');
+
+    const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
+
+    const newSearch = {
+      [`${date} : ${inputLocationValue}\n"${inputSearchValue}"`]: {
+        location: inputLocationValue.toLowerCase(),
+        search: inputSearchValue.toLowerCase(),
+      },
+    };
+
+    savedSearch.push(newSearch);
+
+    localStorage.setItem('savedSearch', JSON.stringify(savedSearch));
+  };
+
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
+      if (windowWidth >= desktopMode) {
+        return;
+      }
       setTabs(0);
     }
     if (tab === 'favorite') {
@@ -32,6 +75,9 @@ export default function Home(): JSX.Element {
         setTabs(1);
       }
       if (tabs === 1) {
+        if (windowWidth >= desktopMode) {
+          return;
+        }
         setTabs(0);
       }
     }
@@ -40,6 +86,9 @@ export default function Home(): JSX.Element {
         setTabs(2);
       }
       if (tabs === 2) {
+        if (windowWidth >= desktopMode) {
+          return;
+        }
         setTabs(0);
       }
     }
@@ -73,7 +122,13 @@ export default function Home(): JSX.Element {
           <section
             className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}
           >
-            <Search />
+            <Search
+              handleSaveSearchClick={handleSaveSearchClick}
+              inputLocationValue={inputLocationValue}
+              setInputLocationValue={setInputLocationValue}
+              inputSearchValue={inputSearchValue}
+              setInputSearchValue={setInputSearchValue}
+            />
           </section>
           <aside
             className={`
@@ -121,18 +176,16 @@ export default function Home(): JSX.Element {
         >
           <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 1 ? 'border-b-0 border-r-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''
+                }`}
               onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
               FAVORIS
             </Button>
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 2 ? 'border-b-0 border-l-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''
+                }`}
               onClick={(): void => handleTabs('search')}
               disabled={false}
             >
@@ -140,9 +193,8 @@ export default function Home(): JSX.Element {
             </Button>
           </nav>
           <Button
-            className={`absolute top-0 right-0 xl:hidden ${
-              tabs === 0 ? ' hidden' : ''
-            }`}
+            className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''
+              }`}
             onClick={(): void => handleTabs('noTab')}
             disabled={false}
           >
@@ -174,7 +226,13 @@ export default function Home(): JSX.Element {
             `}
           >
             {tabs === 1 && <Favorites />}
-            {tabs === 2 && <SearchesSaved />}
+            {tabs === 2 && (
+              <SearchesSaved
+                handleTabs={handleTabs}
+                setInputLocationValue={setInputLocationValue}
+                setInputSearchValue={setInputSearchValue}
+              />
+            )}
           </main>
         </section>
         <NavBar
