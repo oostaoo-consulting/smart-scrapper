@@ -17,6 +17,7 @@ export default function CardDetails({
   isFavorite,
   handleOpeningCard,
 }: CardDetailsprops): JSX.Element {
+  console.log(person);
   return (
     <>
       <Button
