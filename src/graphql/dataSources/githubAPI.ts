@@ -1,16 +1,21 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache';
-import type { GithubSearchProfilesArgs } from '../resolvers';
+
+const getStringOfUsersToFilter = (usersToFilter: string[] | undefined): string => {
+  if (!usersToFilter || usersToFilter.length === 0) return '';
+  return usersToFilter.map((user) => `-user:${user}`).join(' ');
+};
 
 const findUsersQuery = ({
   location,
   searchTerms,
+  usersToFilter,
   quantity,
   cursorAfter,
 }: GithubSearchProfilesArgs): string => `query { 
     search(
       type: USER, 
-      query: "location:${location || 'Paris'} ${searchTerms || ''}", 
+      query: "location:${location || 'Paris'} ${searchTerms || ''} ${getStringOfUsersToFilter(usersToFilter)}", 
       first: ${quantity || 100}, 
       after: ${cursorAfter || null}
     ) {
