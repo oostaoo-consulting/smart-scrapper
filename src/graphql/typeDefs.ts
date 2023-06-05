@@ -24,6 +24,7 @@ const typeDefs = gql`
     githubProfiles(
       location: String,
       searchTerms: String,
+      usersToExclude: [String],
       quantity: Int,
       page: Int
     ): [Person]

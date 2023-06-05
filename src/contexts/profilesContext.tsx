@@ -26,12 +26,14 @@ const query = gql`
   query GithubProfiles(
     $location: String
     $searchTerms: String
+    $usersToExclude: [String]
     $quantity: Int
     $page: Int
   ) {
     githubProfiles(
       location: $location
       searchTerms: $searchTerms
+      usersToExclude: $usersToExclude
       quantity: $quantity
       page: $page
     ) {

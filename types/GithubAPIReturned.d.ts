@@ -1,6 +1,7 @@
 interface GithubSearchProfilesArgs {
   location: string;
   searchTerms: string;
+  usersToExclude?: string[];
   quantity?: number;
   cursorAfter?: string;
 }

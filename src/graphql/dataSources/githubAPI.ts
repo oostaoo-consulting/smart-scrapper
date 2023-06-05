@@ -1,16 +1,21 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache';
-import type { GithubSearchProfilesArgs } from '../resolvers';
+
+const getStringOfUsersToExclude = (users: string[] | undefined): string => {
+  if (!users || users.length === 0) return '';
+  return users.map((user) => `-user:${user}`).join(' ');
+};
 
 const findUsersQuery = ({
   location,
   searchTerms,
+  usersToExclude,
   quantity,
   cursorAfter,
 }: GithubSearchProfilesArgs): string => `query { 
     search(
       type: USER, 
-      query: "location:${location || 'Paris'} ${searchTerms || ''}", 
+      query: "location:${location || 'Paris'} ${searchTerms || ''} ${getStringOfUsersToExclude(usersToExclude)}", 
       first: ${quantity || 100}, 
       after: ${cursorAfter || null}
     ) {

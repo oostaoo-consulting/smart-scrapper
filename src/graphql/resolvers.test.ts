@@ -143,7 +143,7 @@ describe('githubProfiles resolver', () => {
     expect(MockGithubAPI).toHaveBeenCalledTimes(1);
   });
 
-  it('should return the array of fake Github profiles', async () => {
+  it('should return an array of Github profiles', async () => {
     const results = await resolvers.Query.githubProfiles(
       null,
       { location: '', searchTerms: '' },
@@ -155,7 +155,7 @@ describe('githubProfiles resolver', () => {
     );
   });
 
-  it('should return the fake Github profile of John Doe', async () => {
+  it('should return the Github profile of John Doe', async () => {
     const results = await resolvers.Query.githubProfile(
       null,
       { login: 'johndoe' },
