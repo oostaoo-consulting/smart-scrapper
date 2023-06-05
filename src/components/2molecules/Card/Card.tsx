@@ -114,7 +114,7 @@ export default function Card({
                 <SocialIcon
                   key={socialAccount.displayName}
                   url={socialAccount?.url}
-                  className="absolute z-20 top-3 right-12 hover:border"
+                  className="absolute z-20 top-2 right-12 hover:border"
                   icon={<AiOutlineTwitter size={25} color="#84c4fd" />}
                 />
               );
