@@ -105,7 +105,7 @@ export default function Card({
           )}
         </Button>
         <div className="relative mr-6 top-[17px]">
-          {profil.socialAccounts.map((socialAccount: PersonSocialAccount) => {
+          {profil?.socialAccounts.map((socialAccount: PersonSocialAccount) => {
             if (
               socialAccount.provider &&
               socialAccount.provider === 'TWITTER'
