@@ -71,9 +71,12 @@ export default function Home(): JSX.Element {
       <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
         <section data-testid="cardSideSection" className=" xl:w-1/2 xl:pr-2">
           <section
-            className={`${tabs !== 0 && 'hidden xl:flex'} flex flex-col h-28`}
+            className={`${
+              tabs !== 0 && 'hidden xl:flex'
+            } flex flex-col h-28 mb-7`}
           >
             <Search />
+            {post > 1 && <div>{post} profils trouvés</div>}
           </section>
           <aside
             className={`
