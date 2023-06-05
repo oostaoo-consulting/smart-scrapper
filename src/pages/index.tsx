@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { MdClose } from 'react-icons/md';
 import CardsSide from '../components/3organisms/CardsSide/CardsSide';
@@ -14,6 +14,7 @@ import jsonMock from '../components/2molecules/CardDetails/mock.json';
 import { useProfilesContext } from '../contexts/profilesContext';
 
 export default function Home(): JSX.Element {
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   const { profiles } = useProfilesContext();
 
   const [tabs, setTabs] = useState<number>(0);
@@ -23,8 +24,51 @@ export default function Home(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
 
+  const desktopMode = 1280;
+
+  useEffect(() => {
+    // Set the window width when the component mounts
+    setWindowWidth(window.innerWidth);
+  }, [windowWidth]);
+
+  useEffect(() => {
+    if (windowWidth >= desktopMode) {
+      setTabs(1);
+    }
+  }, [windowWidth]);
+
+  // Searchbar' states
+  const [inputLocationValue, setInputLocationValue] =
+    React.useState<string>('Paris');
+  const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
+
+  const handleSaveSearchClick = (): void => {
+    const date = new Date().toLocaleString('fr-FR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    });
+    const savedSearchItem = localStorage.getItem('savedSearch');
+
+    const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
+
+    const newSearch = {
+      [`${date} : ${inputLocationValue}\n"${inputSearchValue}"`]: {
+        location: inputLocationValue.toLowerCase(),
+        search: inputSearchValue.toLowerCase(),
+      },
+    };
+
+    savedSearch.push(newSearch);
+
+    localStorage.setItem('savedSearch', JSON.stringify(savedSearch));
+  };
+
   const handleTabs: (tab: string) => void = (tab: string): void => {
     if (tab === 'noTab') {
+      if (windowWidth >= desktopMode) {
+        return;
+      }
       setTabs(0);
     }
     if (tab === 'favorite') {
@@ -32,6 +76,9 @@ export default function Home(): JSX.Element {
         setTabs(1);
       }
       if (tabs === 1) {
+        if (windowWidth >= desktopMode) {
+          return;
+        }
         setTabs(0);
       }
     }
@@ -40,6 +87,9 @@ export default function Home(): JSX.Element {
         setTabs(2);
       }
       if (tabs === 2) {
+        if (windowWidth >= desktopMode) {
+          return;
+        }
         setTabs(0);
       }
     }
@@ -75,7 +125,13 @@ export default function Home(): JSX.Element {
               tabs !== 0 && 'hidden xl:flex'
             } flex flex-col h-28 mb-7`}
           >
-            <Search />
+            <Search
+              handleSaveSearchClick={handleSaveSearchClick}
+              inputLocationValue={inputLocationValue}
+              setInputLocationValue={setInputLocationValue}
+              inputSearchValue={inputSearchValue}
+              setInputSearchValue={setInputSearchValue}
+            />
             {post > 1 && <div>{post} profils trouvés</div>}
           </section>
           <aside
@@ -177,7 +233,13 @@ export default function Home(): JSX.Element {
             `}
           >
             {tabs === 1 && <Favorites />}
-            {tabs === 2 && <SearchesSaved />}
+            {tabs === 2 && (
+              <SearchesSaved
+                handleTabs={handleTabs}
+                setInputLocationValue={setInputLocationValue}
+                setInputSearchValue={setInputSearchValue}
+              />
+            )}
           </main>
         </section>
         <NavBar

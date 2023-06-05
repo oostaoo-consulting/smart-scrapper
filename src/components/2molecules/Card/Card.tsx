@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
-import { GrMailOption } from 'react-icons/Gr';
+import { GrMailOption } from 'react-icons/gr';
 import { AiOutlineTwitter, AiFillLinkedin } from 'react-icons/ai';
 import { BsMastodon } from 'react-icons/bs';
 import Title from '../../1atoms/Title/Title';
