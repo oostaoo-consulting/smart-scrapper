@@ -1,10 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
 import { GrMailOption } from 'react-icons/gr';
 import { AiOutlineTwitter, AiFillLinkedin } from 'react-icons/ai';
-import { BsMastodon } from 'react-icons/bs';
+import { BsMastodon, BsCheckLg } from 'react-icons/bs';
 import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
 import Button from '../../1atoms/Button/Button';
@@ -99,9 +98,9 @@ export default function Card({
           disabled={false}
         >
           {isFavorite ? (
-            <MdFavorite size={25} />
+            <BsCheckLg className="text-neutral-800" size={25} />
           ) : (
-            <MdFavoriteBorder size={25} />
+            <BsCheckLg className="text-neutral-400" size={25} />
           )}
         </Button>
         <div className="relative mr-6 top-[17px]">

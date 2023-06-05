@@ -28,7 +28,7 @@ function Pagination({
   return (
     <div
       className={`${
-        tabs !== 0 && 'hidden'
+        tabs !== 0 && 'hidden '
       } xl:flex flex flex-row justify-center h-14`}
     >
       <div className="flex items-center mx-4">
