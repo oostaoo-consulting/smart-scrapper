@@ -18,7 +18,7 @@ function CardsSide({
   if (profiles?.length === undefined || null || 0) {
     return (
       <div className="flex items-center justify-center w-full h-full">
-        <div>Pas de cartes disponibles, tape un truc dans les inputs !!</div>
+        <div>Pas de cartes disponibles, tape un truc dans les inputs!!</div>
       </div>
     );
   }
