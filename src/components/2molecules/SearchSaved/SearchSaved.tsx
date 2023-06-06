@@ -8,29 +8,30 @@ interface LocalStorageType {
   handleTabs: (tab: string) => void,
   setInputLocationValue: (value: string) => void,
   setInputSearchValue: (value: string) => void,
-  localStorage: {
-    [key: string]: {
-      location: string,
-      search: string,
-    }
-  }
+  localStorage: [string, {
+    location: string,
+    search: string,
+  },
+  ]
 }
 
 export default function SearchSaved(
   { localStorage, handleTabs, setInputLocationValue, setInputSearchValue }
     : LocalStorageType,
 ): JSX.Element {
-  const key = Object.keys(localStorage)[0];
   const { loadData } = useProfilesContext();
+
+  const dateSearch = localStorage[0];
+  const valuesSearch = localStorage[1];
 
   const handleClick = (): void => {
     handleTabs('noTab');
-    setInputLocationValue(localStorage[key].location);
-    setInputSearchValue(localStorage[key].search);
+    setInputLocationValue(valuesSearch.location);
+    setInputSearchValue(valuesSearch.search);
     loadData({
       variables: {
-        location: localStorage[key].location,
-        searchTerms: localStorage[key].search,
+        location: valuesSearch.location,
+        searchTerms: valuesSearch.search,
       },
     });
   };
@@ -38,10 +39,10 @@ export default function SearchSaved(
   return (
     <article className="">
       <Button onClick={handleClick} className="flex flex-col gap-3 relative w-full p-3 border-slate-400 border hover:border-white">
-        <Title level={3}>{key}</Title>
+        <Title level={3}>{dateSearch}</Title>
         <section className="flex flex-col items-center w-full">
-          <p>Localisation : {localStorage[key].location}</p>
-          <p>Recherche : {localStorage[key].search}</p>
+          <p>Localisation : {valuesSearch.location}</p>
+          <p>Recherche : {valuesSearch.search}</p>
         </section>
       </Button>
     </article>

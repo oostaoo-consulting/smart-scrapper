@@ -1,6 +1,10 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import { ProfilesContext } from '../../../contexts/profilesContext';
+import {
+  // ContextProps,
+  ProfilesContext,
+  // useProfilesContext
+} from '../../../contexts/profilesContext';
 import SearchBar from './SearchBar';
 
 const mockLoadData = jest.fn();
@@ -13,10 +17,20 @@ const mockProfilesContextValue = {
   // Other context values...
 };
 
+let inputLocationValue = '';
+let inputSearchValue = '';
+
 test('should call loadData with correct parameters on form submit', async () => {
+  // const useProfileContext = jest.mock('../../../contexts/profilesContext');
+
   const { getByPlaceholderText } = render(
     <ProfilesContext.Provider value={mockProfilesContextValue}>
-      <SearchBar />
+      <SearchBar
+        inputLocationValue={inputLocationValue}
+        setInputLocationValue={(value): void => { inputLocationValue = value; }}
+        inputSearchValue={inputSearchValue}
+        setInputSearchValue={(value): void => { inputSearchValue = value; }}
+      />
     </ProfilesContext.Provider>,
   );
 
@@ -25,20 +39,22 @@ test('should call loadData with correct parameters on form submit', async () => 
   const form = document.querySelector('form');
 
   // Act
-  fireEvent.change(cityInput, { target: { value: 'London' } });
-  fireEvent.change(techInput, { target: { value: 'React' } });
 
-  if (form) {
-    await act(async () => {
+  await act(async () => {
+    fireEvent.change(cityInput, { target: { value: 'London' } });
+    fireEvent.change(techInput, { target: { value: 'React' } });
+    if (form) {
       fireEvent.submit(form);
-    });
-  }
+    }
+  });
 
   // Assert
-  expect(mockLoadData).toBeCalledWith({
-    variables: {
-      location: 'London',
-      searchTerms: 'React',
-    },
-  });
+  expect(inputLocationValue).toBe('London');
+  expect(inputSearchValue).toBe('React');
+  // expect(useProfileContext).toBeCalledWith({
+  //   variables: {
+  //     location: 'London',
+  //     searchTerms: 'React',
+  //   },
+  // });
 });

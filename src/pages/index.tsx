@@ -51,12 +51,13 @@ export default function Home(): JSX.Element {
 
     const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
 
-    const newSearch = {
-      [`${date} : ${inputLocationValue}\n"${inputSearchValue}"`]: {
+    const newSearch =
+      [`${date} : ${inputLocationValue}\n"${inputSearchValue}"`,
+      {
         location: inputLocationValue.toLowerCase(),
         search: inputSearchValue.toLowerCase(),
       },
-    };
+      ];
 
     savedSearch.push(newSearch);
 

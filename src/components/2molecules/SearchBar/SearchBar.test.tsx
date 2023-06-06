@@ -1,6 +1,6 @@
 import React from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
-// import Input from '../../1atoms/Input/Input';
+import Input from '../../1atoms/Input/Input';
 import SearchBar from './SearchBar';
 
 jest.mock('../../1atoms/Input/Input');
@@ -8,7 +8,7 @@ jest.mock('../../1atoms/Input/Input');
 describe('Testing Presence of all components in Search', () => {
   beforeEach(() => {
     render(<SearchBar
-      inputLocationValue=""
+      inputLocationValue="Paris"
       setInputLocationValue={(): void => { }}
       inputSearchValue=""
       setInputSearchValue={(): void => { }}
@@ -16,6 +16,7 @@ describe('Testing Presence of all components in Search', () => {
   });
 
   afterEach(() => {
+    jest.resetAllMocks();
     cleanup();
   });
 
@@ -23,31 +24,34 @@ describe('Testing Presence of all components in Search', () => {
     const element = screen.getByRole('form');
     expect(element).toBeInTheDocument();
   });
-  // TODOO
 
-  // test('should call Location Input with props', () => {
-  //   expect(Input).toHaveBeenCalledWith(
-  //     {
-  //       name: 'inputLocation',
-  //       title: 'Filtrer les résultats de recherche par ville',
-  //       value: 'Paris',
-  //       onChange: expect.any(Function),
-  //       placeholder: 'Filtre par ville',
-  //     },
-  //     {},
-  //   );
-  // });
+  test('should call Location Input with props', () => {
+    expect(Input).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: expect.stringContaining('inputLocation'),
+        title: expect.stringContaining(
+          'Filtrer les résultats de recherche par ville',
+        ),
+        value: expect.stringContaining('Paris'),
+        onChange: expect.any(Function),
+        placeholder: expect.stringContaining('Filtre par ville'),
+      }),
+      expect.objectContaining({}),
+    );
+  });
 
-  // test('should call Search Input with props', () => {
-  //   expect(Input).toHaveBeenCalledWith(
-  //     {
-  //       name: 'inputSearch',
-  //       title: 'Filtrer les résultats de recherche par technologies',
-  //       value: '',
-  //       onChange: expect.any(Function),
-  //       placeholder: 'Filtre par technologies',
-  //     },
-  //     {},
-  //   );
-  // });
+  test('should call Search Input with props', () => {
+    expect(Input).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: expect.stringContaining('inputSearch'),
+        title: expect.stringContaining(
+          'Filtrer les résultats de recherche par technologies',
+        ),
+        value: expect.stringContaining(''),
+        onChange: expect.any(Function),
+        placeholder: expect.stringContaining('Filtre par technologies'),
+      }),
+      expect.objectContaining({}),
+    );
+  });
 });
