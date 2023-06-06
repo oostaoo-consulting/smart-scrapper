@@ -1,25 +1,33 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import SearchSaved from './SearchSaved';
 
 describe('SearchSaved', () => {
-  // const handleClickMock = jest.fn();
+  const handleTabMock = jest.fn();
+  const handleSetLocationMock = jest.fn();
+  const handleSetSearchMock = jest.fn();
   beforeEach(() => {
     render(<SearchSaved
-      localStorage={{}}
-      handleTabs={(): void => { }}
-      setInputLocationValue={(): void => { }}
-      setInputSearchValue={(): void => { }}
+      localStorage={[
+        '01/062023 : Nantes "Next"', {
+          location: 'Nantes',
+          search: 'next',
+        },
+      ]}
+      handleTabs={handleTabMock}
+      setInputLocationValue={handleSetLocationMock}
+      setInputSearchValue={handleSetSearchMock}
     />);
   });
-  // TODOO
 
   it('should call the good function', () => {
     const buttons = screen.getAllByTestId('buttonComponent');
-    expect(buttons).toHaveLength(0);
+    expect(buttons).toHaveLength(1);
 
-    // fireEvent.click(buttons[0]);
-    // expect(handleClickMock).toHaveBeenCalled();
+    fireEvent.click(buttons[0]);
+    expect(handleTabMock).toHaveBeenCalledTimes(1);
+    expect(handleSetLocationMock).toHaveBeenCalledTimes(1);
+    expect(handleSetSearchMock).toHaveBeenCalledTimes(1);
   });
 });
