@@ -21,20 +21,21 @@ const resolvers = {
       }));
     },
 
-    async githubProfile(
-      _: unknown,
-      { login }: { login: string },
-      { dataSources }: ContextValue,
-    ): Promise<Person> {
-      const { data } = await dataSources.githubAPI.findProfileByLogin(login);
+    // ? Resolver to get a single profile by its login
+    // async githubProfile(
+    //   _: unknown,
+    //   { login }: { login: string },
+    //   { dataSources }: ContextValue,
+    // ): Promise<Person> {
+    //   const { data } = await dataSources.githubAPI.findProfileByLogin(login);
 
-      return {
-        ...data.user,
-        socialAccounts: data.user.socialAccounts.edges.map((socialAccount) => ({
-          ...socialAccount.node,
-        })),
-      };
-    },
+    //   return {
+    //     ...data.user,
+    //     socialAccounts: data.user.socialAccounts.edges.map((socialAccount) => ({
+    //       ...socialAccount.node,
+    //     })),
+    //   };
+    // },
   },
 };
 

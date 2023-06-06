@@ -52,28 +52,29 @@ const findUsersQuery = ({
     }
   }`;
 
-const findUserQuery = (login: string): string => `query {
- user(login: "${login}") {
-    id
-    name
-    login
-    location
-    email
-    url
-    websiteUrl
-    avatarUrl(size: 512)
-    bio
-    socialAccounts(first: 3) {
-      edges {
-        node {
-          displayName
-          provider
-          url
-        }
-      }
-    }
-  }
-}`;
+// ? Github GraphQL Query to get a single profile by its login
+// const findUserQuery = (login: string): string => `query {
+//  user(login: "${login}") {
+//     id
+//     name
+//     login
+//     location
+//     email
+//     url
+//     websiteUrl
+//     avatarUrl(size: 512)
+//     bio
+//     socialAccounts(first: 3) {
+//       edges {
+//         node {
+//           displayName
+//           provider
+//           url
+//         }
+//       }
+//     }
+//   }
+// }`;
 
 export default class GithubAPI extends RESTDataSource {
   override baseURL = 'https://api.github.com';
@@ -97,15 +98,16 @@ export default class GithubAPI extends RESTDataSource {
     });
   }
 
-  async findProfileByLogin(login: string): Promise<GithubAPIReturnedProfile> {
-    return this.post('graphql', {
-      headers: {
-        Authorization: `bearer ${this.token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: findUserQuery(login),
-      }),
-    });
-  }
+  // ? Get a single profile from Github API by its login
+  // async findProfileByLogin(login: string): Promise<GithubAPIReturnedProfile> {
+  //   return this.post('graphql', {
+  //     headers: {
+  //       Authorization: `bearer ${this.token}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       query: findUserQuery(login),
+  //     }),
+  //   });
+  // }
 }
