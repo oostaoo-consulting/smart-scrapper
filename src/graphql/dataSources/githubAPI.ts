@@ -1,16 +1,21 @@
 import { RESTDataSource } from '@apollo/datasource-rest';
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache';
-import type { GithubSearchProfilesArgs } from '../resolvers';
+
+const getStringOfUsersToExclude = (users: string[] | undefined): string => {
+  if (!users || users.length === 0) return '';
+  return users.map((user) => `-user:${user}`).join(' ');
+};
 
 const findUsersQuery = ({
   location,
   searchTerms,
+  usersToExclude,
   quantity,
   cursorAfter,
 }: GithubSearchProfilesArgs): string => `query { 
     search(
       type: USER, 
-      query: "location:${location || 'Paris'} ${searchTerms || ''}", 
+      query: "location:${location || 'Paris'} ${searchTerms || ''} ${getStringOfUsersToExclude(usersToExclude)}", 
       first: ${quantity || 100}, 
       after: ${cursorAfter || null}
     ) {
@@ -47,28 +52,29 @@ const findUsersQuery = ({
     }
   }`;
 
-const findUserQuery = (login: string): string => `query {
- user(login: "${login}") {
-    id
-    name
-    login
-    location
-    email
-    url
-    websiteUrl
-    avatarUrl(size: 512)
-    bio
-    socialAccounts(first: 3) {
-      edges {
-        node {
-          displayName
-          provider
-          url
-        }
-      }
-    }
-  }
-}`;
+// ? Github GraphQL Query to get a single profile by its login
+// const findUserQuery = (login: string): string => `query {
+//  user(login: "${login}") {
+//     id
+//     name
+//     login
+//     location
+//     email
+//     url
+//     websiteUrl
+//     avatarUrl(size: 512)
+//     bio
+//     socialAccounts(first: 3) {
+//       edges {
+//         node {
+//           displayName
+//           provider
+//           url
+//         }
+//       }
+//     }
+//   }
+// }`;
 
 export default class GithubAPI extends RESTDataSource {
   override baseURL = 'https://api.github.com';
@@ -92,15 +98,16 @@ export default class GithubAPI extends RESTDataSource {
     });
   }
 
-  async findProfileByLogin(login: string): Promise<GithubAPIReturnedProfile> {
-    return this.post('graphql', {
-      headers: {
-        Authorization: `bearer ${this.token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: findUserQuery(login),
-      }),
-    });
-  }
+  // ? Get a single profile from Github API by its login
+  // async findProfileByLogin(login: string): Promise<GithubAPIReturnedProfile> {
+  //   return this.post('graphql', {
+  //     headers: {
+  //       Authorization: `bearer ${this.token}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       query: findUserQuery(login),
+  //     }),
+  //   });
+  // }
 }

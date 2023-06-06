@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="218" height="102" viewBox="0 0 218 102" xmlns="http://www.w3.org/2000/svg">
+<rect id="frame" x="0" y="0" width="218" height="102" fill="#ffffbf" stroke="none" stroke-width="0"/>
+
+<!-- Entity SEARCH -->
+<g>
+	<g>
+		<rect x="9" y="9" width="82" height="25" fill="#a6d96a" stroke="#a6d96a" stroke-width="0" opacity="1"/>
+		<rect x="9" y="34" width="82" height="59" fill="#d9ef8b" stroke="#d9ef8b" stroke-width="0" opacity="1"/>
+		<rect x="9" y="9" width="82" height="84" fill="none" stroke="#66bd63" stroke-width="2" opacity="1"/>
+		<line x1="9" y1="34" x2="91" y2="34" stroke="#66bd63" stroke-width="1"/>
+	</g>
+	<text x="25" y="26.75" fill="#000" font-family="Verdana" font-size="12">SEARCH</text>
+	<text x="14" y="51.8" fill="#000" font-family="Verdana" font-size="12">search num</text>
+	<line x1="14" y1="54" x2="86" y2="54" stroke="#000" stroke-width="1"/>
+	<text x="14" y="68.8" fill="#000" font-family="Verdana" font-size="12">location</text>
+	<text x="14" y="85.8" fill="#000" font-family="Verdana" font-size="12">terms</text>
+</g>
+
+<!-- Entity PROFILES -->
+<g>
+	<g>
+		<rect x="123" y="17" width="86" height="25" fill="#a6d96a" stroke="#a6d96a" stroke-width="0" opacity="1"/>
+		<rect x="123" y="42" width="86" height="43" fill="#d9ef8b" stroke="#d9ef8b" stroke-width="0" opacity="1"/>
+		<rect x="123" y="17" width="86" height="68" fill="none" stroke="#66bd63" stroke-width="2" opacity="1"/>
+		<line x1="123" y1="42" x2="209" y2="42" stroke="#66bd63" stroke-width="1"/>
+	</g>
+	<text x="136" y="34.75" fill="#000" font-family="Verdana" font-size="12">PROFILES</text>
+	<text x="128" y="59.8" fill="#000" font-family="Verdana" font-size="12">profiles num</text>
+	<line x1="128" y1="62" x2="204" y2="62" stroke="#000" stroke-width="1"/>
+	<text x="128" y="76.8" fill="#000" font-family="Verdana" font-size="12">github login</text>
+</g>
+</svg>

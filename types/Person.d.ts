@@ -1,6 +1,6 @@
-interface PersonSocialAccount extends GithubAPIProfileSocialAccount { }
+type PersonSocialAccount = GithubAPIProfileSocialAccount;
 
 interface Person extends GithubAPIProfile {
   cursor?: string;
-  socialAccounts: PersonSocialAccount[] | []
+  socialAccounts: PersonSocialAccount[] | [];
 }
