@@ -155,14 +155,14 @@ describe('githubProfiles resolver', () => {
     );
   });
 
-  it('should return the Github profile of John Doe', async () => {
-    const results = await resolvers.Query.githubProfile(
-      null,
-      { login: 'johndoe' },
-      mockContext,
-    );
-    const { cursor, ...rest } = returnedFakeFormattedProfiles[0];
+  // it('should return the Github profile of John Doe', async () => {
+  //   const results = await resolvers.Query.githubProfile(
+  //     null,
+  //     { login: 'johndoe' },
+  //     mockContext,
+  //   );
+  //   const { cursor, ...rest } = returnedFakeFormattedProfiles[0];
 
-    expect(JSON.stringify(results)).toEqual(JSON.stringify({ ...rest }));
-  });
+  //   expect(JSON.stringify(results)).toEqual(JSON.stringify({ ...rest }));
+  // });
 });

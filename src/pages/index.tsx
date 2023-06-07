@@ -110,7 +110,6 @@ export default function Home(): JSX.Element {
     setPost(profiles?.length as any);
     setCurrentPage(1);
   }, [profiles]);
-  console.log('🚀 ~ file: index.tsx:113 ~ useEffect ~ profiles:', post);
 
   useEffect(() => {
     if (containerRef.current) {

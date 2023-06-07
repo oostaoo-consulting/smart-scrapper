@@ -5,7 +5,6 @@ const getJson = (term: string): [] => {
 
 export default getJson;
 
-// export const setJson = (term: string) => {
-//   const localStorageSavedSearch = localStorage.setItem(term);
-//   return
+// export const setJson = (term: string, data: Person): void => {
+//   localStorage.setItem(term, JSON.stringify(data));
 // };
