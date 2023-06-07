@@ -53,13 +53,13 @@ export default function Home(): JSX.Element {
 
     const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
 
-    const newSearch =
-      [`${date} : ${inputLocationValue}\n"${inputSearchValue}"`,
+    const newSearch = [
+      `${date} : ${inputLocationValue}\n"${inputSearchValue}"`,
       {
         location: inputLocationValue.toLowerCase(),
         search: inputSearchValue.toLowerCase(),
       },
-      ];
+    ];
 
     savedSearch.push(newSearch);
 
@@ -130,8 +130,9 @@ export default function Home(): JSX.Element {
       <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
         <section data-testid="cardSideSection" className=" xl:w-1/2 xl:pr-2">
           <section
-            className={`${tabs !== 0 && 'hidden xl:flex'
-              } flex flex-col h-28 mb-7`}
+            className={`${
+              tabs !== 0 && 'hidden xl:flex'
+            } flex flex-col h-28 mb-7`}
           >
             <Search
               handleSaveSearchClick={handleSaveSearchClick}
@@ -140,7 +141,15 @@ export default function Home(): JSX.Element {
               inputSearchValue={inputSearchValue}
               setInputSearchValue={setInputSearchValue}
             />
-            {post >= 1 && <div className="h-6">{`${indexOfFirst + 1} - ${indexOfLast > post ? post : indexOfLast} sur ${post} profil${post !== 1 ? 's' : ''} trouvé${post !== 1 ? 's' : ''}`}</div>}
+            {post >= 1 && (
+              <div className="h-6">
+                {`${indexOfFirst + 1} - ${
+                  indexOfLast > post ? post : indexOfLast
+                } sur ${post} profil${post !== 1 ? 's' : ''} trouvé${
+                  post !== 1 ? 's' : ''
+                }`}
+              </div>
+            )}
           </section>
           <aside
             ref={containerRef}
@@ -163,7 +172,7 @@ export default function Home(): JSX.Element {
             `}
           >
             <CardsSide
-              indexOfFirst={indexOfFirst}
+              indexOfFirst={indexOfFirst + 1}
               indexOfLast={indexOfLast}
               handleOpeningCard={handleOpeningCard}
             />
@@ -189,16 +198,18 @@ export default function Home(): JSX.Element {
         >
           <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
             <Button
-              className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''
-                }`}
+              className={`text-2xl border border-slate-400 grow ${
+                tabs === 1 ? 'border-b-0 border-r-0' : ''
+              }`}
               onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
-              TRAITÉS
+              TRAITÉS test
             </Button>
             <Button
-              className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''
-                }`}
+              className={`text-2xl border border-slate-400 grow ${
+                tabs === 2 ? 'border-b-0 border-l-0' : ''
+              }`}
               onClick={(): void => handleTabs('search')}
               disabled={false}
             >
@@ -206,8 +217,9 @@ export default function Home(): JSX.Element {
             </Button>
           </nav>
           <Button
-            className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''
-              }`}
+            className={`absolute top-0 right-0 xl:hidden ${
+              tabs === 0 ? ' hidden' : ''
+            }`}
             onClick={(): void => handleTabs('noTab')}
             disabled={false}
           >
