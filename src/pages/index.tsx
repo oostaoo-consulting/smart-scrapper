@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import { MdClose } from 'react-icons/md';
 import CardsSide from '../components/3organisms/CardsSide/CardsSide';
@@ -15,6 +15,7 @@ import { useProfilesContext } from '../contexts/profilesContext';
 
 export default function Home(): JSX.Element {
   const [windowWidth, setWindowWidth] = useState<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { profiles } = useProfilesContext();
 
   const [tabs, setTabs] = useState<number>(0);
@@ -107,7 +108,15 @@ export default function Home(): JSX.Element {
 
   useEffect(() => {
     setPost(profiles?.length as any);
+    setCurrentPage(1);
   }, [profiles]);
+  console.log('🚀 ~ file: index.tsx:113 ~ useEffect ~ profiles:', post);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo(0, 0);
+    }
+  }, [currentPage]);
 
   return (
     <>
@@ -122,9 +131,8 @@ export default function Home(): JSX.Element {
       <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
         <section data-testid="cardSideSection" className=" xl:w-1/2 xl:pr-2">
           <section
-            className={`${
-              tabs !== 0 && 'hidden xl:flex'
-            } flex flex-col h-28 mb-7`}
+            className={`${tabs !== 0 && 'hidden xl:flex'
+              } flex flex-col h-28 mb-7`}
           >
             <Search
               handleSaveSearchClick={handleSaveSearchClick}
@@ -133,23 +141,24 @@ export default function Home(): JSX.Element {
               inputSearchValue={inputSearchValue}
               setInputSearchValue={setInputSearchValue}
             />
-            {post > 1 && <div>{post} profils trouvés</div>}
+            {post >= 1 && <div className="h-6">{`${indexOfFirst + 1} - ${indexOfLast > post ? post : indexOfLast} sur ${post} profil${post !== 1 ? 's' : ''} trouvé${post !== 1 ? 's' : ''}`}</div>}
           </section>
           <aside
+            ref={containerRef}
             className={`
             ${tabs !== 0 && 'hidden'} 
             flex
             flex-col
             gap-4
             overflow-y-scroll
-            h-[calc(100vh-(6rem+7rem)-1rem-4rem-3.5rem)]
-            sm:h-[calc(100vh-(9rem+7rem)-1rem-4rem-3.5rem)]
+            h-[calc(100vh-(6rem+7rem)-1rem-4rem-3.5rem-1.5rem)]
+            sm:h-[calc(100vh-(9rem+7rem)-1rem-4rem-3.5rem-1.5rem)]
     
             //calc : 100vh - (Header + Search) - 2 * Padding Body - NavBar
     
             
             xl:flex
-            xl:h-[calc(100vh-(6rem+7rem)-1rem-4rem-3.5rem)]
+            xl:h-[calc(100vh-(6rem+7rem)-1rem-4rem-3.5rem-1.5rem)]
             xl:relative 
             xl:overflow-y-scroll
             `}
@@ -181,18 +190,16 @@ export default function Home(): JSX.Element {
         >
           <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 1 ? 'border-b-0 border-r-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''
+                }`}
               onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
-              FAVORIS
+              TRAITÉS
             </Button>
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 2 ? 'border-b-0 border-l-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''
+                }`}
               onClick={(): void => handleTabs('search')}
               disabled={false}
             >
@@ -200,9 +207,8 @@ export default function Home(): JSX.Element {
             </Button>
           </nav>
           <Button
-            className={`absolute top-0 right-0 xl:hidden ${
-              tabs === 0 ? ' hidden' : ''
-            }`}
+            className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''
+              }`}
             onClick={(): void => handleTabs('noTab')}
             disabled={false}
           >
