@@ -40,7 +40,7 @@ export default function Card({
             <div>
               <Title level={4}>{profil?.login}</Title>
               <div className="flex items-center justify-start gap-4">
-                <Title level={3}>{profil?.name}</Title>
+                <Title level={3}>{profil?.name} test</Title>
 
                 {profil?.email && (
                   <SocialIcon
