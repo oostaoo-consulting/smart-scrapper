@@ -22,8 +22,11 @@ export default function Card({
   profil,
 }: CardProps): JSX.Element {
   return (
-    <article key={profil?.id} className="relative flex flex-col w-full gap-3 p-3 mb-1 text-left border hover:bg-neutral-100 border-slate-400" data-testid="card">
-
+    <article
+      key={profil?.id}
+      className="relative flex flex-col w-full gap-3 p-3 mb-1 text-left border hover:bg-neutral-100 border-slate-400"
+      data-testid="card"
+    >
       <div className="flex items-start">
         <Image
           src="/img/imagePlaceholder.png"
@@ -35,13 +38,8 @@ export default function Card({
         <div>
           <Title level={4}>{profil?.login}</Title>
           <div className="flex items-center justify-start gap-4">
-
             <Title level={3}>{profil?.name}</Title>
-            <Button
-              className=""
-              onClick={handleOpeningCard}
-              disabled={false}
-            >
+            <Button className="" onClick={handleOpeningCard} disabled={false}>
               <BsFillInfoSquareFill size={25} />
             </Button>
           </div>
@@ -66,8 +64,7 @@ export default function Card({
                 className="text-red-600 hover:text-red-800"
                 rel="noreferrer"
               >
-                <span className="text-neutral-600">Github:</span>{' '}
-                {profil?.url}
+                <span className="text-neutral-600">Github:</span> {profil?.url}
               </a>
             )}
 
@@ -88,11 +85,14 @@ export default function Card({
                 <Button
                   className=""
                   onClick={(): void => {
-                    navigator.clipboard.writeText(profil?.email).then(() => {
-                      'Copié';
-                    }, () => {
-                      'Erreur copie';
-                    });
+                    navigator.clipboard.writeText(profil?.email).then(
+                      () => {
+                        'Copié';
+                      },
+                      () => {
+                        'Erreur copie';
+                      },
+                    );
                   }}
                   disabled={false}
                 >
@@ -106,7 +106,7 @@ export default function Card({
       {!isFavorite && <Paragraph text={profil?.bio} />}
 
       <Button
-        onClick={(): void => { }}
+        onClick={(): void => {}}
         className="absolute top-3 right-3"
         disabled={false}
       >
@@ -118,10 +118,7 @@ export default function Card({
       </Button>
       <div className="absolute flex gap-2 right-12 top-3">
         {profil?.socialAccounts.map((socialAccount: PersonSocialAccount) => {
-          if (
-            socialAccount.provider &&
-            socialAccount.provider === 'TWITTER'
-          ) {
+          if (socialAccount.provider && socialAccount.provider === 'TWITTER') {
             return (
               <SocialIcon
                 key={socialAccount.displayName}
@@ -131,10 +128,7 @@ export default function Card({
               />
             );
           }
-          if (
-            socialAccount.provider &&
-            socialAccount.provider === 'LINKEDIN'
-          ) {
+          if (socialAccount.provider && socialAccount.provider === 'LINKEDIN') {
             return (
               <SocialIcon
                 key={socialAccount.displayName}
@@ -145,10 +139,7 @@ export default function Card({
             );
           }
 
-          if (
-            socialAccount.provider &&
-            socialAccount.provider === 'MASTODON'
-          ) {
+          if (socialAccount.provider && socialAccount.provider === 'MASTODON') {
             return (
               <SocialIcon
                 key={socialAccount.displayName}
