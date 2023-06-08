@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { TfiCheckBox, TfiLayoutWidthFull } from 'react-icons/tfi';
+import { FiLink } from 'react-icons/fi';
 
-import { AiOutlineTwitter, AiFillLinkedin } from 'react-icons/ai';
-import { BsFillInfoSquareFill, BsMastodon } from 'react-icons/bs';
+import { AiOutlineTwitter, AiFillLinkedin, AiFillFacebook } from 'react-icons/ai';
+import { BsFillInfoSquareFill, BsMastodon, BsInstagram } from 'react-icons/bs';
 import { MdOutlineContentCopy } from 'react-icons/md';
 import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
@@ -118,43 +119,38 @@ export default function Card({
       </Button>
       <div className="absolute flex gap-2 right-12 top-3">
         {profil?.socialAccounts.map((socialAccount: PersonSocialAccount) => {
-          if (
-            socialAccount.provider &&
-            socialAccount.provider === 'TWITTER'
-          ) {
-            return (
-              <SocialIcon
-                key={socialAccount.displayName}
-                url={socialAccount?.url}
-                className=""
-                icon={<AiOutlineTwitter size={25} color="#84c4fd" />}
-              />
-            );
-          }
-          if (
-            socialAccount.provider &&
-            socialAccount.provider === 'LINKEDIN'
-          ) {
-            return (
-              <SocialIcon
-                key={socialAccount.displayName}
-                url={socialAccount?.url}
-                className=""
-                icon={<AiFillLinkedin size={25} color="#0080f1" />}
-              />
-            );
+          let icon;
+          switch (socialAccount.provider) {
+            case 'TWITTER':
+              icon = <AiOutlineTwitter size={25} color="#84c4fd" />;
+              break;
+            case 'LINKEDIN':
+              icon = <AiFillLinkedin size={25} color="#0080f1" />;
+              break;
+            case 'MASTODON':
+              icon = <BsMastodon size={22} color="#7b4eb8" />;
+              break;
+            case 'INSTAGRAM':
+              icon = <BsInstagram size={22} color="#FF2E3A" />;
+              break;
+            case 'FACEBOOK':
+              icon = <AiFillFacebook size={22} color="#1A77F2" />;
+              break;
+            case 'GENERIC': // user:mlabouardy
+              icon = <FiLink size={22} />;
+              break;
+            default:
+              icon = <FiLink size={22} />;
+              break;
           }
 
-          if (
-            socialAccount.provider &&
-            socialAccount.provider === 'MASTODON'
-          ) {
+          if (icon) {
             return (
               <SocialIcon
                 key={socialAccount.displayName}
                 url={socialAccount?.url}
                 className=""
-                icon={<BsMastodon size={22} color="#7b4eb8" />}
+                icon={icon}
               />
             );
           }

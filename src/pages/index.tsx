@@ -30,6 +30,7 @@ export default function Home(): JSX.Element {
   useEffect(() => {
     // Set the window width when the component mounts
     setWindowWidth(window.innerWidth);
+    // https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react
   }, [windowWidth]);
 
   useEffect(() => {
