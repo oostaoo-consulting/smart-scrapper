@@ -96,7 +96,10 @@ export default function Card({
                   }}
                   disabled={false}
                 >
-                  <MdOutlineContentCopy size={20} />
+                  <MdOutlineContentCopy
+                    className="hover:text-neutral-900"
+                    size={20}
+                  />
                 </Button>
               )}
             </div>

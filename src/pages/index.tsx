@@ -204,7 +204,7 @@ export default function Home(): JSX.Element {
               onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
-              TRAITÉS test
+              TRAITÉS
             </Button>
             <Button
               className={`text-2xl border border-slate-400 grow ${
