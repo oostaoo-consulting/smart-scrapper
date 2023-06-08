@@ -7,12 +7,12 @@ datasource db {
   url      = env("PG_URL")
 }
 
-model profile {
+model Profile {
   id           Int    @id @default(autoincrement())
   github_login String
 }
 
-model search {
+model Search {
   id       Int     @id @default(autoincrement())
   location String  @default("Paris")
   terms    String?

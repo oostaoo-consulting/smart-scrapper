@@ -1,25 +1,19 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, PrismaPromise } from '@prisma/client';
 
 const db = new PrismaClient();
 
-interface Search {
-  id: number;
-  location: string;
-  terms: string;
-}
-
 const search = {
-  get: (): Promise<Search[]> => db.search.findMany(),
+  get: (): PrismaPromise<any[]> => db.search.findMany(),
 
-  getByPk: (id: number): Promise<Search> => db.search.findUnique({
+  getByPk: (id: any): Promise<any> => db.search.findUnique({
     where: {
       id,
     },
   }),
 
-  post: (data: Omit<Search, 'id'>): Promise<Search> => db.search.create({ data }),
+  post: (data: any): Promise<any> => db.search.create({ data }),
 
-  delete: (id: number): Promise<Search> => db.search.delete({
+  delete: (id: number): Promise<any> => db.search.delete({
     where: {
       id,
     },

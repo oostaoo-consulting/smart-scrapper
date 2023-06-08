@@ -3,21 +3,17 @@ import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 
 const profile = {
-  get: (): Promise<Pick<Person, 'login'>[]> => db.profile.findMany(),
+  get: async (): Promise<any> => db.profile.findMany(),
 
-  getByPk: (id: number): Promise<Pick<Person, 'login'>> => db.profile.findUnique({
+  getByPk: (id: number): Promise<any> => db.profile.findUnique({
     where: {
       id,
     },
   }),
 
-  post: (login: string): Promise<Pick<Person, 'login'>> => db.profile.create({
-    data: {
-      login,
-    },
-  }),
+  post: (data: any): Promise<any> => db.profile.create({ data }),
 
-  delete: (id: number): Promise<Pick<Person, 'login'>> => db.profile.delete({
+  delete: (id: number): Promise<any> => db.profile.delete({
     where: {
       id,
     },
