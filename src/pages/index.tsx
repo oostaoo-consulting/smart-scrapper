@@ -260,7 +260,7 @@ export default function Home(): JSX.Element {
           className="fixed bottom-0 left-0 flex w-full h-16 bg-white border-t border-slate-400 justify-evenly xl:hidden"
         />
         {openCard && (
-          <CardDetails
+          <CardDetails // TODO
             person={jsonMock}
             isFavorite={false}
             handleOpeningCard={handleOpeningCard}
