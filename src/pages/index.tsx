@@ -54,13 +54,13 @@ export default function Home(): JSX.Element {
 
     const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
 
-    const newSearch =
-      [`${date} : ${inputLocationValue}\n"${inputSearchValue}"`,
+    const newSearch = [
+      `${date} : ${inputLocationValue}\n"${inputSearchValue}"`,
       {
         location: inputLocationValue.toLowerCase(),
         search: inputSearchValue.toLowerCase(),
       },
-      ];
+    ];
 
     savedSearch.push(newSearch);
 
@@ -98,8 +98,8 @@ export default function Home(): JSX.Element {
     }
   };
 
-  const indexOfLast = currentPage * postPerPage;
-  const indexOfFirst = indexOfLast - postPerPage;
+  const indexOfLast = currentPage * postPerPage - 1;
+  const indexOfFirst = indexOfLast + 1 - postPerPage;
 
   const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
 
@@ -141,7 +141,13 @@ export default function Home(): JSX.Element {
               inputSearchValue={inputSearchValue}
               setInputSearchValue={setInputSearchValue}
             />
-            {post >= 1 && <div className="h-6">{`${indexOfFirst + 1} - ${indexOfLast > post ? post : indexOfLast} sur ${post} profil${post !== 1 ? 's' : ''} trouvé${post !== 1 ? 's' : ''}`}</div>}
+            {post >= 1 && (
+              <div className="h-6">
+                {`${indexOfFirst + 1} - ${indexOfLast > post ? post : indexOfLast + 1
+                  } sur ${post} profil${post !== 1 ? 's' : ''} trouvé${post !== 1 ? 's' : ''
+                  }`}
+              </div>
+            )}
           </section>
           <aside
             ref={containerRef}
