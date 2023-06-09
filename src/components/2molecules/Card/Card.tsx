@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { TfiCheckBox, TfiLayoutWidthFull } from 'react-icons/tfi';
 import { FiLink } from 'react-icons/fi';
@@ -22,6 +22,8 @@ export default function Card({
   handleOpeningCard,
   profil,
 }: CardProps): JSX.Element {
+  const [copied, setCopied] = useState<string>('');
+
   return (
     <article key={profil?.id} className="relative flex flex-col w-full gap-3 p-3 mb-1 text-left border hover:bg-neutral-100 border-slate-400" data-testid="card">
 
@@ -87,17 +89,26 @@ export default function Card({
 
               {profil?.email && (
                 <Button
-                  className=""
+                  className="relative"
                   onClick={(): void => {
                     navigator.clipboard.writeText(profil?.email).then(() => {
-                      'Copié';
+                      setCopied('Copié !');
+                      setTimeout(() => {
+                        setCopied('');
+                      }, 500);
                     }, () => {
-                      'Erreur copie';
+                      setCopied('Erreur copie...');
+                      setTimeout(() => {
+                        setCopied('');
+                      }, 500);
                     });
                   }}
                   disabled={false}
                 >
                   <MdOutlineContentCopy size={20} />
+                  <span className={`absolute w-max left-6 top-0 text-xs ${copied === 'Copié !' ? 'text-green-600' : 'text-red-600'}`}>
+                    {copied}
+                  </span>
                 </Button>
               )}
             </div>
