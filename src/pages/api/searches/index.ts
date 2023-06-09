@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import profile from '../../../prisma/model/profile';
+import search from '../../../prisma/model/search';
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +9,7 @@ export default async function handler(
     const { body, method } = req;
 
     if (method === 'GET') {
-      const data = await profile.get();
+      const data = await search.get();
       if (!data) {
         throw new Error();
       }
@@ -18,12 +18,12 @@ export default async function handler(
     }
 
     if (method === 'POST') {
-      const foundProfile = await profile.isUnique(body.github_login);
-      if (foundProfile) {
-        return res.status(200).json(foundProfile);
+      const foundSearch = await search.isUnique(body.github_login);
+      if (foundSearch) {
+        return res.status(200).json(foundSearch);
       }
 
-      const data = await profile.post(body);
+      const data = await search.post(body);
       if (!data) {
         throw new Error();
       }

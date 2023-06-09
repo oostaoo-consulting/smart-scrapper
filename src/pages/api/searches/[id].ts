@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import profile from '../../../prisma/model/profile';
+import search from '../../../prisma/model/search';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +10,7 @@ export default async function handler(
     const id = parseInt(query.id as string, 10);
 
     if (method === 'GET') {
-      const data = await profile.getByPk(id);
+      const data = await search.getByPk(id);
       if (!data) {
         return res.status(404).json({ message: 'NotFound' });
       }
@@ -19,12 +19,12 @@ export default async function handler(
     }
 
     if (method === 'DELETE') {
-      const foundProfile = await profile.getByPk(id);
-      if (!foundProfile) {
+      const foundSearch = await search.getByPk(id);
+      if (!foundSearch) {
         return res.status(404).json({ message: 'NotFound' });
       }
 
-      const data = await profile.delete(Number(id));
+      const data = await search.delete(Number(id));
       if (!data) {
         throw new Error();
       }

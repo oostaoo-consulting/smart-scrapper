@@ -11,6 +11,12 @@ const search = {
     },
   }),
 
+  isUnique: (data: any): Promise<any> => db.search.findFirst({
+    where: {
+      ...data,
+    },
+  }),
+
   post: (data: any): Promise<any> => db.search.create({ data }),
 
   delete: (id: number): Promise<any> => db.search.delete({
