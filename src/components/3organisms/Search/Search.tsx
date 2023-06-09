@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MainButton from '../../1atoms/MainButton/MainButton';
 import SearchBar from '../../2molecules/SearchBar/SearchBar';
 
@@ -17,6 +17,8 @@ export default function Search({
   inputSearchValue,
   setInputSearchValue,
 }: SearchpropsType): JSX.Element {
+  const [disabledButton, setDisabledButton] = useState<boolean>(false);
+
   return (
     <>
       <SearchBar
@@ -24,10 +26,13 @@ export default function Search({
         setInputLocationValue={setInputLocationValue}
         inputSearchValue={inputSearchValue}
         setInputSearchValue={setInputSearchValue}
+        disabledButton={disabledButton}
+        setDisabledButton={setDisabledButton}
       />
       <MainButton
         handleSaveSearchClick={handleSaveSearchClick}
         text="Enregistrer vos recherches"
+        disabledButton={disabledButton}
       />
     </>
   );

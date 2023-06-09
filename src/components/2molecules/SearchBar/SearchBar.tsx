@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { RxMagnifyingGlass } from 'react-icons/rx';
 import { useProfilesContext } from '../../../contexts/profilesContext';
 import Input from '../../1atoms/Input/Input';
@@ -9,20 +9,36 @@ interface SearchpropsType {
   setInputLocationValue: (value: string) => void,
   inputSearchValue: string,
   setInputSearchValue: (value: string) => void
+  disabledButton: boolean,
+  setDisabledButton: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SearchBar(
   { inputLocationValue,
     setInputLocationValue,
     inputSearchValue,
-    setInputSearchValue }: SearchpropsType,
+    setInputSearchValue,
+    setDisabledButton,
+    disabledButton,
+  }: SearchpropsType,
 ): JSX.Element {
   const { loadData } = useProfilesContext();
+
+  useEffect(() => {
+    if ((inputLocationValue === '' && inputSearchValue === '')) {
+      setDisabledButton(true);
+    } else {
+      setDisabledButton(false);
+    }
+  });
 
   const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = (
     event,
   ) => {
     event.preventDefault();
+    if (disabledButton) {
+      return;
+    }
     loadData({
       variables: {
         location: inputLocationValue,
@@ -52,8 +68,8 @@ export default function SearchBar(
         placeholder="Filtre par technologies"
       />
 
-      <Button disabled={false} type="submit" className="p-2">
-        <RxMagnifyingGlass className="hover:text-neutral-950" size={24} />
+      <Button disabled={disabledButton} type="submit" className="p-2">
+        <RxMagnifyingGlass className={disabledButton ? 'hover:cursor-default text-neutral-200' : 'hover:text-neutral-950'} size={24} />
       </Button>
     </form>
   );
