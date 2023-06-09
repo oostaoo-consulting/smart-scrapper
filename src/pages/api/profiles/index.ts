@@ -18,9 +18,9 @@ export default async function handler(
     }
 
     if (method === 'POST') {
-      const foundProfile = await profile.isUnique(body.github_login);
+      const foundProfile = await profile.isUnique(body);
       if (foundProfile) {
-        return res.status(200).json(foundProfile);
+        return res.status(200).json({ message: 'This profile already exists in database' });
       }
 
       const data = await profile.post(body);

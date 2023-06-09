@@ -18,9 +18,9 @@ export default async function handler(
     }
 
     if (method === 'POST') {
-      const foundSearch = await search.isUnique(body.github_login);
+      const foundSearch = await search.isUnique(body);
       if (foundSearch) {
-        return res.status(200).json(foundSearch);
+        return res.status(200).json({ message: 'This search already exists in database' });
       }
 
       const data = await search.post(body);
@@ -33,6 +33,6 @@ export default async function handler(
 
     return res.status(404).json({ message: 'NotFound' });
   } catch (error) {
-    return res.status(500).json({ message: 'Internal Server Error' });
+    return res.status(500).json({ message: `${error}` });
   }
 }

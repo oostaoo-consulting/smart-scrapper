@@ -8,6 +8,12 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
+WORKDIR /app/src/prisma
+
+RUN npx prisma generate
+
+WORKDIR /app
+
 EXPOSE 3000
 
 ENTRYPOINT ["yarn", "dev"]

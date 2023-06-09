@@ -5,11 +5,14 @@
 PROJECT_URL="http://localhost:3000"
 
 START_COMMAND="docker-compose up app"
+REBUILD_COMMAND="docker-compose build --no-cache"
+RESTART_COMMAND="docker-compose up app --force-recreate"
 STOP_COMMAND="docker-compose stop"
 PURGE_COMMAND="docker-compose down --rmi all"
 
 MENU=(
   "Start: mount docker containers and start the project" 
+  "Start and reinstall dependencies: mount docker containers, reinstall dependencies and start the project"
   "Stop: stop docker containers and the project" 
   "Purge: delete docker containers" 
   "Exit: exit this menu"
@@ -18,6 +21,12 @@ MENU=(
 function up(){
     echo "****** 🔄 Starting all containers ***********"
     $START_COMMAND
+}
+
+function rebuild(){
+    echo "****** 🔄 Starting all containers ***********"
+    $REBUILD_COMMAND
+    $RESTART_COMMAND
 }
 
 function stop(){
@@ -44,14 +53,18 @@ function exec_choice(){
         break
         ;;
     "1")
-        stop
+        rebuild
         break
         ;;
     "2")
-        down
+        stop
         break
         ;;
     "3")
+        down
+        break
+        ;;
+    "4")
         exit
         break
         ;;

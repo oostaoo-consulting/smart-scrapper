@@ -16,9 +16,9 @@ const profile = {
     },
   }),
 
-  isUnique: (github_login: any): Promise<any> => db.profile.findFirst({
+  isUnique: (data: any): Promise<any> => db.profile.findFirst({
     where: {
-      github_login,
+      ...data,
     },
   }),
 
