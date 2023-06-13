@@ -29,6 +29,23 @@ export default function Card({
 }: CardProps): JSX.Element {
   const [copied, setCopied] = useState<string>('');
 
+  const handleCopyLink = (): void => {
+    navigator.clipboard.writeText(profil?.email).then(
+      () => {
+        setCopied('Copié !');
+        setTimeout(() => {
+          setCopied('');
+        }, 500);
+      },
+      () => {
+        setCopied('Erreur copie...');
+        setTimeout(() => {
+          setCopied('');
+        }, 500);
+      },
+    );
+  };
+
   return (
     <article
       key={profil?.id}
@@ -92,22 +109,7 @@ export default function Card({
               {profil?.email && (
                 <Button
                   className="relative"
-                  onClick={(): void => {
-                    navigator.clipboard.writeText(profil?.email).then(
-                      () => {
-                        setCopied('Copié !');
-                        setTimeout(() => {
-                          setCopied('');
-                        }, 500);
-                      },
-                      () => {
-                        setCopied('Erreur copie...');
-                        setTimeout(() => {
-                          setCopied('');
-                        }, 500);
-                      },
-                    );
-                  }}
+                  onClick={handleCopyLink}
                   disabled={false}
                 >
                   <MdOutlineContentCopy
