@@ -10,7 +10,6 @@ import SearchesSaved from '../components/3organisms/SearchesSaved/SearchesSaved'
 import Pagination from '../components/2molecules/Pagination/Pagination';
 import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 
-import jsonMock from '../components/2molecules/CardDetails/mock.json';
 import { useProfilesContext } from '../contexts/profilesContext';
 
 export default function Home(): JSX.Element {
@@ -261,7 +260,6 @@ export default function Home(): JSX.Element {
         />
         {openCard && (
           <CardDetails
-            person={jsonMock}
             isFavorite={false}
             handleOpeningCard={handleOpeningCard}
           />
