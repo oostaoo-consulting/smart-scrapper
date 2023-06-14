@@ -3,6 +3,7 @@
 ---
 
 ## Start the project
+yarn dev
 
 ### First step : installation
 

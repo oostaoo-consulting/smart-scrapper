@@ -29,21 +29,16 @@ export default function Card({
 }: CardProps): JSX.Element {
   const [copied, setCopied] = useState<string>('');
 
-  const handleCopyLink = (): void => {
-    navigator.clipboard.writeText(profil?.email).then(
-      () => {
-        setCopied('Copié !');
-        setTimeout(() => {
-          setCopied('');
-        }, 500);
-      },
-      () => {
-        setCopied('Erreur copie...');
-        setTimeout(() => {
-          setCopied('');
-        }, 500);
-      },
-    );
+  const handleCopyLink = async (): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(profil?.email);
+      setCopied('Copié !');
+    } catch (error) {
+      setCopied('Erreur copie...');
+    }
+    setTimeout(() => {
+      setCopied('');
+    }, 500);
   };
 
   return (
@@ -64,7 +59,12 @@ export default function Card({
           <Title level={4}>{profil?.login}</Title>
           <div className="flex items-center justify-start gap-4">
             <Title level={3}>{profil?.name}</Title>
-            <Button className="" onClick={handleOpeningCard} disabled={false}>
+            <Button
+              className=""
+              onClick={handleOpeningCard}
+              // onClick={handleInfoUser}
+              disabled={false}
+            >
               <BsFillInfoSquareFill size={25} />
             </Button>
           </div>

@@ -21,14 +21,6 @@ const dataSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    increment: (state) => ({
-      ...state,
-      value: { ...state.value, counter: state.value.counter + 1 },
-    }),
-    decrease: (state) => ({
-      ...state,
-      value: { ...state.value, counter: state.value.counter - 1 },
-    }),
     toggleOpen: (state) => ({
       ...state,
       value: {
@@ -39,5 +31,5 @@ const dataSlice = createSlice({
   },
 });
 
-export const { increment, decrease, toggleOpen } = dataSlice.actions;
+export const { toggleOpen } = dataSlice.actions;
 export default dataSlice.reducer;

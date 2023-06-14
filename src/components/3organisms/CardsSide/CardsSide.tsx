@@ -1,4 +1,6 @@
 import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+// import { useSelector } from 'react-redux';
 import { useProfilesContext } from '../../../contexts/profilesContext';
 import Card from '../../2molecules/Card/Card';
 
