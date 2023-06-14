@@ -51,8 +51,6 @@ export default function Home(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const isOpenValue = useAppSelector((state) => state.dataReducer.value.isOpen);
 
-  console.log('la valeur de mon etat:', isOpenValue);
-
   const handleSaveSearchClick = (): void => {
     const date = new Date().toLocaleString('fr-FR', {
       year: 'numeric',
