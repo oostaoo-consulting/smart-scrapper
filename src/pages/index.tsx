@@ -44,9 +44,8 @@ export default function Home(): JSX.Element {
   }, [windowWidth]);
 
   // Searchbar' states
-  const [inputLocationValue, setInputLocationValue] =
-    React.useState<string>('Paris');
-  const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
+  const [inputLocationValue, setInputLocationValue] = useState<string>('Paris');
+  const [inputSearchValue, setInputSearchValue] = useState<string>('');
 
   const dispatch = useDispatch<AppDispatch>();
   const isOpenValue = useAppSelector((state) => state.dataReducer.value.isOpen);

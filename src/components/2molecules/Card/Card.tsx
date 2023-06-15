@@ -62,7 +62,6 @@ export default function Card({
             <Button
               className=""
               onClick={handleOpeningCard}
-              // onClick={handleInfoUser}
               disabled={false}
             >
               <BsFillInfoSquareFill size={25} />
