@@ -1,5 +1,6 @@
 import React from 'react';
 import { useProfilesContext } from '../../../contexts/profilesContext';
+// eslint-disable-next-line import/no-named-as-default
 import Card from '../../2molecules/Card/Card';
 
 interface CardsSideProps {

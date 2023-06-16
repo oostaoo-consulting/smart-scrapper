@@ -1,6 +1,8 @@
 import React, { SetStateAction, Dispatch } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+
 import Button from '../../1atoms/Button/Button';
 
 interface PaginationProps {

@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
+
 import { MdClose } from 'react-icons/md';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useDispatch } from 'react-redux';
 import CardsSide from '../components/3organisms/CardsSide/CardsSide';
 import Search from '../components/3organisms/Search/Search';
 import Favorites from '../components/3organisms/Favorites/Favorites';
@@ -11,6 +15,8 @@ import Pagination from '../components/2molecules/Pagination/Pagination';
 import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 
 import { useProfilesContext } from '../contexts/profilesContext';
+import { toggleOpen } from '../redux/features/data-slice';
+import { AppDispatch, useAppSelector } from '../redux/store';
 
 export default function Home(): JSX.Element {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -18,8 +24,6 @@ export default function Home(): JSX.Element {
   const { profiles } = useProfilesContext();
 
   const [tabs, setTabs] = useState<number>(0);
-  const [openCard, setOpenCard] = useState<boolean>(false);
-
   const [post, setPost] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
@@ -39,9 +43,11 @@ export default function Home(): JSX.Element {
   }, [windowWidth]);
 
   // Searchbar' states
-  const [inputLocationValue, setInputLocationValue] =
-    React.useState<string>('Paris');
-  const [inputSearchValue, setInputSearchValue] = React.useState<string>('');
+  const [inputLocationValue, setInputLocationValue] = useState<string>('Paris');
+  const [inputSearchValue, setInputSearchValue] = useState<string>('');
+
+  const dispatch = useDispatch<AppDispatch>();
+  const isOpenValue = useAppSelector((state) => state.dataReducer.value.isOpen);
 
   const handleSaveSearchClick = (): void => {
     const date = new Date().toLocaleString('fr-FR', {
@@ -103,7 +109,7 @@ export default function Home(): JSX.Element {
   const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
 
   const handleOpeningCard = (): void => {
-    setOpenCard(!openCard);
+    dispatch(toggleOpen());
   };
 
   useEffect(() => {
@@ -130,8 +136,9 @@ export default function Home(): JSX.Element {
       <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
         <section data-testid="cardSideSection" className=" xl:w-1/2 xl:pr-2">
           <section
-            className={`${tabs !== 0 && 'hidden xl:flex'
-              } flex flex-col h-28 mb-7`}
+            className={`${
+              tabs !== 0 && 'hidden xl:flex'
+            } flex flex-col h-28 mb-7`}
           >
             <Search
               handleSaveSearchClick={handleSaveSearchClick}
@@ -142,9 +149,11 @@ export default function Home(): JSX.Element {
             />
             {post >= 1 && (
               <div className="h-6">
-                {`${indexOfFirst + 1} - ${indexOfLast > post ? post : indexOfLast + 1
-                  } sur ${post} profil${post !== 1 ? 's' : ''} trouvé${post !== 1 ? 's' : ''
-                  }`}
+                {`${indexOfFirst + 1} - ${
+                  indexOfLast > post ? post : indexOfLast + 1
+                } sur ${post} profil${post !== 1 ? 's' : ''} trouvé${
+                  post !== 1 ? 's' : ''
+                }`}
               </div>
             )}
           </section>
@@ -195,16 +204,18 @@ export default function Home(): JSX.Element {
         >
           <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
             <Button
-              className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''
-                }`}
+              className={`text-2xl border border-slate-400 grow ${
+                tabs === 1 ? 'border-b-0 border-r-0' : ''
+              }`}
               onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
               TRAITÉS
             </Button>
             <Button
-              className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''
-                }`}
+              className={`text-2xl border border-slate-400 grow ${
+                tabs === 2 ? 'border-b-0 border-l-0' : ''
+              }`}
               onClick={(): void => handleTabs('search')}
               disabled={false}
             >
@@ -212,8 +223,9 @@ export default function Home(): JSX.Element {
             </Button>
           </nav>
           <Button
-            className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''
-              }`}
+            className={`absolute top-0 right-0 xl:hidden ${
+              tabs === 0 ? ' hidden' : ''
+            }`}
             onClick={(): void => handleTabs('noTab')}
             disabled={false}
           >
@@ -258,7 +270,7 @@ export default function Home(): JSX.Element {
           handleTabs={handleTabs}
           className="fixed bottom-0 left-0 flex w-full h-16 bg-white border-t border-slate-400 justify-evenly xl:hidden"
         />
-        {openCard && (
+        {isOpenValue && (
           <CardDetails
             isFavorite={false}
             handleOpeningCard={handleOpeningCard}

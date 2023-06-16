@@ -1,11 +1,16 @@
 import React, { useContext, useState } from 'react';
 import Image from 'next/image';
+
 import { TfiCheckBox, TfiLayoutWidthFull } from 'react-icons/tfi';
 import { FiLink } from 'react-icons/fi';
-
-import { AiOutlineTwitter, AiFillLinkedin, AiFillFacebook } from 'react-icons/ai';
+import {
+  AiOutlineTwitter,
+  AiFillLinkedin,
+  AiFillFacebook,
+} from 'react-icons/ai';
 import { BsFillInfoSquareFill, BsMastodon, BsInstagram } from 'react-icons/bs';
 import { MdOutlineContentCopy } from 'react-icons/md';
+
 import Title from '../../1atoms/Title/Title';
 import Paragraph from '../../1atoms/Paragraph/Paragraph';
 import Button from '../../1atoms/Button/Button';
@@ -24,7 +29,6 @@ export default function Card({
   profil,
 }: CardProps): JSX.Element {
   const [copied, setCopied] = useState<string>('');
-
   const { miscData, setMiscData } = useContext(DataContext);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
@@ -33,6 +37,19 @@ export default function Card({
       currentProfile: profil,
     });
     handleOpeningCard(event);
+  };
+
+  // Function to make the "copie" string
+  const handleCopyLink = async (): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(profil?.email);
+      setCopied('Copié !');
+    } catch (error) {
+      setCopied('Erreur copie...');
+    }
+    setTimeout(() => {
+      setCopied('');
+    }, 500);
   };
 
   return (
@@ -74,6 +91,25 @@ export default function Card({
                 </a>
               )}
 
+              {profil?.email && (
+                <Button
+                  className="relative"
+                  onClick={handleCopyLink}
+                  disabled={false}
+                >
+                  <MdOutlineContentCopy
+                    className="hover:text-neutral-900"
+                    size={20}
+                  />
+                  <span
+                    className={`absolute w-max left-6 top-0 text-xs ${
+                      copied === 'Copié !' ? 'text-green-600' : 'text-red-600'
+                    }`}
+                  >
+                    {copied}
+                  </span>
+                </Button>
+)}
               {profil?.url && (
                 <a
                   href={profil?.url as string}
@@ -101,19 +137,7 @@ export default function Card({
                 {profil?.email && (
                   <Button
                     className="relative"
-                    onClick={(): void => {
-                      navigator.clipboard.writeText(profil?.email).then(() => {
-                        setCopied('Copié !');
-                        setTimeout(() => {
-                          setCopied('');
-                        }, 500);
-                      }, () => {
-                        setCopied('Erreur copie...');
-                        setTimeout(() => {
-                          setCopied('');
-                        }, 500);
-                      });
-                    }}
+                    onClick={handleCopyLink}
                     disabled={false}
                   >
                     <MdOutlineContentCopy
@@ -133,7 +157,7 @@ export default function Card({
       {!isFavorite && <Paragraph text={profil?.bio} />}
 
       <Button
-        onClick={(): void => { }}
+        onClick={(): void => {}}
         className="absolute top-3 right-3"
         disabled={false}
       >
