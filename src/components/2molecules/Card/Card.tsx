@@ -81,7 +81,7 @@ export default function Card({
             <div className="flex flex-col">
               {profil?.websiteUrl && (
                 <a
-                  href={profil?.websiteUrl as string}
+                  href={profil?.websiteUrl.includes('http', 0) ? profil?.websiteUrl : `https://${profil?.websiteUrl}`}
                   target="_blank"
                   className="text-red-600 hover:text-red-800"
                   rel="noreferrer"
@@ -91,28 +91,9 @@ export default function Card({
                 </a>
               )}
 
-              {profil?.email && (
-                <Button
-                  className="relative"
-                  onClick={handleCopyLink}
-                  disabled={false}
-                >
-                  <MdOutlineContentCopy
-                    className="hover:text-neutral-900"
-                    size={20}
-                  />
-                  <span
-                    className={`absolute w-max left-6 top-0 text-xs ${
-                      copied === 'Copié !' ? 'text-green-600' : 'text-red-600'
-                    }`}
-                  >
-                    {copied}
-                  </span>
-                </Button>
-)}
               {profil?.url && (
                 <a
-                  href={profil?.url as string}
+                  href={profil?.url}
                   target="_blank"
                   className="text-red-600 hover:text-red-800"
                   rel="noreferrer"
@@ -124,7 +105,7 @@ export default function Card({
               <div className="flex items-center justify-start gap-4">
                 {profil?.email && (
                   <a
-                    href={`maito:${profil?.email}` as string}
+                    href={`maito:${profil?.email}`}
                     target="_blank"
                     className="text-red-600 hover:text-red-800"
                     rel="noreferrer"
@@ -157,7 +138,7 @@ export default function Card({
       {!isFavorite && <Paragraph text={profil?.bio} />}
 
       <Button
-        onClick={(): void => {}}
+        onClick={(): void => { }}
         className="absolute top-3 right-3"
         disabled={false}
       >

@@ -59,7 +59,7 @@ export default function CardDetails({
         <Title level={3}><span className="border-b border-black">LIENS</span></Title>
         <div className="flex flex-col">
           <a
-            href={person?.websiteUrl ? person?.websiteUrl : '#'}
+            href={person?.websiteUrl && person?.websiteUrl.includes('http', 0) ? person?.websiteUrl : `https://${person?.websiteUrl}`}
             target="_blank"
             className={`text-red-600 hover:text-red-800 flex items-center ${!person?.websiteUrl && 'pointer-events-none'}`}
             rel="noreferrer"
