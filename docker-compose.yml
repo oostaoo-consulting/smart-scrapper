@@ -18,6 +18,9 @@ services:
       - './public:/app/public'
       - './src:/app/src'
       - './___tests___:/app/___tests___'
+    command: yarn install
+    networks:
+      - network-scrapper
 
   db:
     container_name: oostaoo-smart-scrapper-db
@@ -31,6 +34,8 @@ services:
     volumes:
       - ./data/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
     restart: always
+    networks:
+      - network-scrapper
 
   cache:
     container_name: oostaoo-smart-scrapper-cache
@@ -38,6 +43,8 @@ services:
     ports:
       - '6379:6379'
     restart: always
+    networks:
+      - network-scrapper
 
   mq:
     container_name: oostaoo-smart-scrapper-mq
@@ -53,3 +60,9 @@ services:
       - ./.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
       - ./.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     restart: always
+    networks:
+      - network-scrapper
+
+networks:
+  network-scrapper:
+    external: true
