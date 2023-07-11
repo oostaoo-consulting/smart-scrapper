@@ -8,12 +8,14 @@ datasource db {
 }
 
 model Profile {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   github_login String
+  name         String?
 }
 
 model Search {
-  id       Int     @id @default(autoincrement())
-  location String  @default("Paris")
+  id       Int      @id @default(autoincrement())
+  date     DateTime @default(now())
+  location String   @default("Paris")
   terms    String?
 }

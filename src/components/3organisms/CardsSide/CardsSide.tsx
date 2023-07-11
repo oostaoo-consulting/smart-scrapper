@@ -7,12 +7,14 @@ interface CardsSideProps {
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
   indexOfFirst: number;
   indexOfLast: number;
+  isCardsSide: boolean;
 }
 
 function CardsSide({
   indexOfFirst,
   indexOfLast,
   handleOpeningCard,
+  isCardsSide,
 }: CardsSideProps): JSX.Element {
   const { profiles } = useProfilesContext();
 
@@ -37,6 +39,7 @@ function CardsSide({
           handleOpeningCard={handleOpeningCard}
           isFavorite={false}
           profil={profil}
+          isCardsSide={isCardsSide}
         />
       ))}
     </>

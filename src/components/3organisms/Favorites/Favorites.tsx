@@ -5,6 +5,10 @@ import jsonMock from '../../2molecules/CardDetails/mock.json';
 export default function Favorites(): JSX.Element {
   return (
     <>
+      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite isCardsSide={false} />
+      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite isCardsSide={false} />
+      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite isCardsSide={false} />
+      {/* <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
       <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
       <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
       <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
@@ -13,11 +17,7 @@ export default function Favorites(): JSX.Element {
       <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
       <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
       <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
-      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
-      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
-      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
-      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
-      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite />
+      <Card profil={jsonMock} handleOpeningCard={(): void => { }} isFavorite /> */}
     </>
   );
 }

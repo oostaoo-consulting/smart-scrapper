@@ -21,12 +21,14 @@ interface CardProps {
   isFavorite: boolean;
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
   profil: Person;
+  isCardsSide: boolean;
 }
 
 export default function Card({
   isFavorite,
   handleOpeningCard,
   profil,
+  isCardsSide,
 }: CardProps): JSX.Element {
   const [copied, setCopied] = useState<string>('');
   const { miscData, setMiscData } = useContext(DataContext);
@@ -55,17 +57,20 @@ export default function Card({
   return (
     <article
       key={profil?.id}
-      className="relative flex flex-col w-full gap-3 p-3 mb-1 text-left border hover:bg-neutral-100 border-slate-400"
+      className={`relative flex flex-col h-fit w-full ${isCardsSide ? 'xl:w-full' : 'xl:w-[calc(50%-0.5rem)]'}  gap-3 p-3 mb-1 text-left border hover:bg-neutral-100 border-slate-400`}
       data-testid="card"
     >
       <div className="flex items-start">
-        <Image
-          src="/img/imagePlaceholder.png"
-          alt="Card's image"
-          width={60}
-          height={60}
-          className="mr-4 rounded h-"
-        />
+        {!isFavorite && (
+          <Image
+            src="/img/imagePlaceholder.png"
+            alt="Card's image"
+            width={60}
+            height={60}
+            className="mr-4 rounded h-"
+          />
+        )}
+
         <div>
           <Title level={!isFavorite ? 4 : 3}>{profil?.login}</Title>
           <div className="flex items-center justify-start gap-4">
