@@ -9,7 +9,7 @@ describe('CardDetails not favorite', () => {
     render(<CardDetails
       person={jsonMock}
       handleOpeningCard={(): void => { }}
-      isFavorite={false}
+      isSaved={false}
     />);
   });
 
@@ -39,7 +39,7 @@ describe('CardDetails not favorite', () => {
 
 describe('CardDetails favorite', () => {
   beforeEach(() => {
-    render(<CardDetails person={jsonMock} handleOpeningCard={(): void => { }} isFavorite />);
+    render(<CardDetails person={jsonMock} handleOpeningCard={(): void => { }} isSaved />);
   });
 
   it('should contain a level 3 title', () => {
@@ -65,7 +65,7 @@ describe('CardDetails favorite', () => {
 describe('Card', () => {
   it('should close the details with grey background', () => {
     const onClickMock = jest.fn();
-    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isFavorite />);
+    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isSaved />);
 
     const buttonOpenCard = screen.getAllByRole('button');
 
@@ -75,7 +75,7 @@ describe('Card', () => {
 
   it('should close the details with cross button', () => {
     const onClickMock = jest.fn();
-    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isFavorite />);
+    render(<CardDetails person={jsonMock} handleOpeningCard={onClickMock} isSaved />);
 
     const buttonOpenCard = screen.getAllByRole('button');
 

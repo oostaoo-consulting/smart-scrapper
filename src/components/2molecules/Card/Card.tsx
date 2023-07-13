@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Image from 'next/image';
+import { v4 as uuidv4 } from 'uuid';
 
 import { TfiCheckBox, TfiLayoutWidthFull } from 'react-icons/tfi';
 import { FiLink } from 'react-icons/fi';
@@ -16,19 +17,22 @@ import Paragraph from '../../1atoms/Paragraph/Paragraph';
 import Button from '../../1atoms/Button/Button';
 import SocialIcon from '../../1atoms/SocialIcon/SocialIcon';
 import { DataContext } from '../../../contexts/dataContext';
+import { deleteProfileSaved, getProfilesSaved, postProfileSaved } from '../../../requests/profilesSaved';
 
 interface CardProps {
-  isFavorite: boolean;
+  isSaved: boolean;
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
   profil: Person;
   isCardsSide: boolean;
+  setCards: (value: Person[]) => void,
 }
 
 export default function Card({
-  isFavorite,
+  isSaved,
   handleOpeningCard,
   profil,
   isCardsSide,
+  setCards,
 }: CardProps): JSX.Element {
   const [copied, setCopied] = useState<string>('');
   const { miscData, setMiscData } = useContext(DataContext);
@@ -39,6 +43,20 @@ export default function Card({
       currentProfile: profil,
     });
     handleOpeningCard(event);
+  };
+
+  const handleSaveButtonClick = async (): Promise<void> => {
+    if (isSaved) {
+      await deleteProfileSaved(Number(profil.id));
+    }
+    if (!isSaved) {
+      await postProfileSaved({
+        login: profil.login,
+        name: profil?.name ? profil?.name : '',
+      });
+    }
+    const { data } = await getProfilesSaved();
+    setCards(data);
   };
 
   // Function to make the "copie" string
@@ -61,7 +79,7 @@ export default function Card({
       data-testid="card"
     >
       <div className="flex items-start">
-        {!isFavorite && (
+        {!isSaved && (
           <Image
             src="/img/imagePlaceholder.png"
             alt="Card's image"
@@ -72,17 +90,17 @@ export default function Card({
         )}
 
         <div>
-          <Title level={!isFavorite ? 4 : 3}>{profil?.login}</Title>
+          <Title level={!isSaved ? 4 : 3}>{profil?.login}</Title>
           <div className="flex items-center justify-start gap-4">
-            <Title level={!isFavorite ? 3 : 2}>{profil?.name}</Title>
-            {!isFavorite && (
+            <Title level={!isSaved ? 3 : 2}>{profil?.name}</Title>
+            {!isSaved && (
               <Button className="" onClick={handleClick} disabled={false}>
                 <BsFillInfoSquareFill size={25} />
               </Button>
             )}
           </div>
 
-          {!isFavorite && (
+          {!isSaved && (
             <div className="flex flex-col">
               {profil?.websiteUrl && (
                 <a
@@ -140,21 +158,21 @@ export default function Card({
           )}
         </div>
       </div>
-      {!isFavorite && <Paragraph text={profil?.bio} />}
+      {!isSaved && <Paragraph text={profil?.bio} />}
 
       <Button
-        onClick={(): void => { }}
+        onClick={handleSaveButtonClick}
         className="absolute top-3 right-3"
         disabled={false}
       >
-        {isFavorite ? (
+        {isSaved ? (
           <TfiCheckBox size={25} />
         ) : (
           <TfiLayoutWidthFull size={21} />
         )}
       </Button>
       {
-        !isFavorite && (
+        !isSaved && (
           <div className="absolute flex gap-2 right-12 top-3">
             {profil?.socialAccounts.map((socialAccount: PersonSocialAccount) => {
               let icon;
@@ -184,12 +202,13 @@ export default function Card({
 
               if (icon) {
                 return (
-                  <SocialIcon
-                    key={socialAccount.displayName}
-                    url={socialAccount?.url}
-                    className=""
-                    icon={icon}
-                  />
+                  <div key={uuidv4()}>
+                    <SocialIcon
+                      url={socialAccount?.url}
+                      className=""
+                      icon={icon}
+                    />
+                  </div>
                 );
               }
               return null;

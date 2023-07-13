@@ -10,12 +10,12 @@ import Button from '../../1atoms/Button/Button';
 import { DataContext } from '../../../contexts/dataContext';
 
 interface CardDetailsprops {
-  isFavorite: boolean;
+  isSaved: boolean;
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export default function CardDetails({
-  isFavorite,
+  isSaved,
   handleOpeningCard,
 }: CardDetailsprops): JSX.Element {
   const [copied, setCopied] = useState<string>('');
@@ -140,7 +140,7 @@ export default function CardDetails({
             <MdClose size={36} aria-label="close button" />
           </Button>
           <Button onClick={(): void => { }} className="">
-            {isFavorite ? (
+            {isSaved ? (
               <TfiCheckBox size={25} />
             ) : (
               <TfiLayoutWidthFull size={21} />

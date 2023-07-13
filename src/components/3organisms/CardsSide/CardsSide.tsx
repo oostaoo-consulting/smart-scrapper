@@ -8,6 +8,7 @@ interface CardsSideProps {
   indexOfFirst: number;
   indexOfLast: number;
   isCardsSide: boolean;
+  setCards: (value: Person[]) => void,
 }
 
 function CardsSide({
@@ -15,6 +16,7 @@ function CardsSide({
   indexOfLast,
   handleOpeningCard,
   isCardsSide,
+  setCards,
 }: CardsSideProps): JSX.Element {
   const { profiles } = useProfilesContext();
 
@@ -37,9 +39,10 @@ function CardsSide({
         <Card
           key={profil.id}
           handleOpeningCard={handleOpeningCard}
-          isFavorite={false}
+          isSaved={false}
           profil={profil}
           isCardsSide={isCardsSide}
+          setCards={setCards}
         />
       ))}
     </>

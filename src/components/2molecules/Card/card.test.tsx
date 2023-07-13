@@ -7,8 +7,8 @@ describe('Card not favorite', () => {
   beforeEach(() => {
     render(
       <Card
-        handleOpeningCard={(): void => {}}
-        isFavorite={false}
+        handleOpeningCard={(): void => { }}
+        isSaved={false}
         profil={jsonMock}
       />,
     );
@@ -44,7 +44,7 @@ describe('Card not favorite', () => {
 describe('Card favorite', () => {
   beforeEach(() => {
     render(
-      <Card handleOpeningCard={(): void => {}} isFavorite profil={jsonMock} />,
+      <Card handleOpeningCard={(): void => { }} isSaved profil={jsonMock} />,
     );
   });
 
@@ -77,7 +77,7 @@ describe('Card', () => {
     render(
       <Card
         handleOpeningCard={onClickMock}
-        isFavorite={false}
+        isSaved={false}
         profil={jsonMock}
       />,
     );

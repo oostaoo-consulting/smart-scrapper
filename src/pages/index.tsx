@@ -17,6 +17,8 @@ import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 import { useProfilesContext } from '../contexts/profilesContext';
 import { toggleOpen } from '../redux/features/data-slice';
 import { AppDispatch, useAppSelector } from '../redux/store';
+import { getProfilesSaved } from '../requests/profilesSaved';
+import { postSearchSaved } from '../requests/searchSaved';
 
 export default function Home(): JSX.Element {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -27,6 +29,7 @@ export default function Home(): JSX.Element {
   const [post, setPost] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
+  const [cards, setCards] = useState<Person[] | []>([]);
 
   const desktopMode = 1280;
 
@@ -42,6 +45,16 @@ export default function Home(): JSX.Element {
     }
   }, [windowWidth]);
 
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      const response = await getProfilesSaved();
+
+      setCards(response.data);
+    };
+
+    fetchData();
+  }, []);
+
   // Searchbar' states
   const [inputLocationValue, setInputLocationValue] = useState<string>('Paris');
   const [inputSearchValue, setInputSearchValue] = useState<string>('');
@@ -49,27 +62,11 @@ export default function Home(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const isOpenValue = useAppSelector((state) => state.dataReducer.value.isOpen);
 
-  const handleSaveSearchClick = (): void => {
-    const date = new Date().toLocaleString('fr-FR', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
+  const handleSaveSearchClick = async (): Promise<void> => {
+    await postSearchSaved({
+      location: inputLocationValue,
+      terms: inputSearchValue,
     });
-    const savedSearchItem = localStorage.getItem('savedSearch');
-
-    const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
-
-    const newSearch = [
-      `${date}`,
-      {
-        location: inputLocationValue,
-        search: inputSearchValue,
-      },
-    ];
-
-    savedSearch.push(newSearch);
-
-    localStorage.setItem('savedSearch', JSON.stringify(savedSearch));
   };
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
@@ -179,6 +176,7 @@ export default function Home(): JSX.Element {
               indexOfLast={indexOfLast}
               handleOpeningCard={handleOpeningCard}
               isCardsSide
+              setCards={setCards}
             />
           </aside>
 
@@ -252,7 +250,7 @@ export default function Home(): JSX.Element {
             xl:h-[calc(100vh-4rem-1rem)]
             `}
           >
-            {tabs === 1 && <Favorites />}
+            {tabs === 1 && <Favorites cards={cards} setCards={setCards} />}
             {tabs === 2 && (
               <SearchesSaved
                 handleTabs={handleTabs}
@@ -268,7 +266,7 @@ export default function Home(): JSX.Element {
         />
         {isOpenValue && (
           <CardDetails
-            isFavorite={false}
+            isSaved={false}
             handleOpeningCard={handleOpeningCard}
           />
         )}

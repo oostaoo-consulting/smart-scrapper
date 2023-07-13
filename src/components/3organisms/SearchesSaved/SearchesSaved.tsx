@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import SearchSaved from '../../2molecules/SearchSaved/SearchSaved';
-import getJson from '../../../utils/localStorage';
+import { getSearchesSaved } from '../../../requests/searchSaved';
 
 interface SearchesSavedPropsType {
   handleTabs: (tab: string) => void
@@ -13,19 +13,24 @@ export default function SearchesSaved(
   { handleTabs, setInputLocationValue, setInputSearchValue }
     : SearchesSavedPropsType,
 ): JSX.Element {
-  const [data, setData] = useState([]);
+  const [searchesSaved, setSearchesSaved] = useState([]);
 
   useEffect(() => {
-    const datasLocalStorage = getJson('savedSearch');
-    setData(datasLocalStorage);
+    const fetchData = async (): Promise<void> => {
+      const response = await getSearchesSaved();
+
+      setSearchesSaved(response.data);
+    };
+
+    fetchData();
   }, []);
 
   return (
     <>
-      {data.map((value) => (
+      {searchesSaved.map((searchSaved) => (
         <SearchSaved
           key={uuidv4()}
-          localStorage={value}
+          searchSaved={searchSaved}
           handleTabs={handleTabs}
           setInputLocationValue={setInputLocationValue}
           setInputSearchValue={setInputSearchValue}
