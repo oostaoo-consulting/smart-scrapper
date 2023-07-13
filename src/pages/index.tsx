@@ -36,6 +36,7 @@ export default function Home(): JSX.Element {
 
   const fetchDataSearches = async (): Promise<void> => {
     const response = await getSearchesSaved();
+    console.log('🚀 ~ file: index.tsx:39 ~ fetchDataSearches ~ response:', response.data);
 
     setSearchesSaved(response.data);
   };
@@ -265,6 +266,7 @@ export default function Home(): JSX.Element {
             {tabs === 1 && <Favorites cards={cards} setCards={setCards} />}
             {tabs === 2 && (
               <SearchesSaved
+                fetchDataSearches={fetchDataSearches}
                 searchesSaved={searchesSaved}
                 handleTabs={handleTabs}
                 setInputLocationValue={setInputLocationValue}
