@@ -18,7 +18,7 @@ import { useProfilesContext } from '../contexts/profilesContext';
 import { toggleOpen } from '../redux/features/data-slice';
 import { AppDispatch, useAppSelector } from '../redux/store';
 import { getProfilesSaved } from '../requests/profilesSaved';
-import { postSearchSaved } from '../requests/searchSaved';
+import { getSearchesSaved, postSearchSaved } from '../requests/searchSaved';
 
 export default function Home(): JSX.Element {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -30,8 +30,21 @@ export default function Home(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
   const [cards, setCards] = useState<Person[] | []>([]);
+  const [searchesSaved, setSearchesSaved] = useState([]);
 
   const desktopMode = 1280;
+
+  const fetchDataSearches = async (): Promise<void> => {
+    const response = await getSearchesSaved();
+
+    setSearchesSaved(response.data);
+  };
+
+  const fetchDataProfiles = async (): Promise<void> => {
+    const response = await getProfilesSaved();
+
+    setCards(response.data);
+  };
 
   useEffect(() => {
     // Set the window width when the component mounts
@@ -46,13 +59,11 @@ export default function Home(): JSX.Element {
   }, [windowWidth]);
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const response = await getProfilesSaved();
-
-      setCards(response.data);
+    const fetchDatas = async (): Promise<void> => {
+      await fetchDataProfiles();
+      await fetchDataSearches();
     };
-
-    fetchData();
+    fetchDatas();
   }, []);
 
   // Searchbar' states
@@ -67,6 +78,7 @@ export default function Home(): JSX.Element {
       location: inputLocationValue,
       terms: inputSearchValue,
     });
+    await fetchDataSearches();
   };
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
@@ -253,6 +265,7 @@ export default function Home(): JSX.Element {
             {tabs === 1 && <Favorites cards={cards} setCards={setCards} />}
             {tabs === 2 && (
               <SearchesSaved
+                searchesSaved={searchesSaved}
                 handleTabs={handleTabs}
                 setInputLocationValue={setInputLocationValue}
                 setInputSearchValue={setInputSearchValue}

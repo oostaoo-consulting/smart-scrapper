@@ -1,30 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import SearchSaved from '../../2molecules/SearchSaved/SearchSaved';
-import { getSearchesSaved } from '../../../requests/searchSaved';
 
 interface SearchesSavedPropsType {
   handleTabs: (tab: string) => void
   setInputLocationValue: (value: string) => void,
   setInputSearchValue: (value: string) => void,
+  searchesSaved: {
+    date: string,
+    location: string,
+    terms: string,
+  }[]
 }
 
 export default function SearchesSaved(
-  { handleTabs, setInputLocationValue, setInputSearchValue }
+  { searchesSaved, handleTabs, setInputLocationValue, setInputSearchValue }
     : SearchesSavedPropsType,
 ): JSX.Element {
-  const [searchesSaved, setSearchesSaved] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const response = await getSearchesSaved();
-
-      setSearchesSaved(response.data);
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <>
       {searchesSaved.map((searchSaved) => (
