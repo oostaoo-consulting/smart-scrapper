@@ -7,6 +7,7 @@ interface SearchesSavedPropsType {
   setInputLocationValue: (value: string) => void,
   setInputSearchValue: (value: string) => void,
   fetchDataSearches: () => Promise<void>,
+  savedPersons: Person[],
   searchesSaved: {
     id: number
     date: string,
@@ -16,7 +17,12 @@ interface SearchesSavedPropsType {
 }
 
 export default function SearchesSaved(
-  { fetchDataSearches, searchesSaved, handleTabs, setInputLocationValue, setInputSearchValue }
+  { fetchDataSearches,
+    searchesSaved,
+    handleTabs,
+    setInputLocationValue,
+    setInputSearchValue,
+    savedPersons }
     : SearchesSavedPropsType,
 ): JSX.Element {
   return (
@@ -29,6 +35,7 @@ export default function SearchesSaved(
           handleTabs={handleTabs}
           setInputLocationValue={setInputLocationValue}
           setInputSearchValue={setInputSearchValue}
+          savedPersons={savedPersons}
         />
       ))}
     </>

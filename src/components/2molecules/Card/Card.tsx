@@ -17,14 +17,14 @@ import Paragraph from '../../1atoms/Paragraph/Paragraph';
 import Button from '../../1atoms/Button/Button';
 import SocialIcon from '../../1atoms/SocialIcon/SocialIcon';
 import { DataContext } from '../../../contexts/dataContext';
-import { deleteProfileSaved, getProfilesSaved, postProfileSaved } from '../../../requests/profilesSaved';
+import { deleteProfileSaved, postProfileSaved } from '../../../requests/profilesSaved';
 
 interface CardProps {
   isSaved: boolean;
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
   profil: Person;
   isCardsSide: boolean;
-  setCards: (value: Person[]) => void,
+  fetchDataProfiles: () => void,
 }
 
 export default function Card({
@@ -32,7 +32,7 @@ export default function Card({
   handleOpeningCard,
   profil,
   isCardsSide,
-  setCards,
+  fetchDataProfiles,
 }: CardProps): JSX.Element {
   const [copied, setCopied] = useState<string>('');
   const { miscData, setMiscData } = useContext(DataContext);
@@ -55,8 +55,7 @@ export default function Card({
         name: profil?.name ? profil?.name : '',
       });
     }
-    const { data } = await getProfilesSaved();
-    setCards(data);
+    fetchDataProfiles();
   };
 
   // Function to make the "copie" string
@@ -79,7 +78,7 @@ export default function Card({
       data-testid="card"
     >
       <div className="flex items-start">
-        {!isSaved && (
+        {(!isSaved || (isSaved && isCardsSide)) && (
           <Image
             src="/img/imagePlaceholder.png"
             alt="Card's image"
@@ -90,17 +89,17 @@ export default function Card({
         )}
 
         <div>
-          <Title level={!isSaved ? 4 : 3}>{profil?.login}</Title>
+          <Title level={(!isSaved || (isSaved && isCardsSide)) ? 4 : 3}>{profil?.login}</Title>
           <div className="flex items-center justify-start gap-4">
-            <Title level={!isSaved ? 3 : 2}>{profil?.name}</Title>
-            {!isSaved && (
+            <Title level={(!isSaved || (isSaved && isCardsSide)) ? 3 : 2}>{profil?.name}</Title>
+            {(!isSaved || (isSaved && isCardsSide)) && (
               <Button className="" onClick={handleClick} disabled={false}>
                 <BsFillInfoSquareFill size={25} />
               </Button>
             )}
           </div>
 
-          {!isSaved && (
+          {(!isSaved || (isSaved && isCardsSide)) && (
             <div className="flex flex-col">
               {profil?.websiteUrl && (
                 <a
@@ -158,12 +157,12 @@ export default function Card({
           )}
         </div>
       </div>
-      {!isSaved && <Paragraph text={profil?.bio} />}
+      {(!isSaved || (isSaved && isCardsSide)) && <Paragraph text={profil?.bio} />}
 
       <Button
         onClick={handleSaveButtonClick}
         className="absolute top-3 right-3"
-        disabled={false}
+        disabled={!!isSaved && isCardsSide}
       >
         {isSaved ? (
           <TfiCheckBox size={25} />
@@ -172,7 +171,7 @@ export default function Card({
         )}
       </Button>
       {
-        !isSaved && (
+        (!isSaved || (isSaved && isCardsSide)) && (
           <div className="absolute flex gap-2 right-12 top-3">
             {profil?.socialAccounts.map((socialAccount: PersonSocialAccount) => {
               let icon;

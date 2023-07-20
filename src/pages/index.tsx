@@ -19,32 +19,36 @@ import { toggleOpen } from '../redux/features/data-slice';
 import { AppDispatch, useAppSelector } from '../redux/store';
 import { getProfilesSaved } from '../requests/profilesSaved';
 import { getSearchesSaved, postSearchSaved } from '../requests/searchSaved';
+import Loader from '../components/1atoms/Loader/Loader';
 
 export default function Home(): JSX.Element {
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { profiles } = useProfilesContext();
+  const { profiles = [], loading } = useProfilesContext();
 
   const [tabs, setTabs] = useState<number>(0);
   const [post, setPost] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
-  const [cards, setCards] = useState<Person[] | []>([]);
+  const [savedPersons, setSavedPersons] = useState<Person[] | []>([]);
   const [searchesSaved, setSearchesSaved] = useState([]);
+  const [isLoadingTab1, setIsLoadingTab1] = useState(false);
+  const [isLoadingTab2, setIsLoadingTab2] = useState(false);
 
   const desktopMode = 1280;
 
   const fetchDataSearches = async (): Promise<void> => {
+    setIsLoadingTab2(true);
     const response = await getSearchesSaved();
-    console.log('🚀 ~ file: index.tsx:39 ~ fetchDataSearches ~ response:', response.data);
-
     setSearchesSaved(response.data);
+    setIsLoadingTab2(false);
   };
 
   const fetchDataProfiles = async (): Promise<void> => {
+    setIsLoadingTab1(true);
     const response = await getProfilesSaved();
-
-    setCards(response.data);
+    setSavedPersons(response.data);
+    setIsLoadingTab1(false);
   };
 
   useEffect(() => {
@@ -59,14 +63,6 @@ export default function Home(): JSX.Element {
     }
   }, [windowWidth]);
 
-  useEffect(() => {
-    const fetchDatas = async (): Promise<void> => {
-      await fetchDataProfiles();
-      await fetchDataSearches();
-    };
-    fetchDatas();
-  }, []);
-
   // Searchbar' states
   const [inputLocationValue, setInputLocationValue] = useState<string>('Paris');
   const [inputSearchValue, setInputSearchValue] = useState<string>('');
@@ -75,11 +71,13 @@ export default function Home(): JSX.Element {
   const isOpenValue = useAppSelector((state) => state.dataReducer.value.isOpen);
 
   const handleSaveSearchClick = async (): Promise<void> => {
+    setIsLoadingTab2(true);
     await postSearchSaved({
       location: inputLocationValue,
       terms: inputSearchValue,
     });
     await fetchDataSearches();
+    setIsLoadingTab2(false);
   };
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
@@ -123,6 +121,18 @@ export default function Home(): JSX.Element {
   };
 
   useEffect(() => {
+    const fetchDatas = async (): Promise<void> => {
+      if (tabs === 1) {
+        await fetchDataProfiles();
+      }
+      if (tabs === 2) {
+        await fetchDataSearches();
+      }
+    };
+    fetchDatas();
+  }, [tabs]);
+
+  useEffect(() => {
     setPost(profiles?.length as any);
     setCurrentPage(1);
   }, [profiles]);
@@ -155,6 +165,7 @@ export default function Home(): JSX.Element {
               setInputLocationValue={setInputLocationValue}
               inputSearchValue={inputSearchValue}
               setInputSearchValue={setInputSearchValue}
+              savedPersons={savedPersons}
             />
             {post >= 1 && (
               <div className="h-6">
@@ -184,17 +195,20 @@ export default function Home(): JSX.Element {
             xl:overflow-y-scroll
             `}
           >
-            <CardsSide
-              indexOfFirst={indexOfFirst}
-              indexOfLast={indexOfLast}
-              handleOpeningCard={handleOpeningCard}
-              isCardsSide
-              setCards={setCards}
-            />
+            {loading ? <Loader /> : (
+              <CardsSide
+                indexOfFirst={indexOfFirst}
+                indexOfLast={indexOfLast}
+                handleOpeningCard={handleOpeningCard}
+                isCardsSide
+                fetchDataProfiles={fetchDataProfiles}
+                savedPersons={savedPersons}
+              />
+            )}
           </aside>
 
           <section>
-            {(profiles?.length !== undefined || null) && (
+            {(profiles?.length !== (undefined || null || 0)) && (
               <Pagination
                 tabs={tabs}
                 paginate={paginate}
@@ -237,6 +251,7 @@ export default function Home(): JSX.Element {
           >
             <MdClose size={36} aria-label="close button" />
           </Button>
+
           <main
             data-testid="toggle-section"
             className={`
@@ -263,15 +278,27 @@ export default function Home(): JSX.Element {
             xl:h-[calc(100vh-4rem-1rem)]
             `}
           >
-            {tabs === 1 && <Favorites cards={cards} setCards={setCards} />}
-            {tabs === 2 && (
-              <SearchesSaved
-                fetchDataSearches={fetchDataSearches}
-                searchesSaved={searchesSaved}
-                handleTabs={handleTabs}
-                setInputLocationValue={setInputLocationValue}
-                setInputSearchValue={setInputSearchValue}
-              />
+            {(isLoadingTab1 && tabs === 1) || (isLoadingTab2 && tabs === 2) ? (
+              <Loader />
+            ) : (
+              <>
+                {tabs === 1 && (
+                  <Favorites
+                    savedPersons={savedPersons}
+                    fetchDataProfiles={fetchDataProfiles}
+                  />
+                )}
+                {tabs === 2 && (
+                  <SearchesSaved
+                    fetchDataSearches={fetchDataSearches}
+                    searchesSaved={searchesSaved}
+                    handleTabs={handleTabs}
+                    setInputLocationValue={setInputLocationValue}
+                    setInputSearchValue={setInputSearchValue}
+                    savedPersons={savedPersons}
+                  />
+                )}
+              </>
             )}
           </main>
         </section>

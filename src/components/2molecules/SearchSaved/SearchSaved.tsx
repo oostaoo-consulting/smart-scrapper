@@ -10,6 +10,7 @@ interface SearchSavedType {
   setInputLocationValue: (value: string) => void,
   setInputSearchValue: (value: string) => void,
   fetchDataSearches: () => Promise<void>,
+  savedPersons: Person[],
   searchSaved: {
     id: number
     date: string
@@ -19,10 +20,16 @@ interface SearchSavedType {
 }
 
 export default function SearchSaved(
-  { fetchDataSearches, searchSaved, handleTabs, setInputLocationValue, setInputSearchValue }
+  { fetchDataSearches,
+    searchSaved,
+    handleTabs,
+    setInputLocationValue,
+    setInputSearchValue,
+    savedPersons }
     : SearchSavedType,
 ): JSX.Element {
   const { loadData } = useProfilesContext();
+  const profilesToExclude = savedPersons.map((profile: Person) => profile.login);
 
   const handleClick = (): void => {
     handleTabs('noTab');
@@ -32,6 +39,7 @@ export default function SearchSaved(
       variables: {
         location: searchSaved.location,
         searchTerms: searchSaved.terms,
+        usersToExclude: profilesToExclude,
       },
     });
   };
