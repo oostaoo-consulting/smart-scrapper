@@ -1,48 +1,64 @@
 import React from 'react';
+import { ImCross } from 'react-icons/im';
 import { useProfilesContext } from '../../../contexts/profilesContext';
 
-import Title from '../../1atoms/Title/Title';
 import Button from '../../1atoms/Button/Button';
+import { deleteSearchSaved } from '../../../requests/searchSaved';
 
-interface LocalStorageType {
+interface SearchSavedType {
   handleTabs: (tab: string) => void,
   setInputLocationValue: (value: string) => void,
   setInputSearchValue: (value: string) => void,
-  localStorage: [string, {
+  fetchDataSearches: () => Promise<void>,
+  savedPersons: Person[],
+  searchSaved: {
+    id: number
+    date: string
     location: string,
-    search: string,
+    terms: string,
   },
-  ]
 }
 
 export default function SearchSaved(
-  { localStorage, handleTabs, setInputLocationValue, setInputSearchValue }
-    : LocalStorageType,
+  { fetchDataSearches,
+    searchSaved,
+    handleTabs,
+    setInputLocationValue,
+    setInputSearchValue,
+    savedPersons }
+    : SearchSavedType,
 ): JSX.Element {
   const { loadData } = useProfilesContext();
-
-  const dateSearch = localStorage[0];
-  const valuesSearch = localStorage[1];
+  const profilesToExclude = savedPersons.map((profile: Person) => profile.login);
 
   const handleClick = (): void => {
     handleTabs('noTab');
-    setInputLocationValue(valuesSearch.location);
-    setInputSearchValue(valuesSearch.search);
+    setInputLocationValue(searchSaved.location);
+    setInputSearchValue(searchSaved.terms);
     loadData({
       variables: {
-        location: valuesSearch.location,
-        searchTerms: valuesSearch.search,
+        location: searchSaved.location,
+        searchTerms: searchSaved.terms,
+        usersToExclude: profilesToExclude,
       },
     });
   };
 
+  const handleDeleteClick = async (): Promise<void> => {
+    await deleteSearchSaved(searchSaved.id);
+    await fetchDataSearches();
+  };
+
+  const formattedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(searchSaved.date));
+
   return (
-    <article className="">
-      <Button onClick={handleClick} className="flex flex-col gap-3 relative w-full p-3 border-slate-400 border hover:border-white">
-        <Title level={3}>{dateSearch}</Title>
-        <section className="flex flex-col items-center w-full">
-          <p>Localisation : {valuesSearch.location}</p>
-          <p>Recherche : {valuesSearch.search}</p>
+    <article className="relative flex flex-col w-full xl:w-[calc(50%-0.5rem)] gap-3 h-fit mb-1 border hover:bg-neutral-100 border-slate-400">
+      <Button onClick={handleDeleteClick} className="absolute top-3 right-3"><ImCross color="red" /></Button>
+      <Button onClick={handleClick} className="text-left p-3">
+        <p className="text-xs">{formattedDate}</p>
+        <section className="flex flex-col w-full">
+          <p><span className="italic">Localisation :</span> {searchSaved.location}</p>
+          <p><span className="italic">Recherche :</span> {searchSaved.terms}</p>
         </section>
       </Button>
     </article>

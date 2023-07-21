@@ -10,7 +10,8 @@ interface SearchpropsType {
   inputSearchValue: string,
   setInputSearchValue: (value: string) => void
   disabledButton: boolean,
-  setDisabledButton: Dispatch<SetStateAction<boolean>>;
+  setDisabledButton: Dispatch<SetStateAction<boolean>>,
+  savedPersons: Person[],
 }
 
 export default function SearchBar(
@@ -20,9 +21,12 @@ export default function SearchBar(
     setInputSearchValue,
     setDisabledButton,
     disabledButton,
+    savedPersons,
+
   }: SearchpropsType,
 ): JSX.Element {
   const { loadData } = useProfilesContext();
+  const profilesToExclude = savedPersons.map((profile: Person) => profile.login);
 
   useEffect(() => {
     if ((inputLocationValue === '' && inputSearchValue === '')) {
@@ -43,6 +47,7 @@ export default function SearchBar(
       variables: {
         location: inputLocationValue,
         searchTerms: inputSearchValue,
+        usersToExclude: profilesToExclude,
       },
     });
   };

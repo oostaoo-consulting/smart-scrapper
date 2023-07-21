@@ -7,19 +7,25 @@ interface CardsSideProps {
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
   indexOfFirst: number;
   indexOfLast: number;
+  isCardsSide: boolean;
+  fetchDataProfiles: () => void,
+  savedPersons: Person[]
 }
 
 function CardsSide({
   indexOfFirst,
   indexOfLast,
   handleOpeningCard,
+  isCardsSide,
+  fetchDataProfiles,
+  savedPersons,
 }: CardsSideProps): JSX.Element {
-  const { profiles } = useProfilesContext();
+  const { profiles = [] } = useProfilesContext();
 
-  if (profiles?.length === undefined || null || 0) {
+  if (profiles.length === (undefined || null || 0)) {
     return (
       <div className="flex items-center justify-center w-full h-full">
-        <div>Pas de cartes disponibles, tape un truc dans les inputs!!</div>
+        <div>Pas de profils disponibles</div>
       </div>
     );
   }
@@ -31,14 +37,21 @@ function CardsSide({
 
   return (
     <>
-      {firstProfiles.map((profil) => (
-        <Card
-          key={profil.id}
-          handleOpeningCard={handleOpeningCard}
-          isFavorite={false}
-          profil={profil}
-        />
-      ))}
+      {firstProfiles.map((profil) => {
+        const findSavedPerson = savedPersons.find((savedPerson) => (
+          savedPerson.login === profil.login
+        ));
+        return (
+          <Card
+            key={profil.id}
+            handleOpeningCard={handleOpeningCard}
+            isSaved={!!findSavedPerson}
+            profil={profil}
+            isCardsSide={isCardsSide}
+            fetchDataProfiles={fetchDataProfiles}
+          />
+        );
+      })}
     </>
   );
 }

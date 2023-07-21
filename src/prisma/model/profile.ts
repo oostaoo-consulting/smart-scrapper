@@ -4,7 +4,7 @@ const db = new PrismaClient();
 
 export interface Profile {
   id?: number;
-  github_login: string;
+  login: string;
 }
 
 const profile = {
@@ -18,7 +18,7 @@ const profile = {
 
   isUnique: (data: any): Promise<any> => db.profile.findFirst({
     where: {
-      ...data,
+      login: data.login,
     },
   }),
 

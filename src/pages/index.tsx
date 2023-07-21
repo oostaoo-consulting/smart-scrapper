@@ -17,18 +17,39 @@ import CardDetails from '../components/2molecules/CardDetails/CardDetails';
 import { useProfilesContext } from '../contexts/profilesContext';
 import { toggleOpen } from '../redux/features/data-slice';
 import { AppDispatch, useAppSelector } from '../redux/store';
+import { getProfilesSaved } from '../requests/profilesSaved';
+import { getSearchesSaved, postSearchSaved } from '../requests/searchSaved';
+import Loader from '../components/1atoms/Loader/Loader';
 
 export default function Home(): JSX.Element {
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { profiles } = useProfilesContext();
+  const { profiles = [], loading } = useProfilesContext();
 
   const [tabs, setTabs] = useState<number>(0);
   const [post, setPost] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage] = useState<number>(15);
+  const [savedPersons, setSavedPersons] = useState<Person[] | []>([]);
+  const [searchesSaved, setSearchesSaved] = useState([]);
+  const [isLoadingTab1, setIsLoadingTab1] = useState(false);
+  const [isLoadingTab2, setIsLoadingTab2] = useState(false);
 
   const desktopMode = 1280;
+
+  const fetchDataSearches = async (): Promise<void> => {
+    setIsLoadingTab2(true);
+    const response = await getSearchesSaved();
+    setSearchesSaved(response.data);
+    setIsLoadingTab2(false);
+  };
+
+  const fetchDataProfiles = async (): Promise<void> => {
+    setIsLoadingTab1(true);
+    const response = await getProfilesSaved();
+    setSavedPersons(response.data);
+    setIsLoadingTab1(false);
+  };
 
   useEffect(() => {
     // Set the window width when the component mounts
@@ -49,27 +70,14 @@ export default function Home(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const isOpenValue = useAppSelector((state) => state.dataReducer.value.isOpen);
 
-  const handleSaveSearchClick = (): void => {
-    const date = new Date().toLocaleString('fr-FR', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
+  const handleSaveSearchClick = async (): Promise<void> => {
+    setIsLoadingTab2(true);
+    await postSearchSaved({
+      location: inputLocationValue,
+      terms: inputSearchValue,
     });
-    const savedSearchItem = localStorage.getItem('savedSearch');
-
-    const savedSearch = savedSearchItem ? JSON.parse(savedSearchItem) : [];
-
-    const newSearch = [
-      `${date} : ${inputLocationValue}\n"${inputSearchValue}"`,
-      {
-        location: inputLocationValue.toLowerCase(),
-        search: inputSearchValue.toLowerCase(),
-      },
-    ];
-
-    savedSearch.push(newSearch);
-
-    localStorage.setItem('savedSearch', JSON.stringify(savedSearch));
+    await fetchDataSearches();
+    setIsLoadingTab2(false);
   };
 
   const handleTabs: (tab: string) => void = (tab: string): void => {
@@ -113,6 +121,18 @@ export default function Home(): JSX.Element {
   };
 
   useEffect(() => {
+    const fetchDatas = async (): Promise<void> => {
+      if (tabs === 1) {
+        await fetchDataProfiles();
+      }
+      if (tabs === 2) {
+        await fetchDataSearches();
+      }
+    };
+    fetchDatas();
+  }, [tabs]);
+
+  useEffect(() => {
     setPost(profiles?.length as any);
     setCurrentPage(1);
   }, [profiles]);
@@ -136,9 +156,8 @@ export default function Home(): JSX.Element {
       <main className="relative xl:flex xl:h-[calc(100vh-9rem-2rem)]">
         <section data-testid="cardSideSection" className=" xl:w-1/2 xl:pr-2">
           <section
-            className={`${
-              tabs !== 0 && 'hidden xl:flex'
-            } flex flex-col h-28 mb-7`}
+            className={`${tabs !== 0 && 'hidden xl:flex'
+              } flex flex-col h-28 mb-7`}
           >
             <Search
               handleSaveSearchClick={handleSaveSearchClick}
@@ -146,14 +165,13 @@ export default function Home(): JSX.Element {
               setInputLocationValue={setInputLocationValue}
               inputSearchValue={inputSearchValue}
               setInputSearchValue={setInputSearchValue}
+              savedPersons={savedPersons}
             />
             {post >= 1 && (
               <div className="h-6">
-                {`${indexOfFirst + 1} - ${
-                  indexOfLast > post ? post : indexOfLast + 1
-                } sur ${post} profil${post !== 1 ? 's' : ''} trouvé${
-                  post !== 1 ? 's' : ''
-                }`}
+                {`${indexOfFirst + 1} - ${indexOfLast > post ? post : indexOfLast + 1
+                  } sur ${post} profil${post !== 1 ? 's' : ''} trouvé${post !== 1 ? 's' : ''
+                  }`}
               </div>
             )}
           </section>
@@ -177,15 +195,20 @@ export default function Home(): JSX.Element {
             xl:overflow-y-scroll
             `}
           >
-            <CardsSide
-              indexOfFirst={indexOfFirst}
-              indexOfLast={indexOfLast}
-              handleOpeningCard={handleOpeningCard}
-            />
+            {loading ? <Loader /> : (
+              <CardsSide
+                indexOfFirst={indexOfFirst}
+                indexOfLast={indexOfLast}
+                handleOpeningCard={handleOpeningCard}
+                isCardsSide
+                fetchDataProfiles={fetchDataProfiles}
+                savedPersons={savedPersons}
+              />
+            )}
           </aside>
 
           <section>
-            {(profiles?.length !== undefined || null) && (
+            {(profiles?.length !== (undefined || null || 0)) && (
               <Pagination
                 tabs={tabs}
                 paginate={paginate}
@@ -204,18 +227,16 @@ export default function Home(): JSX.Element {
         >
           <nav className="hidden w-full xl:flex xl:justify-around xl:absolute xl:-top-36 xl:pl-2">
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 1 ? 'border-b-0 border-r-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 1 ? 'border-b-0 border-r-0' : ''
+                }`}
               onClick={(): void => handleTabs('favorite')}
               disabled={false}
             >
               TRAITÉS
             </Button>
             <Button
-              className={`text-2xl border border-slate-400 grow ${
-                tabs === 2 ? 'border-b-0 border-l-0' : ''
-              }`}
+              className={`text-2xl border border-slate-400 grow ${tabs === 2 ? 'border-b-0 border-l-0' : ''
+                }`}
               onClick={(): void => handleTabs('search')}
               disabled={false}
             >
@@ -223,20 +244,20 @@ export default function Home(): JSX.Element {
             </Button>
           </nav>
           <Button
-            className={`absolute top-0 right-0 xl:hidden ${
-              tabs === 0 ? ' hidden' : ''
-            }`}
+            className={`absolute top-0 right-0 xl:hidden ${tabs === 0 ? ' hidden' : ''
+              }`}
             onClick={(): void => handleTabs('noTab')}
             disabled={false}
           >
             <MdClose size={36} aria-label="close button" />
           </Button>
+
           <main
             data-testid="toggle-section"
             className={`
             ${tabs === 0 && 'hidden'}
             flex 
-            flex-col 
+            flex-wrap 
             gap-4
             absolute
             top-0
@@ -251,18 +272,33 @@ export default function Home(): JSX.Element {
             xl:-top-24
             xl:pl-2
 
+            content-start
             xl:mt-0 
             xl:w-full
             xl:h-[calc(100vh-4rem-1rem)]
             `}
           >
-            {tabs === 1 && <Favorites />}
-            {tabs === 2 && (
-              <SearchesSaved
-                handleTabs={handleTabs}
-                setInputLocationValue={setInputLocationValue}
-                setInputSearchValue={setInputSearchValue}
-              />
+            {(isLoadingTab1 && tabs === 1) || (isLoadingTab2 && tabs === 2) ? (
+              <Loader />
+            ) : (
+              <>
+                {tabs === 1 && (
+                  <Favorites
+                    savedPersons={savedPersons}
+                    fetchDataProfiles={fetchDataProfiles}
+                  />
+                )}
+                {tabs === 2 && (
+                  <SearchesSaved
+                    fetchDataSearches={fetchDataSearches}
+                    searchesSaved={searchesSaved}
+                    handleTabs={handleTabs}
+                    setInputLocationValue={setInputLocationValue}
+                    setInputSearchValue={setInputSearchValue}
+                    savedPersons={savedPersons}
+                  />
+                )}
+              </>
             )}
           </main>
         </section>
@@ -272,7 +308,7 @@ export default function Home(): JSX.Element {
         />
         {isOpenValue && (
           <CardDetails
-            isFavorite={false}
+            isSaved={false}
             handleOpeningCard={handleOpeningCard}
           />
         )}

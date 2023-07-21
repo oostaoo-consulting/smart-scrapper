@@ -8,6 +8,7 @@ interface SearchpropsType {
   setInputLocationValue: (value: string) => void,
   inputSearchValue: string,
   setInputSearchValue: (value: string) => void
+  savedPersons: Person[],
 }
 
 export default function Search({
@@ -16,6 +17,7 @@ export default function Search({
   setInputLocationValue,
   inputSearchValue,
   setInputSearchValue,
+  savedPersons,
 }: SearchpropsType): JSX.Element {
   const [disabledButton, setDisabledButton] = useState<boolean>(false);
 
@@ -28,6 +30,7 @@ export default function Search({
         setInputSearchValue={setInputSearchValue}
         disabledButton={disabledButton}
         setDisabledButton={setDisabledButton}
+        savedPersons={savedPersons}
       />
       <MainButton
         handleSaveSearchClick={handleSaveSearchClick}

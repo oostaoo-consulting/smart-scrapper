@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Image from 'next/image';
+import { v4 as uuidv4 } from 'uuid';
 
 import { TfiCheckBox, TfiLayoutWidthFull } from 'react-icons/tfi';
 import { FiLink } from 'react-icons/fi';
@@ -16,17 +17,22 @@ import Paragraph from '../../1atoms/Paragraph/Paragraph';
 import Button from '../../1atoms/Button/Button';
 import SocialIcon from '../../1atoms/SocialIcon/SocialIcon';
 import { DataContext } from '../../../contexts/dataContext';
+import { deleteProfileSaved, postProfileSaved } from '../../../requests/profilesSaved';
 
 interface CardProps {
-  isFavorite: boolean;
+  isSaved: boolean;
   handleOpeningCard: (event: React.MouseEvent<HTMLElement>) => void;
   profil: Person;
+  isCardsSide: boolean;
+  fetchDataProfiles: () => void,
 }
 
 export default function Card({
-  isFavorite,
+  isSaved,
   handleOpeningCard,
   profil,
+  isCardsSide,
+  fetchDataProfiles,
 }: CardProps): JSX.Element {
   const [copied, setCopied] = useState<string>('');
   const { miscData, setMiscData } = useContext(DataContext);
@@ -37,6 +43,19 @@ export default function Card({
       currentProfile: profil,
     });
     handleOpeningCard(event);
+  };
+
+  const handleSaveButtonClick = async (): Promise<void> => {
+    if (isSaved) {
+      await deleteProfileSaved(Number(profil.id));
+    }
+    if (!isSaved) {
+      await postProfileSaved({
+        login: profil.login,
+        name: profil?.name ? profil?.name : '',
+      });
+    }
+    fetchDataProfiles();
   };
 
   // Function to make the "copie" string
@@ -55,29 +74,32 @@ export default function Card({
   return (
     <article
       key={profil?.id}
-      className="relative flex flex-col w-full gap-3 p-3 mb-1 text-left border hover:bg-neutral-100 border-slate-400"
+      className={`relative flex flex-col h-fit w-full ${isCardsSide ? 'xl:w-full' : 'xl:w-[calc(50%-0.5rem)]'}  gap-3 p-3 mb-1 text-left border hover:bg-neutral-100 border-slate-400`}
       data-testid="card"
     >
       <div className="flex items-start">
-        <Image
-          src="/img/imagePlaceholder.png"
-          alt="Card's image"
-          width={60}
-          height={60}
-          className="mr-4 rounded h-"
-        />
+        {(!isSaved || (isSaved && isCardsSide)) && (
+          <Image
+            src="/img/imagePlaceholder.png"
+            alt="Card's image"
+            width={60}
+            height={60}
+            className="mr-4 rounded h-"
+          />
+        )}
+
         <div>
-          <Title level={!isFavorite ? 4 : 3}>{profil?.login}</Title>
+          <Title level={(!isSaved || (isSaved && isCardsSide)) ? 4 : 3}>{profil?.login}</Title>
           <div className="flex items-center justify-start gap-4">
-            <Title level={!isFavorite ? 3 : 2}>{profil?.name}</Title>
-            {!isFavorite && (
+            <Title level={(!isSaved || (isSaved && isCardsSide)) ? 3 : 2}>{profil?.name}</Title>
+            {(!isSaved || (isSaved && isCardsSide)) && (
               <Button className="" onClick={handleClick} disabled={false}>
                 <BsFillInfoSquareFill size={25} />
               </Button>
             )}
           </div>
 
-          {!isFavorite && (
+          {(!isSaved || (isSaved && isCardsSide)) && (
             <div className="flex flex-col">
               {profil?.websiteUrl && (
                 <a
@@ -135,21 +157,21 @@ export default function Card({
           )}
         </div>
       </div>
-      {!isFavorite && <Paragraph text={profil?.bio} />}
+      {(!isSaved || (isSaved && isCardsSide)) && <Paragraph text={profil?.bio} />}
 
       <Button
-        onClick={(): void => { }}
+        onClick={handleSaveButtonClick}
         className="absolute top-3 right-3"
-        disabled={false}
+        disabled={!!isSaved && isCardsSide}
       >
-        {isFavorite ? (
+        {isSaved ? (
           <TfiCheckBox size={25} />
         ) : (
           <TfiLayoutWidthFull size={21} />
         )}
       </Button>
       {
-        !isFavorite && (
+        (!isSaved || (isSaved && isCardsSide)) && (
           <div className="absolute flex gap-2 right-12 top-3">
             {profil?.socialAccounts.map((socialAccount: PersonSocialAccount) => {
               let icon;
@@ -179,12 +201,13 @@ export default function Card({
 
               if (icon) {
                 return (
-                  <SocialIcon
-                    key={socialAccount.displayName}
-                    url={socialAccount?.url}
-                    className=""
-                    icon={icon}
-                  />
+                  <div key={uuidv4()}>
+                    <SocialIcon
+                      url={socialAccount?.url}
+                      className=""
+                      icon={icon}
+                    />
+                  </div>
                 );
               }
               return null;
